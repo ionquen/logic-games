@@ -1,0 +1,73 @@
+import React, { Suspense } from 'react';
+import {Switch, Route} from "react-router-dom";
+
+import Lobby from './elements/Lobby';
+import Room from './elements/Room';
+import Leftbar from './elements/Leftbar';
+
+import Chat from './elements/Chat';
+import Topbar from './elements/Topbar';
+//import Alert from './elements/Alert'
+import styles from '../static/css/app.module.css'
+
+class App extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            popupElement: null,
+        }
+    }
+    componentWillMount() {
+        if (this.emitter===undefined) this.emitter = new Emitter()
+    }
+
+    setWindow = (popupElement) => {
+        this.setState({popupElement: popupElement})
+    }
+    render() {
+        return (
+            <>  <Switch>
+                    <Route path="/g/:gameId" render={props=><Topbar {...props} setWindow={this.setWindow}/>} />
+                </Switch>
+                <div className={styles.page}>
+                    <Switch>
+                        <Route path="/g/:gameId/:roomId" render={props=>
+                            <Room {...props} emitter={this.emitter} >
+                            </Room>
+                            } />
+                        <Route path="/g/:gameId" render={props => 
+                            <>
+                                <Leftbar {...props} />
+                                <Lobby {...props} emitter={this.emitter} setWindow={this.setWindow} >
+                                </Lobby>
+                            </>
+                        } />
+                            
+                    </Switch>
+                    <Chat emitter={this.emitter}/>
+                </div>
+                <Suspense>
+                {this.state.popupElement}
+                </Suspense>
+            </>
+        )
+    }
+}
+
+class Emitter {
+    constructor() {
+        this.events = []                    
+    }
+    sub(eventName, fun) {
+        if (!Array.isArray(this.events[eventName])) this.events[eventName]=[]
+        this.events[eventName].push(fun)
+        return () => {
+            this.events[eventName] = this.events[eventName].filter(eventFn => fun !== eventFn);
+        }
+    }
+    emit(eventName, ...data) {
+         this.events[eventName].forEach(fun => fun.call(null, ...data))
+    }
+}
+export default App;

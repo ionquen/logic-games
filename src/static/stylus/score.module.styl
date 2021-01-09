@@ -1,0 +1,92 @@
+@require 'common.styl'
+
+.score
+    position absolute
+    top 14px
+    left 14px
+    width 312px
+    z-index 2
+    overflow scroll
+    scrollbar-width none
+    @media all and (max-width 940px)
+        left 0px
+        top 10px
+        width calc(100% - 94px)
+        height 135px
+    & > :nth-child(1) //header
+        display flex
+        position sticky
+        top 0px
+        background-color cwhite2
+        height 25px
+        font-size 16px
+        color cgray1
+        z-index 1000
+        & > div
+            text-align center
+            background-color cwhite2
+        & > :nth-child(1)
+            margin-left 35px 
+            flex 0 0 100px
+        & > :nth-child(n+2)
+            flex 0 0 50px
+        
+    & > .scoreCurrentPlayer
+        position absolute
+        height 40px
+        left 0
+        top 0
+        transition 1s top 
+        & > :nth-child(1)
+            left 0px
+            top 11px
+            position absolute
+            width 30px
+            font-size 16px
+            font-weight 600
+            text-align center
+        & > :nth-child(2)
+            left 14px
+            top 0px
+            width 292px
+            height 11px
+            position absolute
+            border-top-left-radius 10px
+            border-top 2px solid
+            border-left 2px solid
+            box-sizing border-box
+        & > :nth-child(3)
+            left 14px
+            top 30px
+            width 292px
+            height 11px
+            position absolute
+            border-bottom 2px solid
+            border-left 2px solid
+            border-bottom-left-radius 10px
+            box-sizing border-box
+    & > :nth-child(n + 3)
+        margin 0px 0px 0px 35px 
+        height 42px
+        display flex
+        z-index 1
+        & > :nth-child(1)
+            flex 0 0 100px
+            & > :nth-child(-n + 2)
+                display inline-block
+                font-size 12px
+                line-height 12px
+                width 40px
+            & > :nth-child(3)
+                font-size 16px
+                line-height 16px
+                width 100px
+                text-overflow ellipsis
+                white-space nowrap
+                overflow hidden
+        & > :nth-child(n+2)
+            text-align center
+            flex 0 0 50px
+            font-size 26px
+            line-height 42px
+            height 42px

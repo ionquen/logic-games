@@ -1,0 +1,132 @@
+@require 'common.styl'
+.lobby
+    flex 1 0
+    height 100%
+    background-image url("../img/paper.svg")
+    background-size 20px 20px
+    background-repeat repeat
+    background-position center
+    & > .header
+        margin 10px
+.header
+    display flex
+    @media all and (max-width: 600px) 
+        flex-wrap wrap
+    & > *
+        display inline-block
+        margin 10px
+    & > :nth-child(1) //search input
+        flex 1 1
+        @media all and (max-width: 600px)
+            order 4
+            flex 1 1 100% 
+    & > :nth-child(2) //connect by id input
+        flex 0 0 200px
+        @media all and (max-width: 600px) 
+            flex 1 0 100px
+    & > :nth-child(3) //button "create room"
+        flex 0 0 152px
+        margin-right 18px
+.body
+    position relative
+    height calc(100% - 40px)
+    overflow scroll
+    scrollbar-width thin
+    & > .item
+        margin 0px 20px 20px
+
+.item
+    border-radius 5px
+    background-color cwhite1
+    position relative
+    overflow hidden
+    & > .connected //displayed if the user is connected
+        display flex
+        background-color corange1
+        height 40px
+        @media all and (max-width: 960px) 
+            display block
+            height auto
+        & > div
+            display inline-block
+            padding 10px
+            font-weight 600
+        & > :nth-child(1)
+            flex 1 2 700px
+            @media all and (max-width: 960px)
+                text-align center
+                display inline-block
+                width 100% 
+        & > :nth-child(n+2)
+            padding 10px 0px
+            text-align center
+            flex 0 1 210px
+            cursor pointer
+            &:hover 
+                background-color corange2
+            @media all and (max-width: 960px)
+                display inline-block
+                width 50%
+    & > :last-child //main block
+        padding 8px
+        display flex
+        width 100px
+        & > :nth-child(1)
+            display flex
+            flex-direction column
+            & > :nth-child(1) //header block (room id, name)
+                white-space nowrap
+                overflow hidden
+                & > :nth-child(2)
+                    margin-left 5px
+                    text-overflow ellipsis
+            & > :nth-child(2) //players block (current, max)
+                padding 2px 0px 4px
+                white-space nowrap
+                overflow hidden
+                & > span 
+                    font-size 14px
+                & > :nth-child(2) 
+                    & > span
+                        margin-left 5px
+                        font-size 14px
+                        cursor pointer
+            & > :nth-child(3) //tags block
+                white-space nowrap
+                overflow hidden
+                text-overflow ellipsis
+                & > :first-child
+                    background-color corange2
+                & > div 
+                    display inline-block
+                    border-radius 15px
+                    background-color cgray1
+                    padding 2px 6px  
+                    margin-right 5px
+                    font-size 12px
+                    cursor pointer
+                    &:hover
+                        background-color cgray2
+        & > :nth-child(2) //if the user is not connected (Button "about room")
+            position absolute   
+            right 0
+            top 0
+            width 152px
+            height 56px
+            background-color cwhite1
+            @media all and (max-width: 460px) 
+                width 58px
+            & > :nth-child(1)
+                position absolute
+                top 8px
+                right 8px
+                width 132px
+                margin-right 0px
+                & > :nth-child(2)
+                    display none
+                @media all and (max-width: 460px) 
+                    {IconMedium}
+                    & > :nth-child(1)
+                        display none
+                    & > :nth-child(2)
+                        display block

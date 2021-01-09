@@ -1,0 +1,69 @@
+cwhite1 = rgb(250, 250, 250)
+cwhite2 = rgb(244, 244, 244)
+cwhite3 = rgb(236, 236, 236)
+cgray1 = rgb(220, 220, 220)
+cgray2 = rgb(210, 210, 210)
+cgray3 = rgb(200, 200, 200)
+shadow1 = 0 1px 2px oshadow
+shadow2 = 0 1px 2px oshadow
+oshadow = rgb(0,0,0, 0.2)
+corange1 = #ED8E33
+corange2 = #CC6F15
+cblue1 = #228092
+cblue2 = #106D7E
+cblack1 = rgb(0, 0, 0)
+cblack2 = rgb(30, 30, 30)
+cblack3 = rgb(70, 70, 70)
+cblack4 = rgb(120, 120, 120)
+
+IconBig = //54px 
+  position absolute
+  width 56px
+  height 56px
+  background-color corange1
+  cursor pointer
+  border-radius 30px
+  & > svg 
+    width 30px
+    height 30px
+    position absolute
+    left 12px
+    top 12px
+    & > :nth-child(2)
+      fill cwhite1
+  &:hover
+    background-color corange2
+
+IconMedium = //42px (topbar)
+  position absolute
+  width 42px
+  height 42px
+  cursor pointer
+  background-color corange1
+  & > svg 
+    width 24px
+    height 24px
+    position absolute
+    left 9px
+    top 9px
+    & > :nth-child(2)
+      fill cwhite1
+  &:hover
+    background-color corange2
+IconSmall = //30px (topbar)
+  position absolute
+  width 30px
+  height 30px
+  cursor pointer
+  & > svg 
+    width 24px
+    height 24px
+    position absolute
+    left 3px
+    top 3px
+    & > :nth-child(2)
+      fill cblack1
+  &:hover
+    background-color corange2
+
+

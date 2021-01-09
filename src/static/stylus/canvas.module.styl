@@ -1,0 +1,21 @@
+@require 'common.styl'
+
+.canvas
+    position absolute
+    top 50%
+    transform translate(0, -50%)
+    left 340px
+    width calc(100% - 340px)
+    overflow scroll
+    text-align center
+    scrollbar-width thin
+    @media all and (max-width 940px)
+        width 100%
+        height calc(100% - 170px)
+        left 0px
+        bottom 0px
+        top auto
+        transform none
+    & > canvas 
+        position relative
+

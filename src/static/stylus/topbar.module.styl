@@ -1,0 +1,132 @@
+@require 'common.styl'
+.topbar
+    position absolute 
+    left 0px
+    top 0px
+    width 100vw
+    height 48px
+    box-shadow shadow1
+    z-index 300
+    background-color corange1
+    text-align center
+    color cblack3
+    user-select none
+    @media all and (min-width 521px) and (max-width 1010px)
+        text-align left
+    & > div
+        display inline-block
+        cursor pointer
+
+    & > :nth-child(1) //left items
+        position absolute
+        left 10px 
+        top 0px
+        @media all and (min-width 521px) and (max-width 1010px)
+            position relative
+            z-index 301
+        @media all and (max-width 520px)
+            left 0
+        & > :nth-child(1) //Icon gamburger
+            display none
+            left 3px
+            top 3px
+            border-radius 6px
+            {IconMedium}
+            & > :nth-child(1) > :nth-child(2)
+                fill cblack3
+            @media all and (max-width 520px)
+                display block
+                &:hover
+                    background-color corange2
+                    & > svg > :nth-child(2)
+                        fill cblack1
+        & > :nth-child(2) //Container links
+            display inline-block
+            & > *
+                display inline-block
+                box-sizing border-box
+                padding 12px
+                font-size 20px
+                height 48px
+                width auto
+                color cblack3
+                &:hover
+                    border-bottom 3px solid black
+                    color cblack1
+            @media all and (max-width 520px)
+                display none
+                position absolute
+                left 0px
+                top 48px
+                width 100vw
+                & > *
+                    display block
+                    background-color corange1
+                    border-top 1px solid 
+                    border-color cblack3
+                    &:hover
+                        background-color corange2
+                        border-bottom none
+                & > :last-child
+                    border-bottom-left-radius 6px
+                    border-bottom-right-radius 6px
+                    border-bottom 1px solid 
+                    border-color cblack3
+                &.topbarMenuDisplay
+                    display block
+
+
+    & > :nth-child(2) //center item (namual + game name)
+        padding 12px
+        font-size 20px
+        height 100%
+        box-sizing border-box
+        cursor pointer
+        @media all and (max-width 700px)
+            & > span:nth-of-type(2)
+                display none
+        &:hover
+            border-bottom 3px solid black
+            color cblack1
+
+    & > :nth-child(3) //user settings
+        position absolute
+        right 4px
+        top 0
+        height 48px
+        min-width 42px
+        transition 1s background-color
+        padding 4px 48px 0px 8px
+        box-sizing border-box
+        cursor pointer
+        text-align right
+        @media all and (max-width 1010px)
+            padding 0
+            & > :nth-child(1),
+            & > :nth-child(2)
+                display none
+        & > :nth-child(1) //userId
+            margin-top 4px
+            font-weight 800
+            font-size 12px
+        & > :nth-child(2) //userName
+            font-size 16px
+            text-overflow ellipsis
+            text-transform uppercase
+        & > :nth-child(3) //Icon settings
+            right 0
+            top 3px
+            border-radius 6px
+            {IconMedium}
+            &:hover
+                background-color corange1
+            @media all and (max-width 520px)
+                &:hover
+                    background-color corange2
+            & > svg > :nth-child(2)
+                fill cblack3
+    & > :nth-child(3):hover > div
+        color cblack1
+        & > :nth-child(1) > :nth-child(2)
+            fill cblack1
+        

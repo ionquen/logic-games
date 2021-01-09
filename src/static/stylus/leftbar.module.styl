@@ -1,0 +1,41 @@
+@require 'common.styl'
+.leftbar
+    flex 0 0 220px
+    width 220px
+    height 100%
+    overflow scroll
+    background-color cwhite3
+    z-index 200
+    scrollbar-width thin
+    @media all and (max-width 760px)
+        position absolute
+        left 0px
+        top 0px
+        display none
+    &.leftbarDisplay
+        @media all and (max-width 760px)
+            display block
+
+
+.leftbarStateBtn
+    display none
+    left 20px
+    bottom 80px
+    z-index 201
+    {IconBig}
+    @media all and (max-width 760px)
+        display block
+    
+.games
+    margin 15px 10px
+    & > div
+        position relative
+        border-radius 5px
+        width 100%
+        margin 2px 0px
+        & div
+            padding 12px 5px
+            font-size 16px
+            text-indent 15px
+        &:hover 
+            background-color cwhite1

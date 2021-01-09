@@ -1,0 +1,42 @@
+@require 'common.styl'
+            
+.manual 
+    width 1080px
+    height calc(100vh - 100px)
+    background-color cwhite1
+    position absolute
+    left calc(50% - 540px)
+    top 50px
+    overflow scroll
+    box-sizing border-box
+    padding 40px 
+    scrollbar-width thin
+    @media all and (max-width 1090px)
+        width calc(100vw - 10px)
+        left 5px
+        padding 20px 5px 20px 5px
+    & > p  
+        margin-top 8px
+        font-size 18px
+        line-height 1.6em
+    & > ul
+        margin-left 22px
+        font-size 18px
+        line-height 1.6em
+.line 
+    width 100%
+    margin 4px auto
+    border-radius 5px
+    height 2px
+    background-color cgray1
+.header1
+    font-size 30px
+    font-weight 700
+    padding 0px 0px 20px 0px
+    text-align center
+.header2
+    font-size 22px
+    margin 20px 20px 10px 0px
+.imgFull
+    width 100%
+    margin-top 10px

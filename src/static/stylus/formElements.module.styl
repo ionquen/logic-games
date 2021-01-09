@@ -1,0 +1,126 @@
+@require 'common.styl'
+
+.input
+    position relative
+    height 42px
+    border-radius 6px
+    background-color cgray2
+    & > input
+        margin-top 5px
+        height 32px
+        width calc(100% - 44px)
+        text-indent 10px
+        &:last-child
+            width 100%
+    & > label //icon after textarea
+        display block
+        position absolute
+        right 6px
+        top 6px
+        height 30px
+        width 30px
+        cursor pointer
+        border-radius 6px
+        & > input
+            display none
+        & > svg 
+            position absolute
+            top 3px
+            left 3px
+            width 24px
+            height 24px
+        &:hover > svg > :nth-child(2)
+            fill corange2
+.select 
+    position relative
+    & > :nth-child(1)
+        height 22px
+        border-top-left-radius 6px 
+        border-top-right-radius 6px 
+        width auto
+        padding 10px   
+        text-indent 15px
+        cursor pointer
+        background-color cgray2
+        text-align left
+        font-weight 300
+        font-size 16px
+    & > :nth-child(2)
+        position absolute
+        height 200px
+        overflow scroll
+        width 100%
+        z-index 102
+        border-bottom-left-radius 6px 
+        border-bottom-right-radius 6px 
+        & > button 
+            cursor pointer
+            display block
+            border-radius 0px
+            border none 
+            outline none
+            text-align left
+            font-weight 300
+            font-size 16px
+            width 100%
+            height 42px
+            padding 10px  
+            background-color cgray2
+            border-top 1px solid cgray3
+            &:hover
+                background-color cgray3
+        & > :last-child
+            border-bottom-left-radius 6px 
+            border-bottom-right-radius 6px 
+        &::-webkit-scrollbar
+            width 0px
+    & > input 
+        display none
+
+.number
+    position relative
+    min-height 42px
+    box-sizing border-box
+    padding 12px 0
+    label 
+        cursor pointer
+        input
+            background-color cgray2
+            border-radius 6px
+            text-align right
+            position absolute
+            width 42px
+            height 42px
+            left 0
+            top 50%
+            transform translate(0, -50%)
+        div
+            margin-left 54px
+
+.checkbox
+    position relative
+    padding 6px 0 6px 0
+    label 
+        cursor pointer
+        input 
+            position absolute
+            left 15px
+            top 50%
+            transform translate(0, -50%)
+        div
+            margin-left 54px
+.button
+    background-color corange1
+    font-size 14px
+    font-weight 600
+    cursor pointer
+    padding 10px 0px
+    margin-right 18px
+    text-align center
+    border-radius 6px 
+    outline none
+    border none
+    &:hover
+        background-color corange2
+    &:disabled
+        background-color cgray3

@@ -1,0 +1,1 @@
+.settings{display:flex;width:800px;height:500px;position:absolute;left:calc(50% - 400px);top:calc(50% - 250px);background-color:#fafafa;overflow:scroll}.settings > :nth-child(1){font-size:30px;height:40px}@media all and (max-width:810px){.settings{width:calc(100vw - 10px);left:5px;top:50px;height:calc(100vh - 100px)}.settings > :nth-child(2){display:flex;flex-direction:column}}
