@@ -71,6 +71,7 @@ class Main extends React.Component {
                         </div>
                     </div>
                     <div class={styles.footer}>
+                        <div>games.ionquen.ru</div>
                         <div>github.com/ionquen</div>
                         <div>ionqwen@gmail.com</div>
                         <div>2021</div>
