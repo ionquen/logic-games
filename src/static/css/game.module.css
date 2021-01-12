@@ -1,1 +1,0 @@
-.canvas{position:absolute;top:50%;transform:translate(0,-50%);left:340px;width:calc(100% - 340px);overflow:scroll;text-align:center;scrollbar-width:thin}@media all and (max-width:940px){.canvas{width:100%;height:calc(100% - 170px);left:0;bottom:0;top:auto;transform:none}}.canvas > canvas{position:relative}
