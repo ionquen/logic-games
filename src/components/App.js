@@ -23,7 +23,7 @@ class App extends React.Component {
         if (this.emitter===undefined) this.emitter = new Emitter()
     }
     componentDidMount() {
-        let drad = new Granim({
+        let grad = new Granim({
             element: '#grad-backg',
             direction: 'left-right',
             states : {
@@ -36,9 +36,7 @@ class App extends React.Component {
                     transitionSpeed: 20000
                 }
             }
-
         });
-
     }
 
     setWindow = (popupElement) => {

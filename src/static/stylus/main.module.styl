@@ -2,8 +2,14 @@
 .main
     height 100vh
     overflow scroll
-    background-color #000
     scrollbar-width thin
+    & > canvas
+        position absolute
+        left 0
+        top 0
+        z-index -10
+        width 100vw
+        height 100vh
 .header
     position absolute
     left 6vw
@@ -38,7 +44,6 @@
     }
 }
 .img
-    background-color #000
     position absolute
     bottom 250px
     right 0px
