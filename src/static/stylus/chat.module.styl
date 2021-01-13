@@ -7,13 +7,16 @@
     position relative
     width 340px
     height 100%
-    background-color cwhite1
+    background-color white02
+    backdrop-filter: drop-shadow(16px 16px 20px white) invert(10%) blur(10px)
     box-shadow shadow1
     z-index 201
+    transition-duration 0.2s 
+    transition-property right, opacity, transition
     & > :nth-child(1)//header
         flex 0 0 42px
         display flex
-        border-bottom 1px solid  oshadow
+        border-bottom 1px solid oshadow
         & > :nth-child(1),
         & > :nth-child(3)
             flex 0 0 42px
@@ -28,12 +31,15 @@
         & > :nth-child(1) > :nth-child(1) //Анимация ротации кнопки смены типа чата
             & > svg
                 transition 0.5s
+                & > :nth-child(2)
+                    fill cblack3
             & > .global
                 transform rotate(180deg)
         & > :nth-child(2)//title
             flex 1 1 232px
-            color cblack2
+            color cblack3
             position relative
+            font-weight 700
             & > :nth-child(1),
             & > :nth-child(2)
                 text-transform uppercase
@@ -58,6 +64,8 @@
                 bottom 0px
         & > :nth-child(3)
             visibility hidden
+            & > svg > :nth-child(2) 
+                fill cblack3
             @media all and (max-width 1280px)
                 visibility visible
             
@@ -83,16 +91,20 @@
         box-sizing border-box
 
     @media all and (max-width 1280px)
-        display none
+        opacity 0
+        visibility hidden
         position absolute
         height calc(100vh - 48px)
         top 0px
-        right 0px
+        right -340px
     @media all and (max-width 500px)
         width 100vw
     &.chatDisplay
         @media all and (max-width 1280px)
             display flex
+            opacity 1
+            visibility visible
+            right 0px
             
 .chatStateBtn
     display none
@@ -100,7 +112,5 @@
     right 20px
     z-index 200
     {IconBig}
-    &:hover 
-        background-color corange2
     @media all and (max-width 1280px)
         display block

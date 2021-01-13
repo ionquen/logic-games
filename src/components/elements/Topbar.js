@@ -58,19 +58,19 @@ class Topbar extends React.Component {
   render() {
     return (
       <>
-        <div className={styles.topbar}>
+        <div className={`${styles.topbar} ${this.state.displayMenu?styles.displayMenu:null}`}>
           <div>
               <div onClick={()=>this.setState(prevState => ({displayMenu: prevState.displayMenu?false:true}))}>
                 <SvgIconMenu />
               </div>
-              <div className={this.state.displayMenu?styles.topbarMenuDisplay:null} onClick={() => this.setState({displayMenu: false})}>
+              <div onClick={() => this.setState({displayMenu: false})}>
                 <Link to="/">Главная</Link>
                 <div onClick={this.showRules}>Правила</div>
                 <div onClick={this.showSupport}>Помощь</div>
               </div>
           </div>
           <div onClick={this.showManual}>
-            <span>Руководство</span><span>: {this.displayGameName()}</span>
+            <span>Руководство: </span><span>{this.displayGameName()}</span>
           </div>
           <div onClick={this.showSettings}>
             <div>#{localStorage.getItem('userId')}</div>

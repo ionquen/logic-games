@@ -19,7 +19,7 @@ class Lobby extends React.Component {
     }
 
     componentWillMount() {
-        const ws = new WebSocket("ws://localhost:8082")
+        const ws = new WebSocket("ws://45.156.21.71:8082")
         ws.onopen = () => {
             ws.send(JSON.stringify({type: 'list', data: {gameId: this.props.match.params.gameId, token: localStorage.getItem('token')}}))
             this.props.emitter.emit('displayGlobalChat', true)
@@ -59,7 +59,6 @@ class Lobby extends React.Component {
         }
         this.ws=ws
     }
-
     componentWillUnmount() {
         this.ws.close()
     }
@@ -81,17 +80,17 @@ class Lobby extends React.Component {
         return (
         <>      
             <div className={styles.lobby}>
-                <div className={styles.header}>
+                <div>
                     <InputTextSubmit name="search-input" placeholder="Поиск" autoComplete={false} />
                     <InputTextSubmit name="connect-by-room-id" placeholder="Подключиться по id" autoComplete={false} onSubmit={this.connectById}/>
                     <Button onClick={this.createNewRoom}>Создать комнату</Button>
                 </div>
-                <div className={styles.body}>
+                <div>
                     {this.state.lobbyList.map(room => <DisplayRoom data={room} ws={this.ws} emitter={this.props.emitter} setWindow={this.props.setWindow} />)}
                 </div>
-                {this.props.children}
             </div>
             {this.state.roomId!==undefined&&this.state.roomId!==false?<Redirect to={`/g/${this.props.match.params.gameId}/${this.state.roomId}`}></Redirect>:null}
+        
         </>
         )
     }

@@ -9,6 +9,7 @@ import Chat from './elements/Chat';
 import Topbar from './elements/Topbar';
 //import Alert from './elements/Alert'
 import styles from '../static/css/app.module.css'
+import Granim from 'granim'
 
 class App extends React.Component {
 
@@ -20,6 +21,24 @@ class App extends React.Component {
     }
     componentWillMount() {
         if (this.emitter===undefined) this.emitter = new Emitter()
+    }
+    componentDidMount() {
+        let drad = new Granim({
+            element: '#grad-backg',
+            direction: 'left-right',
+            states : {
+                "default-state": {
+                    gradients: [
+                        ['#EF8D5B', '#EFB75B'],
+                        ['#EFC55B', '#EFDA5B'],
+                        ['#E8ED5A', '#EF815B'],
+                    ],
+                    transitionSpeed: 20000
+                }
+            }
+
+        });
+
     }
 
     setWindow = (popupElement) => {
@@ -46,7 +65,9 @@ class App extends React.Component {
                             
                     </Switch>
                     <Chat emitter={this.emitter}/>
+                    
                 </div>
+                <canvas id="grad-backg"/>
                 <Suspense>
                 {this.state.popupElement}
                 </Suspense>

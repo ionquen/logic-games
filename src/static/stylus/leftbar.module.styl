@@ -4,17 +4,23 @@
     width 220px
     height 100%
     overflow scroll
-    background-color cwhite3
+    background-color white02
+    backdrop-filter: drop-shadow(-16px 16px 20px) invert(10%) blur(10px)
+    box-shadow shadow1
     z-index 200
     scrollbar-width thin
+    transition 0.2s
     @media all and (max-width 760px)
         position absolute
-        left 0px
+        left -220px
         top 0px
-        display none
+        opacity 0
+        visibility hidden
     &.leftbarDisplay
         @media all and (max-width 760px)
-            display block
+            opacity 1
+            visibility visible
+            left 0px
 
 
 .leftbarStateBtn
