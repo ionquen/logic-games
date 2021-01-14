@@ -9,7 +9,7 @@ const App = lazy(() => import('./components/App'))
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
+    <Router basename="/">
       <Suspense fallback>
       <Switch>
         <Route exact path="/" component={Main } />
