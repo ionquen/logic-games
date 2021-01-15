@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {ReactComponent as SvgIconChatSend} from '../../static/img/send-plane-line.svg'
-import {ReactComponent as SvgIconChatDisplay} from '../../static/img/chat-4-line.svg'
-import {ReactComponent as SvgIconChatChange} from '../../static/img/arrow-up-down-line.svg'
-import {ReactComponent as SvgIconCross} from '../../static/img/close-fill.svg'
+import {ReactComponent as IconChatSend} from '../../static/img/send-plane-line.svg'
+import {ReactComponent as IconChatDisplay} from '../../static/img/chat-4-line.svg'
+import {ReactComponent as IconChatChange} from '../../static/img/arrow-up-down-line.svg'
+import {ReactComponent as IconCross} from '../../static/img/close-fill.svg'
 import {InputTextSubmit} from './FormElements'
 
 import styles from '../../static/css/chat.module.css'
@@ -105,7 +105,7 @@ class Chat extends React.Component {
           <div>
             <div>
               <div onClick={() => this.setState({globalChat: this.state.globalChat?false:true})}>
-                <SvgIconChatChange className={!this.state.globalChat?styles.global:null}/>
+                <IconChatChange className={!this.state.globalChat?styles.global:null}/>
               </div>
             </div>
             <div>
@@ -114,7 +114,7 @@ class Chat extends React.Component {
             </div>
             <div>
               <div onClick={this.displayChat}>
-                <SvgIconCross />
+                <IconCross />
               </div>
             </div>
           </div>
@@ -128,12 +128,12 @@ class Chat extends React.Component {
               autocomplete="off" 
               placeholder="Напишите сообщение..." 
               onSubmit={this.send} >
-              <SvgIconChatSend />
+              <IconChatSend />
             </InputTextSubmit>
           </div>
         </div>
         <div className={styles.chatStateBtn} onClick={this.displayChat} >
-          <SvgIconChatDisplay />
+          <IconChatDisplay />
         </div>
       </>
     )

@@ -23,7 +23,7 @@ class App extends React.Component {
         if (this.emitter===undefined) this.emitter = new Emitter()
     }
     componentDidMount() {
-        let grad = new Granim({
+        this.backGradient = new Granim({
             element: '#grad-backg',
             direction: 'left-right',
             states : {
@@ -38,7 +38,9 @@ class App extends React.Component {
             }
         });
     }
-
+    componentWillUnmount() {
+        this.backGradient.destroy()
+    }
     setWindow = (popupElement) => {
         this.setState({popupElement: popupElement})
     }

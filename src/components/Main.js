@@ -13,7 +13,7 @@ class Main extends React.Component {
         this.catalogList = React.createRef();
     }
     componentDidMount() {
-        let grad = new Granim({
+        this.backGradient = new Granim({
             element: '#canvas-main-back',
             direction: 'left-right',
             states : {
@@ -27,6 +27,9 @@ class Main extends React.Component {
                 }
             }
         });
+    }
+    componentWillUnmount() {
+        this.backGradient.destroy()
     }
     scrollLeft = (length) => this.catalogList.current.scrollLeft += length
     render() {
@@ -44,42 +47,6 @@ class Main extends React.Component {
                         <ArrowLeft className={styles.arrowLeft} onClick={() => this.scrollLeft(-218)}/>
                         <ArrowRight className={styles.arrowRight} onClick={() => this.scrollLeft(+218)} />
                         <div ref={this.catalogList} onWheel={(e) => this.scrollLeft(e.deltaY)}>
-                            <div>
-                                <Link to="/g/tictactoe">
-                                    <div>Крестики-нолики</div>
-                                    <AnimateTTT />
-                                </Link>
-                            </div>
-                            <div>
-                                <Link to="/g/tictactoe">
-                                    <div>Крестики-нолики</div>
-                                    <AnimateTTT />
-                                </Link>
-                            </div>
-                            <div>
-                                <Link to="/g/tictactoe">
-                                    <div>Крестики-нолики</div>
-                                    <AnimateTTT />
-                                </Link>
-                            </div>
-                            <div>
-                                <Link to="/g/tictactoe">
-                                    <div>Крестики-нолики</div>
-                                    <AnimateTTT />
-                                </Link>
-                            </div>
-                            <div>
-                                <Link to="/g/tictactoe">
-                                    <div>Крестики-нолики</div>
-                                    <AnimateTTT />
-                                </Link>
-                            </div>
-                            <div>
-                                <Link to="/g/tictactoe">
-                                    <div>Крестики-нолики</div>
-                                    <AnimateTTT />
-                                </Link>
-                            </div>
                             <div>
                                 <Link to="/g/tictactoe">
                                     <div>Крестики-нолики</div>
