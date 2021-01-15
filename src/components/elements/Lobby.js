@@ -41,14 +41,14 @@ class Lobby extends React.Component {
                         alert('Комната не найдена')
                         return
                     }
-                    this.props.setWindow(
-                        <Popup setWindow={this.props.setWindow}>
+                    this.props.setPopupUntracked(
+                        <Popup setPopupUntracked={this.props.setPopupUntracked}>
                             <RoomDetails ws={this.ws} data={data.roomInfo} disabled={true} /> 
                         </Popup>
                     )
                     break
                 case 'join': 
-                    this.props.setWindow(null)
+                    this.props.setPopupUntracked(null)
                     this.setState({roomId: data})
                     break
                 default: break
@@ -65,8 +65,8 @@ class Lobby extends React.Component {
     componentWillReceiveProps(nextProps) {
         if(this.props.match.params.gameId!==nextProps.match.params.gameId) this.ws.send(JSON.stringify({type: 'list', data: {gameId: ""+nextProps.match.params.gameId}}))
     }
-    createNewRoom = () => this.props.setWindow(
-        <Popup setWindow={this.props.setWindow}>
+    createNewRoom = () => this.props.setPopupUntracked(
+        <Popup setPopupUntracked={this.props.setPopupUntracked}>
             <RoomCreate ws={this.ws} gameId={this.props.match.params.gameId} disabled={false}/> 
         </Popup>
         )
@@ -86,7 +86,7 @@ class Lobby extends React.Component {
                     <Button onClick={this.createNewRoom}>Создать комнату</Button>
                 </div>
                 <div>
-                    {this.state.lobbyList.map(room => <DisplayRoom data={room} ws={this.ws} emitter={this.props.emitter} setWindow={this.props.setWindow} />)}
+                    {this.state.lobbyList.map(room => <DisplayRoom data={room} ws={this.ws} emitter={this.props.emitter} setPopupUntracked={this.props.setPopupUntracked} />)}
                 </div>
             </div>
             {this.state.roomId!==undefined&&this.state.roomId!==false?<Redirect to={`/g/${this.props.match.params.gameId}/${this.state.roomId}`}></Redirect>:null}
@@ -118,8 +118,8 @@ class DisplayRoom extends React.Component {
         return result.map((tag) => <div>{tag}</div>)
     }
 
-    moreDetails = () => this.props.setWindow(
-        <Popup setWindow={this.props.setWindow}>
+    moreDetails = () => this.props.setPopupUntracked(
+        <Popup setPopupUntracked={this.props.setPopupUntracked}>
             <RoomDetails ws={this.props.ws} data={this.props.data} disabled={true}  /> 
         </Popup>
     )

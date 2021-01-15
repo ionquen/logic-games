@@ -114,8 +114,8 @@ class Room extends React.Component {
                   </div>
                   {this.state.roomInfo.started?
                     <Link to={`/g/${this.props.match.params.gameId}`} className={styles.btnToLobby}>
-                      <span>В лобби</span>
                       <SvgIconBtnToLobby />
+                      <span>В лобби</span>
                     </Link>:
                     <RoomInfo {...this.state.roomInfo} disabled={true}>
                       {this.state.roomInfo.creator!== +localStorage.userId?null:

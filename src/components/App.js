@@ -41,7 +41,7 @@ class App extends React.Component {
     componentWillUnmount() {
         this.backGradient.destroy()
     }
-    setWindow = (popupElement) => {
+    setPopupUntracked = (popupElement) => {
         this.setState({popupElement: popupElement})
     }
     render() {
@@ -57,7 +57,7 @@ class App extends React.Component {
                         <Route path="/g/:gameId" render={props => 
                             <>
                                 <Leftbar {...props} />
-                                <Lobby {...props} emitter={this.emitter} setWindow={this.setWindow} >
+                                <Lobby {...props} emitter={this.emitter} setPopupUntracked={this.setPopupUntracked} >
                                 </Lobby>
                             </>
                         } />

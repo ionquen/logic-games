@@ -25,7 +25,6 @@
     text-align center
     font-size 14px 
     padding 10px   
-    box-sizing border-box
     background-color corange1
     &:hover
         background-color corange2
@@ -34,19 +33,15 @@
         bottom auto
         top 14px
         right 14px
-        width 54px
-        height 54px
+        padding 0
+        box-sizing content-box
+        {IconBig}
+
         border-radius 30px
-        box-shadow 0 1 1 #000
-        & > :nth-child(1) //Hide text in span
+        & > span //Hide text in span
             display none
-    & > :nth-child(2)
+    & > svg
         display none
-        position absolute
-        right 12px
-        top 12px
-        width 30px 
-        height 30px
         @media all and (max-width 940px) 
             display block //Show icon instead text
             & > :nth-child(2)
