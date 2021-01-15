@@ -36,14 +36,14 @@ class Main extends React.Component {
         return (
                 <div className={styles.main}>
                     <canvas id="canvas-main-back" />
-                    <div className={styles.header}>
+                    <header className={styles.header}>
                         <div>Погрузитесь в мир логических настольных игр вместе с друзьями!</div>
-                        <div>Ничего не сможет остановить на пути к развлечению. Никакой регистрации, авторизации, рекламы на нашем ресурсе и при этом совершенно бесплатно!</div>
-                    </div>
+                        <div>У нас лучшие логические совместные игры. Никакой регистрации, авторизации, рекламы на нашем ресурсе и при этом совершенно бесплатно!</div>
+                    </header>
                     <div className={styles.img}>
                         <Mainsvg />
                     </div>
-                    <div className={styles.catalog}>
+                    <nav className={styles.catalog}>
                         <ArrowLeft className={styles.arrowLeft} onClick={() => this.scrollLeft(-218)}/>
                         <ArrowRight className={styles.arrowRight} onClick={() => this.scrollLeft(+218)} />
                         <div ref={this.catalogList} onWheel={(e) => this.scrollLeft(e.deltaY)}>
@@ -54,13 +54,13 @@ class Main extends React.Component {
                                 </Link>
                             </div>
                         </div>
-                    </div>
-                    <div class={styles.footer}>
+                    </nav>
+                    <footer class={styles.footer}>
                         <div>games.ionquen.ru</div>
                         <div>github.com/ionquen</div>
                         <div>ionqwen@gmail.com</div>
                         <div>2021</div>
-                    </div>
+                    </footer>
                 </div>
         )
     }

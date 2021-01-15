@@ -1,8 +1,9 @@
 import React from "react";
 import {Input, InputNumber, Select, Checkbox} from '../elements/FormElements';
 import styles from '../../static/css/roomInfo.module.css'
+import {allGames} from '../../lang/Lang.js'
 
-class RoomInfo extends React.Component {
+export default class RoomInfo extends React.Component {
 
   constructor(props) {
     super(props)
@@ -100,11 +101,14 @@ class RoomInfo extends React.Component {
                 value={this.state.name}
                 onChange={(e) => this.setState({name: e.target.value})}
                 disabled={this.props.name===undefined?false:true} /> 
-              <Select disabled={this.props.disabled} name="gameId" data={[
-                  {name: "tictactoe", value:"Крестики-нолики"}, 
-                  {name: "sapper", value:"Сапёр"}, 
-                  {name: "reversi", value:"Реверси"}, 
-                ]}
+              <Select disabled={this.props.disabled} name="gameId" data={(() => {
+                let namesArray = []
+                const gamesName = allGames()
+                for (let prop in gamesName) {
+                  namesArray.push({name: prop, value: gamesName[prop]})
+                }
+                return namesArray
+              })()}
                 selected={this.state.gameId}
                 onClick={this.selectGame} />
               <InputNumber label="Количество игроков" name="max"
@@ -150,4 +154,3 @@ class RoomInfo extends React.Component {
     )
   }
 }
-export default RoomInfo;

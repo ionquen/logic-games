@@ -46,9 +46,8 @@ class App extends React.Component {
     }
     render() {
         return (
-            <>  <Switch>
-                    <Route path="/g/:gameId" render={props=><Topbar {...props} setWindow={this.setWindow}/>} />
-                </Switch>
+            <>  
+                <Route path="/g/:gameId" component={props=><Topbar {...props}/>} />
                 <div className={styles.page}>
                     <Switch>
                         <Route path="/g/:gameId/:roomId" render={props=>

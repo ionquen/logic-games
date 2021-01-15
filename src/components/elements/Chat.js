@@ -39,7 +39,7 @@ class Chat extends React.Component {
         }
     }
     ws.onerror = (e) => {
-        this.globalMessage('Ошибка соединения (Глобальный чат): ' + e.code)
+        this.globalMessage('Ошибка. Подключение потеряно')
     }
     this.ws=ws
   }
@@ -125,7 +125,7 @@ class Chat extends React.Component {
             <InputTextSubmit name="inputMessage" 
               value={this.state.prints} 
               onChange={(e) => this.setState({prints: e.value})} 
-              autocomplete="off" 
+              autoComplete={false}
               placeholder="Напишите сообщение..." 
               onSubmit={this.send} >
               <IconChatSend />
