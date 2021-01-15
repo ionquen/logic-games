@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "gh-pages": "^3.1.0",
     "global": "^4.4.0",
     "granim": "^2.0.0",
     "npm-run-all": "^4.1.5",
@@ -24,7 +25,8 @@
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "react-scripts build",
-    "build": "npm-run-all build-css build-js"
+    "build": "npm-run-all build-css build-js",
+    "deploy": "yarn build&&gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
