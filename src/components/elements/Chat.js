@@ -101,7 +101,7 @@ class Chat extends React.Component {
   render() {
     return (
       <>
-        <div className={`${styles.chat} ${!this.state.hidden?styles.chatDisplay:''}`}>
+        <aside className={`${styles.chat} ${!this.state.hidden?styles.chatDisplay:''}`}>
           <div>
             <div>
               <div onClick={() => this.setState({globalChat: this.state.globalChat?false:true})}>
@@ -131,7 +131,7 @@ class Chat extends React.Component {
               <IconChatSend />
             </InputTextSubmit>
           </div>
-        </div>
+        </aside>
         <div className={styles.chatStateBtn} onClick={this.displayChat} >
           <IconChatDisplay />
         </div>

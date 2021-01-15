@@ -14,7 +14,7 @@ class Left extends React.Component {
     render() {
         return (
             <>
-                <div className={`${styles.leftbar}  ${this.state.leftbarDisplay?styles.leftbarDisplay:''}`}>
+                <aside className={`${styles.leftbar}  ${this.state.leftbarDisplay?styles.leftbarDisplay:''}`}>
                     <div className={styles.games}>
                         <div>
                             <Link to="/g/tictactoe">
@@ -32,7 +32,7 @@ class Left extends React.Component {
                             </Link>
                         </div>
                     </div>
-                </div>
+                </aside>
                 <div className={styles.leftbarStateBtn} onClick={() => this.setState(prevState => ({leftbarDisplay: prevState.leftbarDisplay?false:true}))}>
                     <SvgIconBtnDisplayLeftbar />
                 </div>
