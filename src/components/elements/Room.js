@@ -6,6 +6,7 @@ import styles from '../../static/css/room.module.css'
 import {Button} from './FormElements'
 
 const Tictactoe = lazy(() => import('../games/Tictactoe'))
+const Sapper = lazy(() => import('../games/Sapper'))
 
 class Room extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class Room extends React.Component {
   }
 
   componentWillMount = () => {
-    const ws = new WebSocket("ws://45.156.21.71:8083")
+    const ws = new WebSocket("ws://localhost:8083")
     ws.onopen = () => {
       this.emitterUnsubPrivateChat = this.props.emitter.sub('privateChatSend', data => ws.send(JSON.stringify({type: 'chat', data: data})))
       ws.send(JSON.stringify({type: 'connect', data: {roomId: this.props.match.params.roomId, token: localStorage.getItem('token')}}))
@@ -69,7 +70,7 @@ class Room extends React.Component {
         }
     }
     ws.onerror = (e) => {
-        this.props.emitter.emit('global', 'Ошибка соединения (Комната): ' + e)
+        this.props.emitter.emit('global', 'Соединение с комнатой потеряно')
     }
     ws.onclose = (e) => {
       this.emitterUnsubAction()
@@ -97,6 +98,7 @@ class Room extends React.Component {
     if(!this.state.roomInfo.started||this.state.gameInfo===undefined) return
     switch (this.state.roomInfo.gameId) {
       case "tictactoe": return <Tictactoe gameInfo={this.state.gameInfo} players={this.state.roomInfo.users} emitter={this.props.emitter} />
+      //case "sapper": return <Sapper gameInfo={this.state.gameInfo} players={this.state.roomInfo.users} emitter={this.props.emitter} />
       default: break
     }
   }

@@ -19,7 +19,7 @@ class Lobby extends React.Component {
     }
 
     componentWillMount() {
-        const ws = new WebSocket("ws://45.156.21.71:8082")
+        const ws = new WebSocket("ws://localhost:8082")
         ws.onopen = () => {
             ws.send(JSON.stringify({type: 'list', data: {gameId: this.props.match.params.gameId, token: localStorage.getItem('token')}}))
             this.props.emitter.emit('displayGlobalChat', true)

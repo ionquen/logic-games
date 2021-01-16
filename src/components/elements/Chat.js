@@ -20,7 +20,7 @@ class Chat extends React.Component {
     }
   }
   componentWillMount() {
-    const ws = new WebSocket("ws://45.156.21.71:8081")
+    const ws = new WebSocket("ws://localhost:8081")
     if(localStorage.userName===undefined) localStorage.setItem('userName', 'Гость228')
 
     ws.onopen = () => {

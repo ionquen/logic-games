@@ -8,11 +8,9 @@ import styles from '../../static/css/canvas.module.css'
 export default class Tictactoe extends React.Component {
   constructor(props) {
     super(props) 
-    const updatedScore = []
-    props.gameInfo.score.forEach(item=>updatedScore.push([item]))
     this.state = {
 			currentPlayerTurn: props.gameInfo.currentPlayerTurn,
-      score: updatedScore,
+      score: props.gameInfo.score,
       alertValue: "", 
       lasttime: props.gameInfo.lasttime
     }
@@ -25,7 +23,6 @@ export default class Tictactoe extends React.Component {
       } else return true
     }))
     this.canvas = React.createRef()
-    this.playerTurnTimer = undefined
   }
   componentWillMount() {
     this.emitterUnsubGame = this.props.emitter.sub('game', data => {
@@ -41,13 +38,13 @@ export default class Tictactoe extends React.Component {
           this.clear()
           break
         case 'roundFinished': 
-          this.setState((prevState) => {
-            const newScore = prevState.score.slice()
-            newScore[data.cell][0]++
-            this.paused = true
-            return {currentPlayerTurn: data.nextPlayer, score: newScore, lasttime: data.lasttime}})
+          this.paused = true
           this.displayPoint(data.cell, data.x, data.y, true)
-          this.setState({alertValue: `Раунд завершён! Победил ${this.props.players[this.props.gameInfo.queue[data.cell]].userName}`})
+          this.setState((prevState) => ({
+            currentPlayerTurn: data.nextPlayer, 
+            score: {...prevState.score, ...prevState.score[data.cell][0]++}, 
+            lasttime: data.lasttime, 
+            alertValue: `Раунд завершён! Победил ${this.props.players[this.props.gameInfo.queue[data.cell]].userName}`}))
           break
         case 'turn': 
           this.setState({currentPlayerTurn: data.nextPlayer, lasttime: data.lasttime, alertValue: `Ход игрока ${this.props.players[this.props.gameInfo.queue[data.nextPlayer]].userName}`})
@@ -58,7 +55,6 @@ export default class Tictactoe extends React.Component {
           this.setState({alertValue: 'Выбранная ячейка занята'})
           break
         case 'matchFinished': 
-          clearInterval(this.playerTurnTimer)
           this.setState({alertValue: `Матч завершён. Победил ${this.props.players[this.props.gameInfo.queue[data.currentPlayerTurn]].userName}`})
           break
         case 'nextPlayer': 
