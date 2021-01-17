@@ -4,6 +4,7 @@ import Alert from './parts/Alert';
 import {animate} from './parts/CanvasTools';
 
 import styles from '../../static/css/canvas.module.css'
+import sapperStyle from '../../static/css/sapper.module.css'
 
 export default class Tictactoe extends React.Component {
   constructor(props) {
@@ -14,45 +15,69 @@ export default class Tictactoe extends React.Component {
       lasttime: props.gameInfo.lasttime,
       actionTypeDefuse: true
     }
-    this.paused = props.gameInfo.paused
-    props.players.every((player, index) => player.userId!== +localStorage.getItem('userId')?true:() =>{
-      this.playerNumber = index
-      return false
-    })
     this.canvas = React.createRef()
   }
   componentWillMount() {
+    this.paused = this.props.gameInfo.paused
+    this.board = {}
+    this.props.players.forEach((player, index) => player.userId=== +localStorage.getItem('userId')?this.playerNumber = index:null)
+    
     localStorage.setItem('sapperBoard', '')
     this.emitterUnsubGame = this.props.emitter.sub('game', data => {
       switch(data.type) {
         case 'roundStarted': 
-          this.setState({
-            roundStarted: data.roundStarted,
-            alertValue: `Раунд начинается!`
+          this.setState(prevState=>{
+            const newScore = Object.assign(prevState.score)
+            for(let index in prevState.score) {
+              newScore[index][1]=0
+            }
+            return {
+              roundStarted: data.roundStarted,
+              score: newScore,
+              alertValue: `Раунд начинается!`
+            }
           })
           this.paused = false
-          this.currentBoard = {}
+          this.board = {}
           this.clear()
           break
-        case 'roundFinished': 
+        case 'roundFinished': {
             this.paused = true
-            this.setState((prevState) => ({
-              score: {...prevState.score, ...prevState.score[data.currentPlayer][0]++},
-              alertValue: `Раунд завершён! Победил ${this.props.players[data.currentPlayer].userName}`
-            }))
+            const updateScore = this.state.score[data.currentPlayer][0]++
+            this.setState((prevState) => {
+              const newScoreObj = Object.assign(prevState.score)
+              newScoreObj[data.currentPlayer][0]=updateScore
+              return {
+                score: newScoreObj,
+                alertValue: `Раунд завершён! Победил ${this.props.players[data.currentPlayer].userName}`
+            }})
           break
-        case 'openedCells': 
-          this.setState({currentPlayerTurn: data.nextPlayer, lasttime: data.lasttime, alertValue: `Ход игрока ${this.props.players[this.props.gameInfo.queue[data.nextPlayer]].userName}`})
-          this.displayPoint(data.cell, data.x, data.y, true)
+        }
+        case 'openedCells': {
+          for (let cell in data.cells) {
+            this.displayPoint(cell%this.props.gameInfo.boardSizeX, ~~(cell/this.props.gameInfo.boardSizeX), data.cells[cell])
+          }
+          const conterCells = this.state.score[this.playerNumber][1]+Object.keys(data.cells).length
+          this.setState(prevState => {
+            const newScore = Object.assign(prevState.score)
+            newScore[this.playerNumber][1]=conterCells
+            return {score: newScore}
+          })
           break
+        }
         case 'explode': 
-          this.setState({alertValue: `${this.props.players[this.props.gameInfo.queue[data.currentPlayerTurn]].userName} взорвался`})
+          this.displayPoint(data.x, data.y, -2)
+          this.setState({alertValue: `${this.props.players[data.currentPlayer].userName} взорвался`})
           break
-        case 'progress': 
-        this.setState(prevState =>  ({score: {...prevState.score, ...prevState.score[data.currentPlayer][1]+data.countCells}}))
+        case 'progress': {
+        const conterCells = this.state.score[data.currentPlayer][1]+data.countCells
+        this.setState(prevState =>  {
+          const newScore = Object.assign(prevState.score)
+          newScore[data.currentPlayer][1]=conterCells
+          return {score: newScore}})
           break 
+        }
         case 'error': 
-          this.displayPoint(data.cell, data.x, data.y)
           break
         case 'matchFinished': 
           this.setState({alertValue: `Матч завершён. Победил ${this.props.players[data.currentPlayer].userName}`})
@@ -62,62 +87,87 @@ export default class Tictactoe extends React.Component {
     })
   }
   componentDidMount() {
-      this.clear()
-      const boardString = localStorage.getItem('sapperBoard')
-      if (boardString!=='') {
-        this.board = JSON.stringify(boardString)
-        for (let cell in this.board) {
-          this.displayPoint(cell%this.props.gameInfo.boardSizeY, ~~(cell/this.props.gameInfo.boardSizeX, this.board[cell]))
+    this.clear()
+    const savedData = localStorage.getItem('sapperData')
+    if (savedData) {
+      const parsedSavedData = JSON.parse(savedData)
+      if (parsedSavedData.roomId===this.props.roomId) {
+        for (let cell in parsedSavedData.board) {
+          //this.displayPoint(+cell%this.props.gameInfo.boardSizeX, ~~(+cell/this.props.gameInfo.boardSizeY), parsedSavedData.board[cell])
+          
         }
-      }
-      
+      } else {localStorage.setItem('sapperData', '')}
+    }
   }
   componentWillUnmount() {
-    localStorage.setItem('sapperBoard', JSON.stringify(this.board))
+    const savedData = {roomId: this.props.roomId, board: this.board}
+    localStorage.setItem('sapperData', JSON.stringify(savedData))
     this.emitterUnsubGame()
   }
 
   displayPoint = (x, y, value) => {
     const ctx = this.canvas.current.getContext('2d')
-    ctx.lineCap = "round"
-    ctx.lineWidth = 3
-    this.currentBoard[this.props.gameInfo.boardSize*y + x] = value
-    ctx.strokeStyle = "blue"
-    ctx.beginPath()
-    ctx.moveTo(x*30+6, y*30+6)
-    ctx.lineTo(x*30+24, y*30+24)
-    ctx.moveTo(x*30+24, y*30+6)
-    ctx.lineTo(x*30+6, y*30+24)
-    ctx.stroke()
+    ctx.font = "24px serif"
+    this.board[this.props.gameInfo.boardSizeX*y + x] = value
+    switch (value) {
+      case -2: { //explosion
+        ctx.fillStyle="red"
+        ctx.fillRect(x*25, y*25, 25, 25)
+        break}
+      case -1: { //highlight a bomb
+        ctx.fillStyle="green"
+        ctx.fillRect(x*25, y*25, 25, 25)
+        break}
+      case undefined: { //clear a cell
+        ctx.fillStyle="white"
+        ctx.fillRect(x*25, y*25, 25, 25)
+        break}
+      case 0: ctx.fillStyle="white"; break
+      case 1: ctx.fillStyle="blue"; break
+      case 2: ctx.fillStyle="green"; break
+      case 3: ctx.fillStyle="red"; break
+      case 4: ctx.fillStyle="blue"; break
+      case 5: ctx.fillStyle="brown"; break
+      case 6: ctx.fillStyle="aqua"; break
+      case 7: ctx.fillStyle="yellow"; break
+      case 8: ctx.fillStyle="brown"; break
+      case 9: ctx.fillStyle="yellow"; break
+      default: ctx.fillStyle="yellow" ;break
+    }
+    if (value>0) ctx.fillText(value, x*25+7, y*25+20)
+    if (value===0) ctx.fillRect(x*25, y*25, 25, 25)
   }
   clear = () => {
     const ctx = this.canvas.current.getContext('2d')
-    ctx.clearRect(0,0,(this.props.gameInfo.boardSizeX+1)*30, (this.props.gameInfo.boardSizeY+1)*30)
+    ctx.clearRect(0,0,(this.props.gameInfo.boardSizeX+1)*25, (this.props.gameInfo.boardSizeY+1)*25)
     ctx.strokeStyle = '#000'
     ctx.lineWidth = 1
     ctx.beginPath();
-    for(let i = 0; i <= this.props.gameInfo.boardSize; i++) {
-      ctx.moveTo(i*30, 0)
-      ctx.lineTo(i*30, this.props.gameInfo.boardSizeY*30)
+    for(let i = 0; i <= this.props.gameInfo.boardSizeX; i++) {
+      ctx.moveTo(i*25, 0)
+      ctx.lineTo(i*25, this.props.gameInfo.boardSizeY*25)
     }
-    for(let i = 0; i <= this.props.gameInfo.boardSize; i++) {
-      ctx.moveTo(0, i*30)
-      ctx.lineTo(this.props.gameInfo.boardSizeX*30, i*30)
+    for(let i = 0; i <= this.props.gameInfo.boardSizeY; i++) {
+      ctx.moveTo(0, i*25)
+      ctx.lineTo(this.props.gameInfo.boardSizeX*25, i*25)
     }
     ctx.stroke()
 
   }
-  defuseBomb = (e) => {
+  action = (e, typeClick) => {
+    e.preventDefault()
     if (this.paused) return
     const rect = this.canvas.current.getBoundingClientRect()
-    const x = ~~((e.clientX - rect.left)/30)
-    const y = ~~((e.clientY - rect.top)/30)
-    if (!this.currentBoard.hasOwnProperty(y*+this.props.gameInfo.boardSize+x)) {
-      this.props.emitter.emit('action', {x: x, y: y})
+    const x = ~~((e.clientX - rect.left)/25)
+    const y = ~~((e.clientY - rect.top)/25)
+    const coord = y*this.props.gameInfo.boardSizeX+x
+    if (this.state.actionTypeDefuse&&typeClick==="left") {
+      if (!this.board.hasOwnProperty(coord)) {
+        this.props.emitter.emit('action', {x: x, y: y})
+      }
+    } else {//Пометить ячейку как заминированную
+      if (this.board[coord]===undefined||this.board[coord]===-1) this.displayPoint(x, y, this.board[coord]===-1?undefined: -1)
     }
-  }
-  markBomb = (e) => {
-
   }
   render() {
       return (
@@ -131,13 +181,15 @@ export default class Tictactoe extends React.Component {
               />
 
               <Alert value={this.state.alertValue} />
-              <button></button>
+              <button className={`${sapperStyle.button} ${this.state.actionTypeDefuse?sapperStyle.highlite:null}`} 
+                onClick={prevState => this.setState({actionTypeDefuse: prevState.actionTypeDefuse?false:true})} >
+              </button>
               <div className={styles.canvas}>
                 <canvas ref={this.canvas} 
-                  onClick={(e) => this.state.actionTypeDefuse?this.defuseBomb(e):this.markBomb(e)} 
-                  onContextMenu={this.markBomb} 
-                  width={(+this.props.gameInfo.boardSizeX)*30+1} 
-                  height={(+this.props.gameInfo.boardSizeY)*30+1}>
+                  onClick={(e) => this.action(e, "left")} 
+                  onContextMenu={(e) => this.action(e, "right")} 
+                  width={(+this.props.gameInfo.boardSizeX)*25+1} 
+                  height={(+this.props.gameInfo.boardSizeY)*25+1}>
                 </canvas> 
               </div>
             </>
