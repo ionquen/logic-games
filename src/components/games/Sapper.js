@@ -1,7 +1,6 @@
-import React from 'react';
-import Scoreboard from './parts/Scoreboard';
-import Alert from './parts/Alert';
-import {animate} from './parts/CanvasTools';
+import React from 'react'
+import Scoreboard from './parts/Scoreboard'
+import Alert from './parts/Alert'
 
 import styles from '../../static/css/canvas.module.css'
 import sapperStyle from '../../static/css/sapper.module.css'
