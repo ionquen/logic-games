@@ -12,7 +12,6 @@ export default class CreateNewRoom extends React.Component {
       usePw: e.target.usePw.checked,
       private: e.target.private.checked,
       autostart: e.target.autostart.checked,
-      max: e.target.max.value,
       pw: e.target.usePw.value?e.target.pw.value||'':undefined,
       userName: localStorage.getItem("userName"),
       gameProps: this.getPropsByGameId(e.target.gameId.value, e)
@@ -27,6 +26,7 @@ export default class CreateNewRoom extends React.Component {
         roundsForWin: +e.target.roundsForWin.value,
         boardSize: +e.target.boardSize.value,
         cellsForWin: +e.target.cellsForWin.value,
+        players: e.target.players.value,
       }
       default: return {}
     }

@@ -21,7 +21,6 @@ export default class Tictactoe extends React.Component {
     this.board = {}
     this.props.players.forEach((player, index) => player.userId=== +localStorage.getItem('userId')?this.playerNumber = index:null)
     
-    localStorage.setItem('sapperBoard', '')
     this.emitterUnsubGame = this.props.emitter.sub('game', data => {
       switch(data.type) {
         case 'roundStarted': 
@@ -43,13 +42,10 @@ export default class Tictactoe extends React.Component {
         case 'roundFinished': {
             this.paused = true
             const updateScore = this.state.score[data.currentPlayer][0]++
-            this.setState((prevState) => {
-              const newScoreObj = Object.assign(prevState.score)
-              newScoreObj[data.currentPlayer][0]=updateScore
-              return {
-                score: newScoreObj,
+            this.setState(prevState => ({
+                score: {...prevState.score, ...updateScore},
                 alertValue: `Раунд завершён! Победил ${this.props.players[data.currentPlayer].userName}`
-            }})
+            }))
           break
         }
         case 'openedCells': {
@@ -88,18 +84,26 @@ export default class Tictactoe extends React.Component {
   componentDidMount() {
     this.clear()
     const savedData = localStorage.getItem('sapperData')
-    if (savedData) {
+    if (!savedData=="") {
       const parsedSavedData = JSON.parse(savedData)
-      if (parsedSavedData.roomId===this.props.roomId) {
+      let scoreSum = 0
+      for (let item in this.state.score) {
+        scoreSum+=this.state.score[item][0]
+      }
+      if (parsedSavedData.scoreSum===scoreSum) {
         for (let cell in parsedSavedData.board) {
-          //this.displayPoint(+cell%this.props.gameInfo.boardSizeX, ~~(+cell/this.props.gameInfo.boardSizeY), parsedSavedData.board[cell])
+          this.displayPoint(cell%this.props.gameInfo.boardSizeX, ~~(cell/this.props.gameInfo.boardSizeX), parsedSavedData.board[cell])
           
         }
-      } else {localStorage.setItem('sapperData', '')}
+      } else {}
     }
   }
   componentWillUnmount() {
-    const savedData = {roomId: this.props.roomId, board: this.board}
+    let scoreSum = 0 //Идентификатор текущего раунда на случай вылета
+    for (let item in this.state.score) {
+      scoreSum+=this.state.score[item][0]
+    }
+    const savedData = {scoreSum, board: this.board}
     localStorage.setItem('sapperData', JSON.stringify(savedData))
     this.emitterUnsubGame()
   }
@@ -107,7 +111,7 @@ export default class Tictactoe extends React.Component {
   displayPoint = (x, y, value) => {
     const ctx = this.canvas.current.getContext('2d')
     ctx.font = "24px serif"
-    this.board[this.props.gameInfo.boardSizeX*y + x] = value
+    if (value!==undefined) this.board[this.props.gameInfo.boardSizeX*y + x] = value
     switch (value) {
       case -2: { //explosion
         ctx.fillStyle="red"
@@ -118,8 +122,9 @@ export default class Tictactoe extends React.Component {
         ctx.fillRect(x*25, y*25, 25, 25)
         break}
       case undefined: { //clear a cell
-        ctx.fillStyle="white"
+        ctx.fillStyle="gray"
         ctx.fillRect(x*25, y*25, 25, 25)
+        delete this.board[this.props.gameInfo.boardSizeX*y + x]
         break}
       case 0: ctx.fillStyle="white"; break
       case 1: ctx.fillStyle="blue"; break
@@ -130,8 +135,7 @@ export default class Tictactoe extends React.Component {
       case 6: ctx.fillStyle="aqua"; break
       case 7: ctx.fillStyle="yellow"; break
       case 8: ctx.fillStyle="brown"; break
-      case 9: ctx.fillStyle="yellow"; break
-      default: ctx.fillStyle="yellow" ;break
+      default: ;break
     }
     if (value>0) ctx.fillText(value, x*25+7, y*25+20)
     if (value===0) ctx.fillRect(x*25, y*25, 25, 25)
@@ -180,8 +184,8 @@ export default class Tictactoe extends React.Component {
               />
 
               <Alert value={this.state.alertValue} />
-              <button className={`${sapperStyle.button} ${this.state.actionTypeDefuse?sapperStyle.highlite:null}`} 
-                onClick={prevState => this.setState({actionTypeDefuse: prevState.actionTypeDefuse?false:true})} >
+              <button className={`${sapperStyle.button} ${this.state.actionTypeDefuse?"":sapperStyle.highlite}`} 
+                onClick={() => this.setState({actionTypeDefuse: this.state.actionTypeDefuse?false:true})} >
               </button>
               <div className={styles.canvas}>
                 <canvas ref={this.canvas} 

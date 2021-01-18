@@ -40,15 +40,12 @@ export default class Tictactoe extends React.Component {
         case 'roundFinished': 
           this.paused = true
           this.displayPoint(data.cell, data.x, data.y, true)
-          const newScoreState = this.state.score[data.cell][0]++
-          this.setState((prevState) => {
-            const newObject = Object.assign(prevState)
-            newObject[data.cell][0] = newScoreState
-            return {
-              currentPlayerTurn: data.nextPlayer, 
-              score: newObject, 
-              lasttime: data.lasttime, 
-              alertValue: `Раунд завершён! Победил ${this.props.players[this.props.gameInfo.queue[data.cell]].userName}`}})
+          const newScore = this.state.score[data.cell][0]++
+          this.setState((prevState) => ({
+            currentPlayerTurn: data.nextPlayer, 
+            score: {...prevState.score, ...newScore}, 
+            lasttime: data.lasttime, 
+            alertValue: `Раунд завершён! Победил ${this.props.players[this.props.gameInfo.queue[data.cell]].userName}`}))
           break
         case 'turn': 
           this.setState({currentPlayerTurn: data.nextPlayer, lasttime: data.lasttime, alertValue: `Ход игрока ${this.props.players[this.props.gameInfo.queue[data.nextPlayer]].userName}`})

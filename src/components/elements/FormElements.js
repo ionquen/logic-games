@@ -36,36 +36,63 @@ class Select extends React.Component {
 }
 
 
-function InputNumber(props) {
-  const {label, ...other} = props
-  return(
-  <div className={styles.number}>
-    <label>
-      <input  {...other} type="number" />
-      <div>{label}</div>
-    </label>
-  </div>
-  )
-}
-
-function Checkbox(props) {
-  const {label, ...other} = props
-  return(
-    <div className={styles.checkbox}>
-        <label>
-          <input {...other} type="checkbox"/>
-          <div>{label}</div>
-        </label>
-    </div>
-  )
-}
-
-function Input(props) {
+class InputNumber extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state={
+      value: props.value,
+    }
+  }
+  render() {
+    const {label, other} = this.props
     return(
-      <div className={styles.input}>
-        <input {...props} type="text" />
+    <div className={styles.number}>
+      <label>
+        <input value={this.state.value} {...other} type="number" onChange={e => this.setState({value: e.target.value>=this.props.min&&e.target.value<=this.props.max?e.target.value:this.props.min})} />
+        <div>{label}</div>
+      </label>
+    </div>
+    )
+  }
+}
+
+class Checkbox extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state={
+      value: props.value
+    }
+  }
+  render() {
+    const {label, ...other} = this.props
+    return(
+      <div className={styles.checkbox}>
+          <label>
+            <input {...other} 
+              checked={this.state.value} 
+              onChange={e => this.setState({value: this.state.value?false:true})} 
+              type="checkbox"/>
+            <div>{label}</div>
+          </label>
       </div>
     )
+  }
+}
+
+class Input extends React.Component {
+  constructor(props) {
+    super(props) 
+    this.state = {
+      value: props.value||false
+    }
+  }
+  render() {
+    return(
+      <div className={styles.input}>
+        <input {...this.props} checked={this.state.value} type="text" onChange={e => this.setState({value: e.target.value})} />
+      </div>
+    )
+  }
 }
 function InputTextSubmit(props) {
     const {onSubmit, children, ...other} = props

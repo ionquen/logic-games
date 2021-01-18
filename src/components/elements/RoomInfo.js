@@ -8,12 +8,7 @@ export default class RoomInfo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: props.name,
       gameId: props.gameId,
-      usePw: props.usePw||false,
-      private: props.private||false,
-      autostart: props.autostart||true,
-      max: props.max||2,
     }
   }
   renderSettings = () => {
@@ -21,71 +16,75 @@ export default class RoomInfo extends React.Component {
       case "tictactoe":  
         return(
         <>
+          <InputNumber label="Количество игроков" 
+            name="players"
+            disabled={this.props.disabled} 
+            value={2} 
+            min={2} max={3}
+          />
           <InputNumber label="Количество раундов для победы" 
+            disabled={this.props.disabled} 
             name="roundsForWin"
-            value={this.state.roundsForWin}
+            value={10}
             min={3} max={20}
-            onChange={(e) => this.setState({roundsForWin: e.target.value>=3&&e.target.value<=20?e.target.value:5})}
             />
           <InputNumber label="Время на ход" 
+            disabled={this.props.disabled} 
             name="timeTurn"
-            value={this.state.timeTurn}
+            value={20}
             min={5} max={60}
-            onChange={(e) => this.setState({timeTurn: e.target.value>=5&&e.target.value<=60?e.target.value:20})} 
             />
           <InputNumber label="Размер поля" 
+            disabled={this.props.disabled} 
             name="boardSize"
-            value={this.state.boardSize}
+            value={30}
             min={3} max={40}
-            onChange={(e) => this.setState({boardSize: e.target.value>=3&&e.target.value<=40?e.target.value:19})} 
             />
           <InputNumber label="Длина ряда для победы" 
+            disabled={this.props.disabled} 
             name="cellsForWin"
-            value={this.state.cellsForWin}
-            min={3} max={this.state.boardSize}
-            onChange={(e) => this.setState({cellsForWin: e.target.value>=3&&e.target.value<=this.state.boardSize?e.target.value:3})} 
-            />  
+            value={5}
+            min={3} 
+            max={10}
+          />  
+        </>)
+      case "sapper":  
+        return(
+        <>
+          <InputNumber label="Количество игроков" 
+            disabled={this.props.disabled} 
+            name="players"
+            value={2} 
+            min={2} max={4}
+          />
+          <InputNumber label="Количество раундов для победы" 
+            disabled={this.props.disabled} 
+            name="roundsForWin"
+            value={10}
+            min={3} max={20}
+            />
+          <InputNumber label="Ширина поля" 
+            disabled={this.props.disabled} 
+            name="boardSizeX"
+            value={15}
+            min={10} max={30}
+            />
+          <InputNumber label="Высота поля" 
+            disabled={this.props.disabled} 
+            name="boardSizeY"
+            value={20}
+            min={10} max={40}
+            />
+          <InputNumber label="Количество мин (сложность)" 
+            disabled={this.props.disabled} 
+            name="minesCount"
+            value={15}
+            min={5} max={40}
+          />  
         </>)
       default: return
     }
   }
-  componentWillMount() {
-    this.selectGame()
-  }
-  selectGame = (e) => {
-    const gameId = e!==undefined?e.target.name:this.state.gameId
-    let gameGeneral 
-    switch(gameId) {
-      case 'tictactoe': gameGeneral = {
-        min: 2,
-        max: 3,
-      }
-      this.setState({
-        roundsForWin: 5,
-        timeTurn: 20,
-        boardSize: 19,
-        cellsForWin: 5,
-      })
-      break
-      case 'sapper': gameGeneral = {
-        min: 2,
-        max: 2,
-      }
-      break
-      case 'reversi': gameGeneral = {
-        min: 2,
-        max: 2,
-      }
-      break
-      default: break
-    }
-    this.setState({
-      gameId: gameId,
-      max: gameGeneral.min,
-      gameGeneral: gameGeneral,
-    })
-  }
-  
   render() {
     return(
       <>
@@ -98,39 +97,35 @@ export default class RoomInfo extends React.Component {
             <div>
               <div>Общие настройки</div>
               <Input placeholder="Введите название комнаты" name="name"
-                value={this.state.name}
-                onChange={(e) => this.setState({name: e.target.value})}
+                value={this.props.name}
                 disabled={this.props.name===undefined?false:true} /> 
-              <Select disabled={this.props.disabled} name="gameId" data={(() => {
-                let namesArray = []
-                const gamesName = allGames()
-                for (let prop in gamesName) {
-                  namesArray.push({name: prop, value: gamesName[prop]})
-                }
-                return namesArray
-              })()}
+              <Select disabled={this.props.disabled} name="gameId" data={(() => 
+                {
+                  let namesArray = []
+                  const gamesName = allGames()
+                  for (let prop in gamesName) {
+                    namesArray.push({name: prop, value: gamesName[prop]})
+                  }
+                  return namesArray
+                })()}
                 selected={this.state.gameId}
-                onClick={this.selectGame} />
-              <InputNumber label="Количество игроков" name="max"
-                disabled={this.props.disabled} 
-                value={this.state.max} 
-                min={this.state.gameGeneral.min} max={this.state.gameGeneral.max}
-                onChange={(e) => {this.setState({max: e.target.value>=this.state.gameGeneral.min&&e.target.value<=this.state.gameGeneral.max?e.target.value:this.state.gameGeneral.min})}} 
-                />
+                onClick ={(e) => this.setState({gameId: e.target.name})}
+              />
               <Checkbox label="Использовать пароль?" name="usePw"
                 disabled={this.props.disabled} 
-                checked={this.state.usePw} 
-                onChange={(e) => this.setState({usePw: e.target.checked})}/>
+                value={this.props.usePw||false} 
+                onClick={e => this.setState({usePw: e.target.checked})}
+              />
               <Input placeholder="Введите пароль" name="pw"
                 disabled={this.state.usePw||this.props.usePw===true?false:true} />
               <Checkbox label="Сделать приватной?" name="private"
                 disabled={this.props.disabled} 
-                checked={this.state.private}
-                onChange={(e) => this.setState({private: e.target.checked})} />
+                value={this.props.private||false}
+              />
               <Checkbox label="Автостарт" name="autostart"
                 disabled={this.props.disabled}
-                checked={this.state.autostart} 
-                onChange={(e) => this.setState({autostart: e.target.checked})} />
+                value={this.props.autostart||true} 
+              />
             </div>
             <div>
               <div>Настройки игры</div>

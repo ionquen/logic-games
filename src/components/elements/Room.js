@@ -98,7 +98,7 @@ class Room extends React.Component {
     if(!this.state.roomInfo.started||this.state.gameInfo===undefined) return
     switch (this.state.roomInfo.gameId) {
       case "tictactoe": return <Tictactoe gameInfo={this.state.gameInfo} players={this.state.roomInfo.users} emitter={this.props.emitter} />
-      case "sapper": return <Sapper gameInfo={this.state.gameInfo} players={this.state.roomInfo.users} emitter={this.props.emitter} gameId={this.state.roomInfo.gameId} />
+      case "sapper": return <Sapper gameInfo={this.state.gameInfo} players={this.state.roomInfo.users} emitter={this.props.emitter} />
       default: break
     }
   }
