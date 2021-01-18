@@ -17,7 +17,7 @@ class Room extends React.Component {
   }
 
   componentWillMount = () => {
-    const ws = new WebSocket("ws://games-ws.ionquen.ru:8083")
+    const ws = new WebSocket("wss://games-ws.ionquen.ru:8083")
     ws.onopen = () => {
       this.emitterUnsubPrivateChat = this.props.emitter.sub('privateChatSend', data => ws.send(JSON.stringify({type: 'chat', data: data})))
       ws.send(JSON.stringify({type: 'connect', data: {roomId: this.props.match.params.roomId, token: localStorage.getItem('token')}}))
