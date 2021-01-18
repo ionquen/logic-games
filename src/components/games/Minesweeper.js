@@ -60,7 +60,7 @@ export default class Tictactoe extends React.Component {
           break
         }
         case 'explode': 
-          this.displayPoint(data.x, data.y, -2)
+          this.displayPoint(data.cell%this.props.gameInfo.boardSizeX, ~~(data.cell/this.props.gameInfo.boardSizeX), 9)
           this.setState({alertValue: `${this.props.players[data.currentPlayer].userName} взорвался`})
           break
         case 'progress': {
@@ -114,10 +114,6 @@ export default class Tictactoe extends React.Component {
     ctx.font = "24px serif"
     if (value!==undefined) this.board[this.props.gameInfo.boardSizeX*y + x] = value
     switch (value) {
-      case -2: { //explosion
-        ctx.fillStyle="red"
-        ctx.fillRect(x*25, y*25, 25, 25)
-        break}
       case -1: { //highlight a bomb
         ctx.fillStyle="green"
         ctx.fillRect(x*25, y*25, 25, 25)
@@ -136,6 +132,10 @@ export default class Tictactoe extends React.Component {
       case 6: ctx.fillStyle="aqua"; break
       case 7: ctx.fillStyle="yellow"; break
       case 8: ctx.fillStyle="brown"; break
+      case 9: { 
+        ctx.fillStyle="red"
+        ctx.fillRect(x*25, y*25, 25, 25)
+        break}
       default: ;break
     }
     if (value>0) ctx.fillText(value, x*25+7, y*25+20)
@@ -167,7 +167,7 @@ export default class Tictactoe extends React.Component {
     const coord = y*this.props.gameInfo.boardSizeX+x
     if (this.state.actionTypeDefuse&&typeClick==="left") {
       if (!this.board.hasOwnProperty(coord)) {
-        this.props.emitter.emit('action', {x: x, y: y})
+        this.props.emitter.emit('action', {cell: coord})
       }
     } else {//Пометить ячейку как заминированную
       if (this.board[coord]===undefined||this.board[coord]===-1) this.displayPoint(x, y, this.board[coord]===-1?undefined: -1)

@@ -48,7 +48,7 @@ export default class RoomInfo extends React.Component {
             max={10}
           />  
         </>)
-      case "sapper":  
+      case "sinesweeper":  
         return(
         <>
           <InputNumber label="Количество игроков" 

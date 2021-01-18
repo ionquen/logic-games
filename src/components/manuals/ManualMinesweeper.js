@@ -1,7 +1,7 @@
 import React from "react";
 import styles from '../../static/css/manual.module.css'
 
-export default function ManualSapper(props) {
+export default function ManualMinesweeper(props) {
   return(
       <article className={styles.manual}>
         <h1 className={styles.header1}>Руководство по игре Сапёр</h1>

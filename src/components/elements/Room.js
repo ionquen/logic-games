@@ -6,7 +6,7 @@ import styles from '../../static/css/room.module.css'
 import {Button} from './FormElements'
 
 const Tictactoe = lazy(() => import('../games/Tictactoe'))
-const Sapper = lazy(() => import('../games/Sapper'))
+const Minesweeper = lazy(() => import('../games/Minesweeper'))
 
 class Room extends React.Component {
   constructor(props) {
@@ -98,7 +98,7 @@ class Room extends React.Component {
     if(!this.state.roomInfo.started||this.state.gameInfo===undefined) return
     switch (this.state.roomInfo.gameId) {
       case "tictactoe": return <Tictactoe gameInfo={this.state.gameInfo} players={this.state.roomInfo.users} emitter={this.props.emitter} />
-      case "sapper": return <Sapper gameInfo={this.state.gameInfo} players={this.state.roomInfo.users} emitter={this.props.emitter} />
+      case "sapper": return <Minesweeper gameInfo={this.state.gameInfo} players={this.state.roomInfo.users} emitter={this.props.emitter} />
       default: break
     }
   }

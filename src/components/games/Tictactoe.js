@@ -53,7 +53,6 @@ export default class Tictactoe extends React.Component {
           break
         case 'error': 
           this.displayPoint(data.cell, data.x, data.y)
-          this.setState({alertValue: 'Выбранная ячейка занята'})
           break
         case 'matchFinished': 
           this.setState({alertValue: `Матч завершён. Победил ${this.props.players[this.props.gameInfo.queue[data.currentPlayerTurn]].userName}`})

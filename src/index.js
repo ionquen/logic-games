@@ -10,7 +10,7 @@ const Main = lazy(() => import('./components/Main'))
 const App = lazy(() => import('./components/App'))
 const ManualTictactoe = lazy(() => import('./components/manuals/ManualTictactoe'))
 const ManualSeabattle = lazy(() => import('./components/manuals/ManualSeabattle'))
-const ManualSapper = lazy(() => import('./components/manuals/ManualSapper'))
+const ManualMinesweeper = lazy(() => import('./components/manuals/ManualMinesweeper'))
 const ManualReversi = lazy(() => import('./components/manuals/ManualReversi'))
 const Support = lazy(() => import('./components/manuals/Support'))
 const Rules = lazy(() => import('./components/manuals/Rules'))
@@ -29,13 +29,13 @@ ReactDOM.render(
             let popupValue, result
             splitSearch.forEach(item => item[0]==="popup"?popupValue = item[1]:false)
             switch(popupValue) {
-              case "settings": result = <Settings></Settings>; break
-              case "tictactoe": result = <ManualTictactoe></ManualTictactoe>; break
-              case "seabattle": result = <ManualSeabattle></ManualSeabattle>; break
-              case "sapper": result = <ManualSapper></ManualSapper>; break
-              case "reversi": result = <ManualReversi></ManualReversi>; break
-              case "support": result = <Support></Support>; break
-              case "rules": result = <Rules></Rules>; break
+              case "settings": result = <Settings/>; break
+              case "tictactoe": result = <ManualTictactoe/>; break
+              case "seabattle": result = <ManualSeabattle/>; break
+              case "sapper": result = <ManualMinesweeper />; break
+              case "reversi": result = <ManualReversi/>; break
+              case "support": result = <Support/>; break
+              case "rules": result = <Rules/>; break
               default: break
             }
             if (popupValue) return <Popup pathname={props.location.pathname}>{result}</Popup>
