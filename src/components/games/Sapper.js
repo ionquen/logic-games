@@ -184,9 +184,9 @@ export default class Tictactoe extends React.Component {
               />
 
               <Alert value={this.state.alertValue} />
-              <button className={`${sapperStyle.button} ${this.state.actionTypeDefuse?"":sapperStyle.highlite}`} 
+              <div className={`${sapperStyle.button} ${this.state.actionTypeDefuse?"":sapperStyle.highlite}`} 
                 onClick={() => this.setState({actionTypeDefuse: this.state.actionTypeDefuse?false:true})} >
-              </button>
+              </div>
               <div className={styles.canvas}>
                 <canvas ref={this.canvas} 
                   onClick={(e) => this.action(e, "left")} 
