@@ -7,7 +7,8 @@ export default class Alert extends React.Component {
     this.alertDisplay = false
     this.alertTimeoutDestroy = undefined
   }
-  shouldComponentUpdate = () => {
+  shouldComponentUpdate = (nextProps) => {
+    if (nextProps.value===this.props.value) return false
     this.alertDisplay = true
     if (this.alertTimeoutDestroy!==undefined) {
       clearTimeout(this.alertTimeoutDestroy)
