@@ -1,5 +1,5 @@
-import React from 'react';
-import {Link} from "react-router-dom";
+import React from 'react'
+import {Link} from "react-router-dom"
 import styles from '../../static/css/leftbar.module.css'
 import {ReactComponent as SvgIconBtnDisplayLeftbar} from '../../static/img/list-check.svg'
 

@@ -1,11 +1,12 @@
-import React from 'react';
-import {Link, Redirect} from "react-router-dom";
-import Popup from './Popup';
-import RoomCreate from './RoomCreate';
-import RoomDetails from './RoomDetails';
+import React from 'react'
+import {Link, Redirect} from "react-router-dom"
+import Popup from './Popup'
+import RoomCreate from './RoomCreate'
+import RoomDetails from './RoomDetails'
 import {ReactComponent as SvgIconInfo} from '../../static/img/information-fill.svg'
 import styles from '../../static/css/lobby.module.css'
 import {InputTextSubmit, Button} from './FormElements'
+import {gameById} from '../../lang/Lang.js'
 
 
 class Lobby extends React.Component {
@@ -55,14 +56,16 @@ class Lobby extends React.Component {
             }
         }
         ws.onerror = (e) => {
-            this.props.emitter.emit('global', 'Ошибка соединения (Глобальный чат): ' + e)
+            this.props.emitter.emit('global', 'Ошибка подключения к лобби')
         }
         this.ws=ws
     }
     componentWillUnmount() {
         this.ws.close()
     }
+    
     componentWillReceiveProps(nextProps) {
+        //Меняем содержимое лобби при смене лобби игры
         if(this.props.match.params.gameId!==nextProps.match.params.gameId) this.ws.send(JSON.stringify({type: 'list', data: {gameId: ""+nextProps.match.params.gameId}}))
     }
     createNewRoom = () => this.props.setPopupUntracked(
@@ -107,11 +110,7 @@ class DisplayRoom extends React.Component {
     
     tags = () => {
         let result = []
-        switch (this.props.data.gameId) {
-            case "tictactoe": result.push('Tic tac toe')
-                break
-            default: break
-        }
+        result.push(gameById(this.props.data.gameId))
         if (this.props.data.usePw) result.push('password')
         result.push('public')
         if (this.props.data.autostart) result.push('autostart')

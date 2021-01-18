@@ -1,5 +1,5 @@
-import React from "react";
-import {InputButtonSubmit, Input} from './FormElements';
+import React from "react"
+import {InputButtonSubmit, Input} from './FormElements'
 import styles from '../../static/css/roomInfo.module.css'
 
 export default class Settings extends React.Component {

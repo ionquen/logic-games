@@ -1,6 +1,6 @@
-import React, { Suspense, lazy } from 'react';
-import RoomInfo from './RoomInfo';
-import {Link, Redirect} from "react-router-dom";
+import React, { Suspense, lazy } from 'react'
+import RoomInfo from './RoomInfo'
+import {Link, Redirect} from "react-router-dom"
 import {ReactComponent as SvgIconBtnToLobby} from '../../static/img/list-check.svg'
 import styles from '../../static/css/room.module.css'
 import {Button} from './FormElements'
@@ -86,7 +86,7 @@ class Room extends React.Component {
     this.props.emitter.emit('private', 'Выполнено отключение от комнаты')
   }
   componentWillReceiveProps(nextProps) {
-      //Reconnect to next room by RoomId
+      //Переподключаемся к другой комнате (невозможно кста)
       if(this.props.match.params.roomId!==nextProps.match.params.roomId) this.ws.send(JSON.stringify({type: 'connect', data: {roomId: nextProps.match.params.roomId, token: localStorage.getItem('token')}}))
   }
 

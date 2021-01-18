@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import styles from '../../static/css/formElements.module.css'
 class Select extends React.Component {
   constructor(props) {
@@ -44,11 +44,11 @@ class InputNumber extends React.Component {
     }
   }
   render() {
-    const {label, ...other} = this.props
+    const {label, min, max, ...other} = this.props
     return(
     <div className={styles.number}>
       <label>
-        <input {...other}  value={this.state.value}type="number" onChange={e => this.setState({value: e.target.value>=this.props.min&&e.target.value<=this.props.max?e.target.value:this.props.min})} />
+        <input {...other}  value={this.state.value}type="number" onChange={e => this.setState({value: e.target.value>=min&&e.target.value<=max?e.target.value:min})} />
         <div>{label}</div>
       </label>
     </div>

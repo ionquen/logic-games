@@ -1,5 +1,5 @@
-import React from "react";
-import {Input, InputNumber, Select, Checkbox} from '../elements/FormElements';
+import React from "react"
+import {Input, InputNumber, Select, Checkbox} from '../elements/FormElements'
 import styles from '../../static/css/roomInfo.module.css'
 import {allGames} from '../../lang/Lang.js'
 
@@ -78,7 +78,7 @@ export default class RoomInfo extends React.Component {
           <InputNumber label="Количество мин (сложность)" 
             disabled={this.props.disabled} 
             name="minesCount"
-            value={15}
+            value={30}
             min={5} max={40}
           />  
         </>)
@@ -103,8 +103,8 @@ export default class RoomInfo extends React.Component {
                 {
                   let namesArray = []
                   const gamesName = allGames()
-                  for (let prop in gamesName) {
-                    namesArray.push({name: prop, value: gamesName[prop]})
+                  for (let game in gamesName) {
+                    namesArray.push({name: game, value: gamesName[game]})
                   }
                   return namesArray
                 })()}

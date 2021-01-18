@@ -11,7 +11,6 @@ export default class Tictactoe extends React.Component {
     this.state = {
       score: props.gameInfo.score,
       alertValue: "", 
-      lasttime: props.gameInfo.lasttime,
       actionTypeDefuse: true
     }
     this.canvas = React.createRef()
@@ -84,6 +83,7 @@ export default class Tictactoe extends React.Component {
   componentDidMount() {
     this.clear()
     const savedData = localStorage.getItem('sapperData')
+    //Получение сохранённого состояния поля
     if (!savedData=="") {
       const parsedSavedData = JSON.parse(savedData)
       let scoreSum = 0
@@ -99,7 +99,8 @@ export default class Tictactoe extends React.Component {
     }
   }
   componentWillUnmount() {
-    let scoreSum = 0 //Идентификатор текущего раунда на случай вылета
+    //Сохранение текущего состояния поля на случай вылета
+    let scoreSum = 0 
     for (let item in this.state.score) {
       scoreSum+=this.state.score[item][0]
     }

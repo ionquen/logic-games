@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 import {ReactComponent as IconChatSend} from '../../static/img/send-plane-line.svg'
 import {ReactComponent as IconChatDisplay} from '../../static/img/chat-4-line.svg'
@@ -96,6 +96,7 @@ class Chat extends React.Component {
   //display message in chat
   globalMessage = msg => this.setState(prevState => ({msgsG: [...prevState.msgsG,msg]}))
   privateMessage = msg => this.setState(prevState => ({msgsP: [...prevState.msgsP,msg]}))
+  
   displayChat = () => this.setState({hidden: this.state.hidden?false:true})
 
   render() {

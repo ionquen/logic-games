@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import styles from '../../../static/css/score.module.css'
 /*
   displayCurrentPlayer - Выделить текущего игрока
@@ -21,7 +21,13 @@ export default class Scoreboard extends React.Component {
     this.playerTurnTimer = undefined
   }
   componentDidMount() {
-    if (this.props.displayCurrentPlayer) this.playerTurnTimer = setInterval(() => this.paused?null:this.setState({timeleft: ~~((this.props.timeTurn + this.props.lasttime - Date.now())/1000)}), 1000)
+    //Отображение оставшегося времени у игрока
+    if (this.props.displayCurrentPlayer) this.playerTurnTimer = setInterval(() => {
+      if (!this.paused) {
+        const newTimeleft = ~~((this.props.timeTurn + this.props.lasttime - Date.now())/1000)
+        this.setState({timeleft: newTimeleft})
+      }
+    }, 1000)
   }
   componentWillUnmount() {
     if (this.props.displayCurrentPlayer) clearInterval(this.playerTurnTimer)

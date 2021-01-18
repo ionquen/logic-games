@@ -1,6 +1,6 @@
-import React from "react";
-import RoomInfo from './RoomInfo';
-import {InputButtonSubmit} from './FormElements';
+import React from "react"
+import RoomInfo from './RoomInfo'
+import {InputButtonSubmit} from './FormElements'
 
 export default class RoomDetails extends React.Component {
   
