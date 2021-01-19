@@ -119,7 +119,7 @@ class Room extends React.Component {
                       <SvgIconBtnToLobby />
                       <span>В лобби</span>
                     </Link>:
-                    <RoomInfo {...this.state.roomInfo} disabled={true}>
+                    <RoomInfo {...this.state.roomInfo} disabled={true} >
                       {this.state.roomInfo.creator!== +localStorage.userId?null:
                       <Button onClick={this.startTheGame}>Начать игру</Button>
                       }

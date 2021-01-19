@@ -88,7 +88,7 @@ export default class RoomInfo extends React.Component {
   render() {
     return(
       <>
-      <div className={styles.roomInfo}>
+      <div className={`${styles.roomInfo}`}>
         <div>
           <div>{this.props.roomId===undefined?"Создание комнаты": "Комната #"+this.props.roomId}</div>
         </div>
