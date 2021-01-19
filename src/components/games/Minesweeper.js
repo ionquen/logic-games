@@ -4,7 +4,10 @@ import Alert from './parts/Alert'
 
 import styles from '../../static/css/canvas.module.css'
 import sapperStyle from '../../static/css/sapper.module.css'
-
+import IconClosed from '../../static/img/Minesweeper/closed.png'
+import IconOpened from '../../static/img/Minesweeper/opened.png'
+import IconFlag from '../../static/img/Minesweeper/flag.png'
+import IconBomb from '../../static/img/Minesweeper/redbomb.png'
 export default class Tictactoe extends React.Component {
   constructor(props) {
     super(props) 
@@ -111,51 +114,68 @@ export default class Tictactoe extends React.Component {
 
   displayPoint = (x, y, value) => {
     const ctx = this.canvas.current.getContext('2d')
-    ctx.font = "24px serif"
+    ctx.font = "800 24px inter"
     if (value!==undefined) this.board[this.props.gameInfo.boardSizeX*y + x] = value
     switch (value) {
       case -1: { //highlight a bomb
-        ctx.fillStyle="green"
-        ctx.fillRect(x*25, y*25, 25, 25)
+        const cellFlagIcon = new Image()
+        cellFlagIcon.src = IconFlag
+        cellFlagIcon.onload = () => {
+          ctx.drawImage(cellFlagIcon, x*25, y*25, 25, 25)
+        }
         break}
       case undefined: { //clear a cell
-        ctx.fillStyle="gray"
-        ctx.fillRect(x*25, y*25, 25, 25)
-        delete this.board[this.props.gameInfo.boardSizeX*y + x]
+        const cellClosedIcon = new Image()
+        cellClosedIcon.src = IconClosed
+        cellClosedIcon.onload = () => {
+          ctx.drawImage(cellClosedIcon, x*25, y*25, 25, 25)
+          delete this.board[this.props.gameInfo.boardSizeX*y + x]
+        }
         break}
-      case 0: ctx.fillStyle="white"; break
-      case 1: ctx.fillStyle="blue"; break
-      case 2: ctx.fillStyle="green"; break
-      case 3: ctx.fillStyle="red"; break
-      case 4: ctx.fillStyle="blue"; break
-      case 5: ctx.fillStyle="brown"; break
-      case 6: ctx.fillStyle="aqua"; break
-      case 7: ctx.fillStyle="yellow"; break
-      case 8: ctx.fillStyle="brown"; break
       case 9: { 
-        ctx.fillStyle="red"
-        ctx.fillRect(x*25, y*25, 25, 25)
+        const cellBombIcon = new Image()
+        cellBombIcon.src = IconBomb
+        cellBombIcon.onload = () => {
+          ctx.drawImage(cellBombIcon, x*25, y*25, 25, 25)
+        }
         break}
-      default: ;break
+      default: break
     }
-    if (value>0) ctx.fillText(value, x*25+7, y*25+20)
-    if (value===0) ctx.fillRect(x*25, y*25, 25, 25)
+    if (value>=0&&value<9) {
+      const cellOpenedIcon = new Image()
+      cellOpenedIcon.src = IconOpened
+      cellOpenedIcon.onload = () => {
+        switch (value) {
+          case 1: ctx.fillStyle="blue"; break
+          case 2: ctx.fillStyle="green"; break
+          case 3: ctx.fillStyle="red"; break
+          case 4: ctx.fillStyle="blue"; break
+          case 5: ctx.fillStyle="brown"; break
+          case 6: ctx.fillStyle="aqua"; break
+          case 7: ctx.fillStyle="yellow"; break
+          case 8: ctx.fillStyle="brown"; break
+          default: break
+        }
+        ctx.drawImage(cellOpenedIcon, x*25, y*25, 25, 25)
+        if (value>0) ctx.fillText(value, x*25+5, y*25+22)
+      }
+    }
   }
   clear = () => {
-    const ctx = this.canvas.current.getContext('2d')
-    ctx.clearRect(0,0,(this.props.gameInfo.boardSizeX+1)*25, (this.props.gameInfo.boardSizeY+1)*25)
-    ctx.strokeStyle = '#000'
-    ctx.lineWidth = 1
-    ctx.beginPath();
-    for(let i = 0; i <= this.props.gameInfo.boardSizeX; i++) {
-      ctx.moveTo(i*25, 0)
-      ctx.lineTo(i*25, this.props.gameInfo.boardSizeY*25)
+    const cellClosedIcon = new Image()
+    cellClosedIcon.src = IconClosed
+    cellClosedIcon.onload = () => {
+      const ctx = this.canvas.current.getContext('2d')
+      ctx.clearRect(0,0,(this.props.gameInfo.boardSizeX+1)*25, (this.props.gameInfo.boardSizeY+1)*25)
+      ctx.strokeStyle = '#000'
+      ctx.lineWidth = 1
+      ctx.beginPath();
+      for(let i = 0; i < this.props.gameInfo.boardSizeX; i++) {
+        for (let j = 0; j <this.props.gameInfo.boardSizeY; j++) {
+          ctx.drawImage(cellClosedIcon, i*25, j*25, 25, 25)
+        }
+      }
     }
-    for(let i = 0; i <= this.props.gameInfo.boardSizeY; i++) {
-      ctx.moveTo(0, i*25)
-      ctx.lineTo(this.props.gameInfo.boardSizeX*25, i*25)
-    }
-    ctx.stroke()
 
   }
   action = (e, typeClick) => {

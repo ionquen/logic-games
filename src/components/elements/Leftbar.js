@@ -22,7 +22,7 @@ class Left extends React.Component {
                             </Link>
                         </div>
                         <div>
-                            <Link to="/g/sapper">
+                            <Link to="/g/minesweeper">
                                 <div>Сапёр</div>
                             </Link>
                         </div>

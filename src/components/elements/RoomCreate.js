@@ -28,7 +28,7 @@ export default class CreateNewRoom extends React.Component {
         timeTurn: +e.target.timeTurn.value*1000,
         cellsForWin: +e.target.cellsForWin.value,
       }
-      case "sapper": return {
+      case "minesweeper": return {
         players: e.target.players.value,
         roundsForWin: +e.target.roundsForWin.value,
         boardSizeX: +e.target.boardSizeX.value,
