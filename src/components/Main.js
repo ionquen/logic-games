@@ -41,15 +41,23 @@ class Main extends React.Component {
                         <div>У нас лучшие логические совместные игры. Никакой регистрации, авторизации, рекламы на нашем ресурсе и при этом совершенно бесплатно!</div>
                     </header>
                     <div className={styles.img}>
-                        <Mainsvg />
+                        <Mainsvg alt="" />
                     </div>
                     <nav className={styles.catalog}>
                         <ArrowLeft className={styles.arrowLeft} onClick={() => this.scrollLeft(-218)}/>
                         <ArrowRight className={styles.arrowRight} onClick={() => this.scrollLeft(+218)} />
                         <div ref={this.catalogList} onWheel={(e) => this.scrollLeft(e.deltaY)}>
                             <div>
-                                <Link to="/g/tictactoe">
+                                <Link to="/g/tictactoe" alt="Tic tac toe game" >
                                     <div>Крестики-нолики</div>
+                                    <AnimateTTT />
+                                </Link>
+                                <Link to="/g/minesweeper" alt="Minesweeper game" >
+                                    <div>Сапёр</div>
+                                    <AnimateTTT />
+                                </Link>
+                                <Link to="/g/reversi" alt="Reversi game" >
+                                    <div>Реверси</div>
                                     <AnimateTTT />
                                 </Link>
                             </div>
@@ -58,7 +66,7 @@ class Main extends React.Component {
                     <footer class={styles.footer}>
                         <div>games.ionquen.ru</div>
                         <div>github.com/ionquen</div>
-                        <div>ionqwen@gmail.com</div>
+                        <div>ionquen@pm.me</div>
                         <div>2021</div>
                     </footer>
                 </div>

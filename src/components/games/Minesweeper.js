@@ -63,7 +63,7 @@ export default class Tictactoe extends React.Component {
           break
         }
         case 'explode': 
-          this.displayPoint(data.cell%this.props.gameInfo.boardSizeX, ~~(data.cell/this.props.gameInfo.boardSizeX), 9)
+          if (this.playerNumber===data.currentPlayer) this.displayPoint(data.cell%this.props.gameInfo.boardSizeX, ~~(data.cell/this.props.gameInfo.boardSizeX), 9)
           this.setState({alertValue: `${this.props.players[data.currentPlayer].userName} взорвался`})
           break
         case 'progress': {
