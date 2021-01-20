@@ -1,8 +1,8 @@
 import React from 'react'
 import {Link} from "react-router-dom"
 
-import {ReactComponent as IconMenu} from '../../static/img/menu-line.svg'
-import {ReactComponent as IconSettings} from '../../static/img/sound-module-line.svg'
+import {ReactComponent as IconMenu} from '../../static/img/icons/menu-line.svg'
+import {ReactComponent as IconSettings} from '../../static/img/icons/sound-module-line.svg'
 import styles from '../../static/css/topbar.module.css'
 import {gameById} from '../../lang/Lang.js'
 

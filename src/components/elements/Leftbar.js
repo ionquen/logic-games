@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from "react-router-dom"
 import styles from '../../static/css/leftbar.module.css'
-import {ReactComponent as SvgIconBtnDisplayLeftbar} from '../../static/img/list-check.svg'
+import {ReactComponent as IconList} from '../../static/img/icons/list-check.svg'
 
 
 class Left extends React.Component {
@@ -34,7 +34,7 @@ class Left extends React.Component {
                     </div>
                 </aside>
                 <div className={styles.leftbarStateBtn} onClick={() => this.setState(prevState => ({leftbarDisplay: prevState.leftbarDisplay?false:true}))}>
-                    <SvgIconBtnDisplayLeftbar />
+                    <IconList />
                 </div>
             </>
         )

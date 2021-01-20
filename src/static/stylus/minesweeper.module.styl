@@ -1,0 +1,22 @@
+@require 'common.styl'
+.button
+    position absolute
+    top 70px
+    right 14px
+    height 46px
+    width 46px
+    z-index 101
+    border-radius 23px
+    box-sizing content-box
+    user-select none
+    background-repeat no-repeat
+    background-size 42px 42px
+    background-color corange1
+    background-image url('../img/minesweeper/games_bomb.svg')
+    background-position center 
+    background-size 35px 35px
+    cursor pointer
+    &.highlite
+        background-image url('../img/minesweeper/games_flag.svg')
+    &:hover 
+        background-color corange2

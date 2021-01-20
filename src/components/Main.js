@@ -1,9 +1,12 @@
 import React from 'react'
 import {Link} from "react-router-dom"
-import {ReactComponent as Mainsvg} from '../static/img/main-img.svg'
-import {ReactComponent as ArrowRight} from '../static/img/arrow-right-s-line.svg'
-import {ReactComponent as ArrowLeft} from '../static/img/arrow-left-s-line.svg'
-import {ReactComponent as AnimateTTT} from '../static/img/ttt.svg'
+import {ReactComponent as ArrowRight} from '../static/img/icons/arrow-right-s-line.svg'
+import {ReactComponent as ArrowLeft} from '../static/img/icons/arrow-left-s-line.svg'
+
+import {ReactComponent as Mainsvg} from '../static/img/main-page/main-img.svg'
+import {ReactComponent as MainTictactoe} from '../static/img/main-page/games_tictactoe.svg'
+import {ReactComponent as MainMinesweeper} from '../static/img/main-page/games_minesweeper.svg'
+import {ReactComponent as MainReversi} from '../static/img/main-page/games_reversi.svg'
 import styles from '../static/css/main.module.css'
 import Granim from 'granim'
 
@@ -49,16 +52,56 @@ class Main extends React.Component {
                         <div ref={this.catalogList} onWheel={(e) => this.scrollLeft(e.deltaY)}>
                             <div>
                                 <Link to="/g/tictactoe" alt="Tic tac toe game" >
-                                    <div>Крестики-нолики</div>
-                                    <AnimateTTT />
+                                    <div>TicTacToe</div>
+                                    <div><MainTictactoe /></div>
                                 </Link>
+                            </div>
+                            <div>
                                 <Link to="/g/minesweeper" alt="Minesweeper game" >
-                                    <div>Сапёр</div>
-                                    <AnimateTTT />
+                                    <div>Minesweeper</div>
+                                    <div><MainMinesweeper /></div>
                                 </Link>
+                            </div>
+                            <div>
                                 <Link to="/g/reversi" alt="Reversi game" >
-                                    <div>Реверси</div>
-                                    <AnimateTTT />
+                                    <div>Reversi</div>
+                                    <div><MainReversi /></div>
+                                </Link>
+                            </div>
+                            <div>
+                                <Link to="/g/tictactoe" alt="Tic tac toe game" >
+                                    <div>TicTacToe</div>
+                                    <div><MainTictactoe /></div>
+                                </Link>
+                            </div>
+                            <div>
+                                <Link to="/g/minesweeper" alt="Minesweeper game" >
+                                    <div>Minesweeper</div>
+                                    <div><MainMinesweeper /></div>
+                                </Link>
+                            </div>
+                            <div>
+                                <Link to="/g/reversi" alt="Reversi game" >
+                                    <div>Reversi</div>
+                                    <div><MainReversi /></div>
+                                </Link>
+                            </div>
+                            <div>
+                                <Link to="/g/tictactoe" alt="Tic tac toe game" >
+                                    <div>TicTacToe</div>
+                                    <div><MainTictactoe /></div>
+                                </Link>
+                            </div>
+                            <div>
+                                <Link to="/g/minesweeper" alt="Minesweeper game" >
+                                    <div>Minesweeper</div>
+                                    <div><MainMinesweeper /></div>
+                                </Link>
+                            </div>
+                            <div>
+                                <Link to="/g/reversi" alt="Reversi game" >
+                                    <div>Reversi</div>
+                                    <div><MainReversi /></div>
                                 </Link>
                             </div>
                         </div>

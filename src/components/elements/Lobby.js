@@ -3,10 +3,10 @@ import {Link, Redirect} from "react-router-dom"
 import Popup from './Popup'
 import RoomCreate from './RoomCreate'
 import RoomDetails from './RoomDetails'
-import {ReactComponent as SvgIconInfo} from '../../static/img/information-fill.svg'
 import styles from '../../static/css/lobby.module.css'
 import {InputTextSubmit, Button} from './FormElements'
 import {gameById} from '../../lang/Lang.js'
+import {ReactComponent as IconInfo} from '../../static/img/icons/information-fill.svg'
 
 
 class Lobby extends React.Component {
@@ -156,7 +156,7 @@ class DisplayRoom extends React.Component {
                     <div>
                         <Button onClick={this.moreDetails}>
                             <span>Подробнее</span>
-                            <SvgIconInfo />
+                            <IconInfo />
                         </Button>
                     </div>
                     }

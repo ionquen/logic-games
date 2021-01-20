@@ -1,9 +1,9 @@
 import React from 'react'
 
-import {ReactComponent as IconChatSend} from '../../static/img/send-plane-line.svg'
-import {ReactComponent as IconChatDisplay} from '../../static/img/chat-4-line.svg'
-import {ReactComponent as IconChatChange} from '../../static/img/arrow-up-down-line.svg'
-import {ReactComponent as IconCross} from '../../static/img/close-fill.svg'
+import {ReactComponent as IconChatSend} from '../../static/img/icons/send-plane-line.svg'
+import {ReactComponent as IconChatDisplay} from '../../static/img/icons/chat-4-line.svg'
+import {ReactComponent as IconChatChange} from '../../static/img/icons/arrow-up-down-line.svg'
+import {ReactComponent as IconCross} from '../../static/img/icons/close-fill.svg'
 import {InputTextSubmit} from './FormElements'
 
 import styles from '../../static/css/chat.module.css'

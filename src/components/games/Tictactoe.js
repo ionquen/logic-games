@@ -85,11 +85,11 @@ export default class Tictactoe extends React.Component {
       switch (value) {
         case 0: 
           animate(timestamp => {
-            ctx.clearRect(x*30+1, y*30+1, 28, 28)
             ctx.fillStyle = `rgba(200,200,255, ${timestamp<1000?timestamp/1000:timestamp>2000?1-(timestamp-2000)/1000:1})`
+            ctx.strokeStyle = "blue"
+            ctx.clearRect(x*30+1, y*30+1, 28, 28)
             ctx.fillRect(x*30+1, y*30+1, 28, 28)
             ctx.fill()
-            ctx.strokeStyle = "blue"
             ctx.beginPath()
             const coordFirstLine = Math.floor((timestamp<300?timestamp:300)/16)
             ctx.moveTo(x*30+6, y*30+6)
@@ -104,11 +104,11 @@ export default class Tictactoe extends React.Component {
         break
         case 1: 
           animate(timestamp => {
-            ctx.clearRect(x*30+1, y*30+1, 28, 28)
             ctx.fillStyle = `rgba(255,200,200, ${timestamp<1000?timestamp/1000:timestamp>2000?1-(timestamp-2000)/1000:1})`
+            ctx.strokeStyle = "red"
+            ctx.clearRect(x*30+1, y*30+1, 28, 28)
             ctx.fillRect(x*30+1, y*30+1, 28, 28)
             ctx.fill()
-            ctx.strokeStyle = "red"
             ctx.beginPath()
             ctx.arc(x*30+15, y*30+15, 9, 0,-Math.PI*(timestamp<600?timestamp/300:2), true)
             ctx.stroke()
@@ -117,12 +117,12 @@ export default class Tictactoe extends React.Component {
         case 2: 
           animate(timestamp => {
             ctx.clearRect(x*30+1, y*30+1, 28, 28)
-            ctx.fillStyle = `rgba(200,255,200, ${timestamp<1000?timestamp/1000:timestamp>2000?1-(timestamp-2000)/1000:1})`
             ctx.fillRect(x*30+1, y*30+1, 28, 28)
+            ctx.fillStyle = `rgba(200,255,200, ${timestamp<1000?timestamp/1000:timestamp>2000?1-(timestamp-2000)/1000:1})`
             ctx.fill()
-            ctx.fillStyle = "green"
             ctx.beginPath()
             ctx.arc(x*30+15, y*30+15, timestamp<600?timestamp/85:7, 0, Math.PI*2, true)
+            ctx.fillStyle = "green"
             ctx.fill()
           }, 3000)
         break
@@ -131,24 +131,24 @@ export default class Tictactoe extends React.Component {
     } else {
       switch (value) {
         case 0: 
-          ctx.strokeStyle = "blue"
           ctx.beginPath()
           ctx.moveTo(x*30+6, y*30+6)
           ctx.lineTo(x*30+24, y*30+24)
           ctx.moveTo(x*30+24, y*30+6)
           ctx.lineTo(x*30+6, y*30+24)
+          ctx.strokeStyle = "blue"
           ctx.stroke()
         break
         case 1: 
-          ctx.strokeStyle = "red"
           ctx.beginPath()
           ctx.arc(x*30+15, y*30+15, 9, 0, Math.PI * 2, true)
+          ctx.strokeStyle = "red"
           ctx.stroke()
         break
         case 2: 
-          ctx.fillStyle = "green"
           ctx.beginPath()
           ctx.arc(x*30+15, y*30+15, 7, 0, Math.PI * 2, true)
+          ctx.fillStyle = "green"
           ctx.fill()
         break
         default: break

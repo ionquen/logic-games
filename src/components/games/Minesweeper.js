@@ -3,11 +3,13 @@ import Scoreboard from './parts/Scoreboard'
 import Alert from './parts/Alert'
 
 import styles from '../../static/css/canvas.module.css'
-import sapperStyle from '../../static/css/sapper.module.css'
-import IconClosed from '../../static/img/Minesweeper/closed.png'
-import IconOpened from '../../static/img/Minesweeper/opened.png'
-import IconFlag from '../../static/img/Minesweeper/flag.png'
-import IconBomb from '../../static/img/Minesweeper/redbomb.png'
+import sapperStyle from '../../static/css/minesweeper.module.css'
+
+import IconClosed from '../../static/img/minesweeper/games_sapper-cell.svg'
+import IconOpened from '../../static/img/minesweeper/games_sapper-clear.svg'
+import IconFlag from '../../static/img/minesweeper/games_sapper-flag.svg'
+import IconBomb from '../../static/img/minesweeper/games_sapper-bomb.svg'
+
 export default class Tictactoe extends React.Component {
   constructor(props) {
     super(props) 

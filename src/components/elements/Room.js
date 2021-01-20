@@ -1,9 +1,9 @@
 import React, { Suspense, lazy } from 'react'
-import RoomInfo from './RoomInfo'
 import {Link, Redirect} from "react-router-dom"
-import {ReactComponent as SvgIconBtnToLobby} from '../../static/img/list-check.svg'
-import styles from '../../static/css/room.module.css'
+import RoomInfo from './RoomInfo'
 import {Button} from './FormElements'
+import styles from '../../static/css/room.module.css'
+import {ReactComponent as IconList} from '../../static/img/icons/list-check.svg'
 
 const Tictactoe = lazy(() => import('../games/Tictactoe'))
 const Minesweeper = lazy(() => import('../games/Minesweeper'))
@@ -116,7 +116,7 @@ class Room extends React.Component {
                   </div>
                   {this.state.roomInfo.started?
                     <Link to={`/g/${this.props.match.params.gameId}`} className={styles.btnToLobby}>
-                      <SvgIconBtnToLobby />
+                      <IconList />
                       <span>В лобби</span>
                     </Link>:
                     <RoomInfo {...this.state.roomInfo} disabled={true} >
