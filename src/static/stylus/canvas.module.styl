@@ -3,21 +3,22 @@
 .canvas
     position absolute
     top 50%
-    transform translate(0, -50%)
-    left 360px
-    width calc(100% - 380px)
+    transform translate(-50%, -50%)
+    left calc(50% + 180px)
+    max-width calc(100% - 380px)
     overflow scroll
     scrollbar-width none
-    height calc(100% - 170px)
+    max-height calc(100% - 170px)
     border-radius 6px
     background-color cwhite1
     text-align left
     @media all and (max-width 940px)
-        width 100%
-        left 0px
+        //max-width unset
+        max-width 100%
+        left 50%
         bottom 0px
         top auto
-        transform none
+        transform translate(-50%, 0)
     & > canvas 
         position relative
         margin 40px 0 0 40px
