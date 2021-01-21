@@ -4,12 +4,14 @@
     position absolute
     top 50%
     transform translate(0, -50%)
-    left 340px
-    width calc(100% - 340px)
+    left 360px
+    width calc(100% - 380px)
     overflow scroll
-    text-align center
     scrollbar-width none
     height calc(100% - 170px)
+    border-radius 6px
+    background-color cwhite1
+    text-align left
     @media all and (max-width 940px)
         width 100%
         left 0px
@@ -18,4 +20,145 @@
         transform none
     & > canvas 
         position relative
+        margin 40px 0 0 40px
 
+.ruler //30px
+    position absolute
+    left 0
+    top 0
+    pointer-events none
+    & > :nth-child(1)//Ruler top
+        position sticky
+        white-space nowrap
+        top 0
+        width calc(100% - 30px)
+        height 31px
+        margin-left 40px
+        &::after 
+            display block
+            position absolute
+            left 0
+            top 30px
+            content ''
+            width 100%
+            height 15px
+            background linear-gradient(-180deg, cwhite1, rgba(255,255,255,0))
+        & > *:after
+            right 0
+            top 1px
+            width 1px
+            height 28px
+    & > :nth-child(2)//Ruler left
+        position sticky
+        left 0
+        height calc(100% + 10px)
+        width 31px
+        margin-top 10px
+        &::after 
+            display block
+            position absolute
+            left 30px
+            top 0
+            content ''
+            width 15px
+            height 100%
+            background linear-gradient(90deg, cwhite1, rgba(255,255,255,0))
+        & > *::after
+            left 0
+            bottom 0
+            height 1px
+            width 25px
+    & > ol
+        background-color cwhite1
+        counter-reset ruler -1
+        & > li
+            position relative
+            display inline-block
+            text-align center
+            width 30px
+            height 30px
+            &::before //numeratic
+                position relative
+                line-height 30px
+                content counter(ruler)
+                counter-increment ruler
+            &::after //lines
+                position absolute
+                display block
+                content ''
+                background-color cgray1
+    & > :nth-child(3) //Corner and shadows
+        position absolute
+        left 0
+        top 0 
+        width 100%
+        height 100%
+        & > :nth-child(1)
+            display block
+            position sticky
+            left 0
+            top 0
+            width 30px
+            height 30px
+            background-color cwhite1
+            &::before
+                display block
+                position absolute
+                content ''
+                top 0
+                left 30px
+                width 60px
+                height 30px
+                background linear-gradient(90 deg, cwhite1, rgba(255,255,255,0))
+            &::after
+                display block
+                position absolute
+                content ''
+                top 30px
+                left 0
+                width 30px
+                height 60px
+                background linear-gradient(cwhite1, rgba(255,255,255,0))
+    & > :nth-child(4)
+        position absolute
+        left 0
+        top 0
+        width 100%
+        height 100%
+        text-align right
+        &::before
+            display inline-block
+            position sticky
+            content ''
+            right 0
+            top 0
+            width 60px 
+            height 30px
+            background linear-gradient(-90 deg, cwhite1, rgba(255,255,255,0))
+    & > :nth-child(5)
+        position absolute
+        display flex
+        left 0
+        top 0
+        width 100%
+        height 100%
+        align-items flex-end
+        &::before
+            display inline-block
+            position sticky
+            content ''
+            left 0
+            bottom 0
+            width 30px 
+            height 60px
+            background linear-gradient(0deg, cwhite1, rgba(255,255,255,0))
+
+
+
+
+
+.ruler24 > ol > li 
+    width 25px
+    height 25px
+    &::before
+        line-height 25px

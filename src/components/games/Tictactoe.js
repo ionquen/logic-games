@@ -1,7 +1,8 @@
-import React from 'react';
-import Scoreboard from './parts/Scoreboard';
-import Alert from './parts/Alert';
-import {animate} from './parts/CanvasTools';
+import React from 'react'
+import Scoreboard from './parts/Scoreboard'
+import Alert from './parts/Alert'
+import Ruler from './parts/Ruler'
+import {animate} from './parts/CanvasTools'
 
 import styles from '../../static/css/canvas.module.css'
 
@@ -198,7 +199,13 @@ export default class Tictactoe extends React.Component {
               <Alert value={this.state.alertValue} />
               
               <div className={styles.canvas}>
-                <canvas ref={this.canvas} onClick={this.actionTurn} width={(+this.props.gameInfo.boardSize)*30+1} height={(+this.props.gameInfo.boardSize)*30+1}></canvas> 
+                <canvas ref={this.canvas} 
+                  onClick={this.actionTurn} 
+                  width={(+this.props.gameInfo.boardSize)*30+1} 
+                  height={(+this.props.gameInfo.boardSize)*30+1} /> 
+                <Ruler className={styles.ruler}  
+                  countY={this.props.gameInfo.boardSize}
+                  countX={this.props.gameInfo.boardSize} />
               </div>
             </>
       )

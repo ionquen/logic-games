@@ -1,6 +1,7 @@
 import React from 'react'
 import Scoreboard from './parts/Scoreboard'
 import Alert from './parts/Alert'
+import Ruler from './parts/Ruler'
 
 import styles from '../../static/css/canvas.module.css'
 import sapperStyle from '../../static/css/minesweeper.module.css'
@@ -65,7 +66,7 @@ export default class Tictactoe extends React.Component {
           break
         }
         case 'explode': 
-          if (this.playerNumber===data.currentPlayer) this.displayPoint(data.cell%this.props.gameInfo.boardSizeX, ~~(data.cell/this.props.gameInfo.boardSizeX), 9)
+          if (this.playerNumber===Number(data.currentPlayer)) this.displayPoint(data.cell%this.props.gameInfo.boardSizeX, ~~(data.cell/this.props.gameInfo.boardSizeX), 9)
           this.setState({alertValue: `${this.props.players[data.currentPlayer].userName} взорвался`})
           break
         case 'progress': {
@@ -79,7 +80,7 @@ export default class Tictactoe extends React.Component {
         case 'error': 
           break
         case 'matchFinished': 
-          this.setState({alertValue: `Матч завершён. Победил ${this.props.players[data.currentPlayer].userName}`})
+          this.setState({alertValue: `Матч завершён. Победил ${this.props.players[Number(data.currentPlayer)].userName}`})
           break
         default: break
       }
@@ -217,6 +218,10 @@ export default class Tictactoe extends React.Component {
                   width={(+this.props.gameInfo.boardSizeX)*25+1} 
                   height={(+this.props.gameInfo.boardSizeY)*25+1}>
                 </canvas> 
+                <Ruler className={`${styles.ruler} ${styles.ruler24}`}  
+                  countX={this.props.gameInfo.boardSizeX} 
+                  countY={this.props.gameInfo.boardSizeY}
+                  />
               </div>
             </>
       )
