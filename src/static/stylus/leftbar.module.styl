@@ -1,4 +1,10 @@
 @require 'common.styl'
+
+@-moz-document url-prefix(){
+    .leftbar {
+        background-color oshadow
+    }
+}
 .leftbar
     flex 0 0 220px
     width 220px
@@ -23,13 +29,11 @@
         background-color cwhite1
         border-radius 6px
         overflow scroll
-        scrollbar-width thin
+        scrollbar-width none
         
         & > div
             position relative
-            border-radius 6px
             width 100%
-            margin 2px 0
             & div
                 padding 12px 5px
                 font-size 16px

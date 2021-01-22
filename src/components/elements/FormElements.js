@@ -48,7 +48,7 @@ class InputNumber extends React.Component {
     return(
     <div className={styles.number}>
       <label>
-        <input {...other}  value={this.state.value}type="number" onChange={e => this.setState({value: e.target.value>=min&&e.target.value<=max?e.target.value:min})} />
+        <input {...other}  value={this.state.value}type="number" onChange={e => this.setState({value: e.target.value<=max?e.target.value:min})} />
         <div>{label}</div>
       </label>
     </div>
@@ -70,7 +70,7 @@ class Checkbox extends React.Component {
           <label>
             <input {...other} 
               checked={this.state.value} 
-              onChange={e => this.setState({value: this.state.value?false:true})} 
+              onChange={e => this.setState({value: e.target.checked})} 
               type="checkbox"/>
             <div>{label}</div>
           </label>
@@ -89,7 +89,7 @@ class Input extends React.Component {
   render() {
     return(
       <div className={styles.input}>
-        <input {...this.props} checked={this.state.value} type="text" onChange={e => this.setState({value: e.target.value})} />
+        <input {...this.props} type="text" onChange={e => this.setState({value: e.target.value})} />
       </div>
     )
   }
