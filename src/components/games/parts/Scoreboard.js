@@ -64,7 +64,7 @@ export default class Scoreboard extends React.Component {
                     )}
                 </div>
                 {this.props.displayCurrentPlayer?
-                <div className={styles.scoreCurrentPlayer} style={{color: scoreColor, top: 25 + this.props.currentPlayerTurn*42+'px', backgroundColor: scoreColor}}>
+                <div className={styles.scoreCurrentPlayer} style={{color: scoreColor, top: 30 + this.props.currentPlayerTurn*42+'px', backgroundColor: scoreColor}}>
                   <div>{this.state.timeleft}</div>
                   <div style={{"border-color": scoreColor}}></div>
                   <div style={{"border-color": scoreColor}}></div>

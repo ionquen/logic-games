@@ -105,22 +105,24 @@ class Chat extends React.Component {
         <aside className={`${styles.chat} ${!this.state.hidden?styles.chatDisplay:''}`}>
           <div>
             <div>
-              <div onClick={() => this.setState({globalChat: this.state.globalChat?false:true})}>
-                <IconChatChange className={!this.state.globalChat?styles.global:null}/>
+              <div>
+                <div onClick={() => this.setState({globalChat: this.state.globalChat?false:true})}>
+                  <IconChatChange className={!this.state.globalChat?styles.global:null}/>
+                </div>
+              </div>
+              <div>
+                <div className={this.state.globalChat?styles.selected:null}>Глобальный чат</div>
+                <div className={!this.state.globalChat?styles.selected:null}>Приватный чат</div>
+              </div>
+              <div>
+                <div onClick={this.displayChat}>
+                  <IconCross />
+                </div>
               </div>
             </div>
             <div>
-              <div className={this.state.globalChat?styles.selected:null}>Глобальный чат</div>
-              <div className={!this.state.globalChat?styles.selected:null}>Приватный чат</div>
+              <Messages msgs={this.state.globalChat?this.state.msgsG:this.state.msgsP} />
             </div>
-            <div>
-              <div onClick={this.displayChat}>
-                <IconCross />
-              </div>
-            </div>
-          </div>
-          <div>
-            <Messages msgs={this.state.globalChat?this.state.msgsG:this.state.msgsP} />
           </div>
           <div>
             <InputTextSubmit name="inputMessage" 
