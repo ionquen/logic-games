@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from "react-router-dom"
+import Settings from './Settings.js'
 
 import {ReactComponent as IconMenu} from '../../static/img/icons/menu-line.svg'
 import {ReactComponent as IconSettings} from '../../static/img/icons/sound-module-line.svg'
@@ -30,13 +31,13 @@ class Topbar extends React.Component {
           <Link to={{search: `popup=${this.props.match.params.gameId}`}}>
             <span>Руководство: </span><span>{gameById(this.props.match.params.gameId)}</span>
           </Link>
-          <Link to={{search: "popup=settings"}}>
+          <div onClick={() => this.props.setPopupUntracked(<Settings setPopupUntracked={this.props.setPopupUntracked} />)} >
             <div>#{localStorage.getItem('userId')}</div>
             <div>{localStorage.getItem('userName')}</div>
             <div>
               <IconSettings />
             </div>
-          </Link>
+          </div>
         </header>
     )
   }

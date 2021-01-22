@@ -83,13 +83,13 @@ class Input extends React.Component {
   constructor(props) {
     super(props) 
     this.state = {
-      value: props.value||false
+      value: props.value||''
     }
   }
   render() {
     return(
       <div className={styles.input}>
-        <input {...this.props} type="text" onChange={e => this.setState({value: e.target.value})} />
+        <input {...this.props} type="text" value={this.state.value} onChange={e => this.setState({value: e.target.value})} />
       </div>
     )
   }

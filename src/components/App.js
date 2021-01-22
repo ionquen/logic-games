@@ -47,7 +47,7 @@ class App extends React.Component {
     render() {
         return (
             <>  
-                <Route path="/g/:gameId" component={props=><Topbar {...props}/>} />
+                <Route path="/g/:gameId" component={props=><Topbar {...props} setPopupUntracked={this.setPopupUntracked}/>} />
                 <div className={styles.page}>
                     <Switch>
                         <Route path="/g/:gameId/:roomId" render={props=>

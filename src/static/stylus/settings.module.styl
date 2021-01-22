@@ -1,0 +1,88 @@
+@require 'common.styl'
+
+@-moz-document url-prefix(){
+    .settings {
+        background-color oshadow
+    }
+}
+.settings
+    display block
+    position absolute
+    right 0
+    top 48px
+    width 340px
+    height calc(100% - 48px)
+    backdrop-filter drop-shadow(16px 16px 20px white) invert(10%) blur(10px)
+    box-shadow shadow1
+    z-index 204
+    animation settingsA 0.2s
+    @keyframes settingsA {
+        0% {
+            right -340px
+        }
+        100% {
+            right 0px
+        }
+    }
+    & > :nth-child(1) //body+header+button
+        display flex
+        flex-direction column
+        background-color cwhite1
+        height calc(100% - 28px)
+        border-radius 6px
+        margin 14px 14px 0px 14px
+        & > :nth-child(1)//header
+            display flex
+            flex 0 0 42px
+            border-bottom 1px solid oshadow
+            & > :nth-child(1),
+            & > :nth-child(3)
+                flex 0 0 42px
+                height 100%
+                position relative
+                & > :nth-child(1)
+                    left 6px
+                    top 6px
+                    border-radius 6px
+                    {IconSmall}
+                        
+            & > :nth-child(1) > :nth-child(1)
+                & > svg
+                    & > :nth-child(2)
+                        fill cblack3
+            & > :nth-child(2)//title
+                flex 1 1 232px
+                color cblack3
+                position relative
+                font-weight 700
+                text-transform uppercase
+                text-align center
+                line-height 42px
+                font-size 14px
+            & > :nth-child(3)
+                & > svg > :nth-child(2) 
+                    fill cblack3
+                
+                
+        & > :nth-child(2)//body (settings)
+            overflow-y scroll
+            scrollbar-width thin
+            flex 1 1 100px
+            & > div
+                padding 10px
+                font-size 13px
+                font-size 15px
+                & > :nth-child(2) 
+                    background-color oshadow
+            & > .title 
+                font-weight 600
+        & > :nth-child(3)//update settings
+            flex 0 0 72px
+            padding 14px
+            box-sizing border-box
+            & > :nth-child(1)
+                width 100%
+                height 42px
+
+    @media all and (max-width 500px)
+        width 100%

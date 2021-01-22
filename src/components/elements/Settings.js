@@ -1,42 +1,39 @@
 import React from "react"
 import {InputButtonSubmit, Input} from './FormElements'
-import styles from '../../static/css/roomInfo.module.css'
+import styles from '../../static/css/settings.module.css'
+import {ReactComponent as IconCross} from '../../static/img/icons/close-fill.svg'
 
-export default class Settings extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      displayButton: false,
-      userName: localStorage.getItem('userName'),
-    }
-  }
-  componentShouldUpdate = () => this.displayButton = true
-  saveChanges = (e) => {
+export default function Settings(props) {
+  function saveChanges(e) {
     e.preventDefault()
     if (e.target.userName.value.length < 20) localStorage.setItem("userName", e.target.userName.value)
-    
+    props.setPopupUntracked(null)
   }
-  render() {
-    return(
-      <div className={styles.roomInfo}>
+  return(
+    <div className={styles.settings}>
+      <form onSubmit={saveChanges}>
         <div>
+          <div></div>
           <div>Настройки</div>
+          <div onClick={() => props.setPopupUntracked(null)}>
+            <IconCross />
+          </div>
         </div>
-        <form onSubmit={this.saveChanges}>
+        <div>
+          <div className={styles.title}>Общие настройки</div>
           <div>
-            <div>
-              <div>Общие настройки</div>
-              <div>
-                <div>Никнейм</div>
-                <Input name="userName" value={this.state.userName} onChange={(e) => this.setState({userName: e.value, displayButton: true})} />
-                </div>
-            </div>
+            <div>Никнейм</div>
+            <Input name="userName" value={localStorage.getItem('userName')} />
           </div>
           <div>
-            {!this.state.displayButton?null:<InputButtonSubmit>Сохранить изменения</InputButtonSubmit>}
+            <div>Пользовательский ID</div>
+            <Input name="userName" disable={true} value={localStorage.getItem('userId')} />
           </div>
-        </form>
-      </div>
-    )
-  }
+        </div>
+        <div>
+          <InputButtonSubmit>Сохранить</InputButtonSubmit>
+        </div>
+      </form>
+    </div>
+  )
 }
