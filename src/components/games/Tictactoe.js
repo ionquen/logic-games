@@ -117,13 +117,13 @@ export default class Tictactoe extends React.Component {
         break
         case 2: 
           animate(timestamp => {
+            ctx.fillStyle = `rgba(200,255,200, ${timestamp<1000?timestamp/1000:timestamp>2000?1-(timestamp-2000)/1000:1})`
             ctx.clearRect(x*30+1, y*30+1, 28, 28)
             ctx.fillRect(x*30+1, y*30+1, 28, 28)
-            ctx.fillStyle = `rgba(200,255,200, ${timestamp<1000?timestamp/1000:timestamp>2000?1-(timestamp-2000)/1000:1})`
             ctx.fill()
+            ctx.fillStyle = "green"
             ctx.beginPath()
             ctx.arc(x*30+15, y*30+15, timestamp<600?timestamp/85:7, 0, Math.PI*2, true)
-            ctx.fillStyle = "green"
             ctx.fill()
           }, 3000)
         break
