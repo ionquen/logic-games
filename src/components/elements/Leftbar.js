@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from "react-router-dom"
 import styles from '../../static/css/leftbar.module.css'
 import {ReactComponent as IconList} from '../../static/img/icons/list-check.svg'
+import {allGames} from '../../lang/Lang.js'
 
 
 class Left extends React.Component {
@@ -11,26 +12,22 @@ class Left extends React.Component {
             leftbarDisplay: false
         }
     }
+    getItems() { 
+        return Object.entries(allGames()).map(game => 
+            <div className={this.props.match.params.gameId===game[0]?styles.select:''}>
+                <Link to={`/g/${game[0]}`}>
+                    <div>{game[1]}</div>
+                </Link>
+            </div>
+        )
+    }
     render() {
         return (
             <>
                 <aside className={`${styles.leftbar}  ${this.state.leftbarDisplay?styles.leftbarDisplay:''}`}>
-                    <div className={styles.games}>
-                        <div>
-                            <Link to="/g/tictactoe">
-                                <div>Крестики-нолики</div>
-                            </Link>
-                        </div>
-                        <div>
-                            <Link to="/g/minesweeper">
-                                <div>Сапёр</div>
-                            </Link>
-                        </div>
-                        <div>
-                            <Link to="/g/reversi">
-                                <div>Реверси</div>
-                            </Link>
-                        </div>
+
+                    <div>
+                        {this.getItems()}
                     </div>
                 </aside>
                 <div className={styles.leftbarStateBtn} onClick={() => this.setState(prevState => ({leftbarDisplay: prevState.leftbarDisplay?false:true}))}>

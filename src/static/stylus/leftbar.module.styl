@@ -3,12 +3,9 @@
     flex 0 0 220px
     width 220px
     height 100%
-    overflow scroll
-    background-color white03
     backdrop-filter: drop-shadow(-16px 16px 20px) invert(10%) blur(10px)
     box-shadow shadow1
     z-index 200
-    scrollbar-width thin
     transition 0.2s
     @media all and (max-width 760px)
         position absolute
@@ -21,6 +18,31 @@
             opacity 1
             visibility visible
             left 0px
+    & > :nth-child(1)
+        margin 14px 14px
+        background-color cwhite1
+        border-radius 6px
+        overflow scroll
+        scrollbar-width thin
+        
+        & > div
+            position relative
+            border-radius 6px
+            width calc(100% - 4px)
+            margin 2px 2px
+            & div
+                padding 12px 5px
+                font-size 16px
+                text-indent 15px
+            &:first-child
+                margin-top 5px
+            &:last-child
+                margin-bottom 5px
+
+            &:hover 
+                background-color corange1
+            &.select //Выделить выбранную игру из списка
+                background-color corange1
 
 
 .leftbarStateBtn
@@ -32,16 +54,3 @@
     @media all and (max-width 760px)
         display block
     
-.games
-    margin 15px 10px
-    & > div
-        position relative
-        border-radius 5px
-        width 100%
-        margin 2px 0px
-        & div
-            padding 12px 5px
-            font-size 16px
-            text-indent 15px
-        &:hover 
-            background-color cwhite1
