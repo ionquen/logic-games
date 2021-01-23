@@ -1,4 +1,10 @@
 @require 'common.styl'
+.fullpage
+    height 200%
+    min-height -moz-available
+    min-height -webkit-fill-available
+    min-height fill-available
+    max-height 100vh
 
 .page
     position absolute
@@ -6,7 +12,7 @@
     top 48px
     display flex
     width 100vw 
-    height calc(100vh - 48px)
+    height calc(100% - 48px)
     overflow hidden
     background-color white06
     & ~ canvas

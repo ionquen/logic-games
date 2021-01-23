@@ -19,33 +19,33 @@ export default class RoomInfo extends React.Component {
           <InputNumber label="Количество игроков" 
             name="players"
             disabled={this.props.disabled} 
-            value={2} 
+            value={this.props.max||2} 
             min={2} max={3}
           />
           <InputNumber label="Количество раундов для победы" 
             disabled={this.props.disabled} 
             name="roundsForWin"
-            value={10}
-            min={3} max={20}
+            value={this.props.gameProps?this.props.gameProps.roundsForWin:10}
+            min={5} max={30}
             />
           <InputNumber label="Время на ход" 
             disabled={this.props.disabled} 
             name="timeTurn"
-            value={20}
-            min={5} max={60}
+            value={this.props.gameProps?this.props.gameProps.timeTurn:20}
+            min={3} max={60}
             />
           <InputNumber label="Размер поля" 
             disabled={this.props.disabled} 
             name="boardSize"
-            value={30}
-            min={3} max={40}
+            value={this.props.gameProps?this.props.gameProps.boardSize:30}
+            min={3} max={30}
             />
           <InputNumber label="Длина ряда для победы" 
             disabled={this.props.disabled} 
             name="cellsForWin"
-            value={5}
+            value={this.props.gameProps?this.props.gameProps.cellsForWin:5}
             min={3} 
-            max={10}
+            max={30}
           />  
         </>)
       case "minesweeper":  
@@ -54,32 +54,32 @@ export default class RoomInfo extends React.Component {
           <InputNumber label="Количество игроков" 
             disabled={this.props.disabled} 
             name="players"
-            value={2} 
-            min={2} max={4}
+            value={this.props.max||2} 
+            min={2} max={5}
           />
           <InputNumber label="Количество раундов для победы" 
             disabled={this.props.disabled} 
             name="roundsForWin"
-            value={10}
-            min={3} max={20}
+            value={this.props.gameProps?this.props.gameProps.roundsForWin:10}
+            min={5} max={30}
             />
           <InputNumber label="Ширина поля" 
             disabled={this.props.disabled} 
             name="boardSizeX"
-            value={15}
-            min={10} max={30}
+            value={this.props.gameProps?this.props.gameProps.boardSizeX:10}
+            min={10} max={40}
             />
           <InputNumber label="Высота поля" 
             disabled={this.props.disabled} 
             name="boardSizeY"
-            value={20}
-            min={10} max={40}
+            value={this.props.gameProps?this.props.gameProps.boardSizeY:20}
+            min={10} max={60}
             />
           <InputNumber label="Количество мин (сложность)" 
             disabled={this.props.disabled} 
             name="minesCount"
-            value={30}
-            min={5} max={40}
+            value={this.props.gameProps?this.props.gameProps.minesCount:30}
+            min={5} max={200}
           />  
         </>)
       default: return

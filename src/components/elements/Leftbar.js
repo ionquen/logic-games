@@ -26,7 +26,7 @@ class Left extends React.Component {
             <>
                 <aside className={`${styles.leftbar}  ${this.state.leftbarDisplay?styles.leftbarDisplay:''}`}>
 
-                    <div>
+                    <div onClick={() => this.setState(prevState => ({leftbarDisplay: prevState.leftbarDisplay?false:true}))}>
                         {this.getItems()}
                     </div>
                 </aside>

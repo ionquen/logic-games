@@ -27,7 +27,7 @@ export default function Settings(props) {
           </div>
           <div>
             <div>Пользовательский ID</div>
-            <Input name="userName" disable={true} value={localStorage.getItem('userId')} />
+            <Input name="userId" disabled={true} value={localStorage.getItem('userId')} />
           </div>
         </div>
         <div>

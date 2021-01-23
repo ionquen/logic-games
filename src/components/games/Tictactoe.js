@@ -3,6 +3,7 @@ import Scoreboard from './parts/Scoreboard'
 import Alert from './parts/Alert'
 import Ruler from './parts/Ruler'
 import {animate} from './parts/CanvasTools'
+import soundPencil from '../../static/sound/pencil.mp3'
 
 import styles from '../../static/css/canvas.module.css'
 
@@ -82,6 +83,8 @@ export default class Tictactoe extends React.Component {
     ctx.lineCap = "round"
     ctx.lineWidth = 3
     this.currentBoard[this.props.gameInfo.boardSize*y + x] = value
+    const turnSound = new Audio(soundPencil)
+    turnSound.play()
     if (animation===true) {
       switch (value) {
         case 0: 

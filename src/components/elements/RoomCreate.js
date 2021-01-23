@@ -25,7 +25,7 @@ export default class CreateNewRoom extends React.Component {
         max: e.target.players.value,
         roundsForWin: +e.target.roundsForWin.value,
         boardSize: +e.target.boardSize.value,
-        timeTurn: +e.target.timeTurn.value*1000,
+        timeTurn: +e.target.timeTurn.value,
         cellsForWin: +e.target.cellsForWin.value,
       }
       case "minesweeper": return {

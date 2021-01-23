@@ -46,7 +46,7 @@ class App extends React.Component {
     }
     render() {
         return (
-            <>  
+            <div className={styles.fullpage}>  
                 <Route path="/g/:gameId" component={props=><Topbar {...props} setPopupUntracked={this.setPopupUntracked}/>} />
                 <div className={styles.page}>
                     <Switch>
@@ -70,7 +70,7 @@ class App extends React.Component {
                 <Suspense>
                 {this.state.popupElement}
                 </Suspense>
-            </>
+            </div>
         )
     }
 }
