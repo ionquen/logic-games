@@ -1,8 +1,8 @@
 import React from 'react'
-import Scoreboard from './parts/Scoreboard'
-import Alert from './parts/Alert'
-import Ruler from './parts/Ruler'
-import {animate} from './parts/CanvasTools'
+import Scoreboard from '../parts/Scoreboard'
+import Alert from '../parts/Alert'
+import Ruler from '../parts/Ruler'
+import {animate} from '../parts/CanvasTools'
 import soundPencil from '../../static/sound/pencil.mp3'
 
 import styles from '../../static/css/canvas.module.css'

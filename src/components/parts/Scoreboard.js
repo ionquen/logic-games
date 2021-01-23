@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../../../static/css/score.module.css'
+import styles from '../../static/css/score.module.css'
 /*
   displayCurrentPlayer - Выделить текущего игрока
   paused - Останавливает/Включает таймер

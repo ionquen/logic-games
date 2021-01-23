@@ -1,7 +1,7 @@
 import React from 'react'
-import Scoreboard from './parts/Scoreboard'
-import Alert from './parts/Alert'
-import Ruler from './parts/Ruler'
+import Scoreboard from '../parts/Scoreboard'
+import Alert from '../parts/Alert'
+import Ruler from '../parts/Ruler'
 
 import styles from '../../static/css/canvas.module.css'
 import sapperStyle from '../../static/css/minesweeper.module.css'
