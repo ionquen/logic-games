@@ -8,7 +8,6 @@ import Popup from './components/elements/Popup.js'
 const Main = lazy(() => import('./components/Main'))
 const App = lazy(() => import('./components/App'))
 const ManualTictactoe = lazy(() => import('./components/manuals/ManualTictactoe'))
-const ManualSeabattle = lazy(() => import('./components/manuals/ManualSeabattle'))
 const ManualMinesweeper = lazy(() => import('./components/manuals/ManualMinesweeper'))
 const ManualReversi = lazy(() => import('./components/manuals/ManualReversi'))
 const Support = lazy(() => import('./components/manuals/Support'))
@@ -20,7 +19,6 @@ function popupRouter(props) {
   splitSearch.forEach(item => item[0]==="popup"?popupValue = item[1]:false)
   switch(popupValue) {
     case "tictactoe": result = <ManualTictactoe/>; break
-    case "seabattle": result = <ManualSeabattle/>; break
     case "minesweeper": result = <ManualMinesweeper />; break
     case "reversi": result = <ManualReversi/>; break
     case "support": result = <Support/>; break
