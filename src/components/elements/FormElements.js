@@ -1,39 +1,22 @@
 import React from "react"
 import styles from '../../static/css/formElements.module.css'
-class Select extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      displayList: false,
-      selected: this.props.selected,
-    }
-  }
-  change = (e) => {
-    this.props.onClick(e)
-    this.setState({
-      displayList: false,
-      selected: e.target.name,
-    })
-  }
-  getValueByName() {
-    for(let prop of this.props.data) {
-      if (prop.name===this.state.selected) return prop.value
-    }
-  }
-  render() {
+function Select(props) {
+    const {data, ...other} = props
     return(
-      <div className={styles.select} onClick={this.props.disabled?undefined:() => this.setState({displayList: this.state.displayList?false:true})} >
-        <div>{this.getValueByName()}</div>
-        {!this.state.displayList?null:
-          <div>
-            {this.props.data.map(element => <button {...element} type="button" onClick={this.change}>{element.value}</button>)}
-          </div>
+      <select {...other} required
+      className={styles.select}
+      >
+        { data.map(option => {
+            const {text, ...other} = option
+            if (option.value===props.selected) {
+              return <option selected {...other} >{option.text}</option>
+            } else return <option {...other} >{option.text}</option>
+          }
+        )
         }
-        <input name={this.props.name} value={this.state.selected} />
-      </div>
+      </select>
     )
   }
-}
 
 
 class InputNumber extends React.Component {

@@ -87,7 +87,6 @@ export default class RoomInfo extends React.Component {
   }
   render() {
     return(
-      <>
       <div className={`${styles.roomInfo}`}>
         <div>
           <div>{this.props.roomId===undefined?"Создание комнаты": "Комната #"+this.props.roomId}</div>
@@ -104,12 +103,12 @@ export default class RoomInfo extends React.Component {
                   let namesArray = []
                   const gamesName = allGames()
                   for (let game in gamesName) {
-                    namesArray.push({name: game, value: gamesName[game]})
+                    namesArray.push({value: game, text: gamesName[game]})
                   }
                   return namesArray
                 })()}
                 selected={this.state.gameId}
-                onClick ={(e) => this.setState({gameId: e.target.name})}
+                onClick ={(e) => this.setState({gameId: e.target.value})}
               />
               <Checkbox label="Использовать пароль?" name="usePw"
                 disabled={this.props.disabled} 
@@ -145,7 +144,6 @@ export default class RoomInfo extends React.Component {
           </div>
         </form>
       </div>
-      </>
     )
   }
 }

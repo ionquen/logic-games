@@ -101,7 +101,7 @@ class Chat extends React.Component {
   render() {
     return (
       <>
-        <aside className={`${styles.chat} ${!this.state.visible?styles.chatDisplay:''}`}>
+        <aside className={`${styles.chat} ${!this.state.visible?'':styles.chatDisplay}`}>
           <div>
             <div>
               <div>

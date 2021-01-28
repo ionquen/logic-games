@@ -51,55 +51,73 @@ class Main extends React.Component {
                         <ArrowRight className={styles.arrowRight} onClick={() => this.scrollLeft(+218)} />
                         <div ref={this.catalogList} onWheel={(e) => this.scrollLeft(e.deltaY)}>
                             <div>
-                                <Link to="/g/tictactoe" >
+                                <Link to="/game/tictactoe" >
                                     <div>TicTacToe</div>
                                     <div><MainTictactoe  alt="Tic tac toe game"/></div>
                                 </Link>
                             </div>
                             <div>
-                                <Link to="/g/minesweeper" >
+                                <Link to="/game/minesweeper" >
                                     <div>Minesweeper</div>
                                     <div><MainMinesweeper alt="Minesweeper game" /></div>
                                 </Link>
                             </div>
                             <div>
-                                <Link to="/g/reversi" >
+                                <Link to="/game/reversi" >
                                     <div>Reversi</div>
                                     <div><MainReversi alt="Reversi game" /></div>
                                 </Link>
                             </div>
                             <div>
-                                <Link to="/g/tictactoe" >
+                                <Link to="/game/tictactoe" >
                                     <div>TicTacToe</div>
                                     <div><MainTictactoe  alt="Tic tac toe game"/></div>
                                 </Link>
                             </div>
                             <div>
-                                <Link to="/g/minesweeper" >
+                                <Link to="/game/minesweeper" >
                                     <div>Minesweeper</div>
                                     <div><MainMinesweeper alt="Minesweeper game" /></div>
                                 </Link>
                             </div>
                             <div>
-                                <Link to="/g/reversi" >
+                                <Link to="/game/reversi" >
                                     <div>Reversi</div>
                                     <div><MainReversi alt="Reversi game" /></div>
                                 </Link>
                             </div>
                             <div>
-                                <Link to="/g/tictactoe" >
+                                <Link to="/game/tictactoe" >
                                     <div>TicTacToe</div>
                                     <div><MainTictactoe  alt="Tic tac toe game"/></div>
                                 </Link>
                             </div>
                             <div>
-                                <Link to="/g/minesweeper" >
+                                <Link to="/game/minesweeper" >
                                     <div>Minesweeper</div>
                                     <div><MainMinesweeper alt="Minesweeper game" /></div>
                                 </Link>
                             </div>
                             <div>
-                                <Link to="/g/reversi" >
+                                <Link to="/game/reversi" >
+                                    <div>Reversi</div>
+                                    <div><MainReversi alt="Reversi game" /></div>
+                                </Link>
+                            </div>
+                            <div>
+                                <Link to="/game/tictactoe" >
+                                    <div>TicTacToe</div>
+                                    <div><MainTictactoe  alt="Tic tac toe game"/></div>
+                                </Link>
+                            </div>
+                            <div>
+                                <Link to="/game/minesweeper" >
+                                    <div>Minesweeper</div>
+                                    <div><MainMinesweeper alt="Minesweeper game" /></div>
+                                </Link>
+                            </div>
+                            <div>
+                                <Link to="/game/reversi" >
                                     <div>Reversi</div>
                                     <div><MainReversi alt="Reversi game" /></div>
                                 </Link>

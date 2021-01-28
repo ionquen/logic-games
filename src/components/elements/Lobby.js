@@ -14,7 +14,7 @@ class Lobby extends React.Component {
         super(props)
         this.state = {
             lobbyList: [],
-            privateRoomId: '',
+            roomId: undefined,
         }
         this.emitter = props.emitter
     }
@@ -50,7 +50,7 @@ class Lobby extends React.Component {
                     break
                 case 'join': 
                     this.props.setPopupUntracked(null)
-                    this.setState({roomId: data})
+                    this.props.history.push(`/game/${this.props.match.params.gameId}/${data.gameId}`)
                     break
                 default: break
             }
@@ -80,8 +80,7 @@ class Lobby extends React.Component {
 
     
     render() {
-        return (
-        <>      
+        return ( 
             <div className={styles.lobby}>
                 <div>
                     <InputTextSubmit name="search-input" placeholder="Поиск" autoComplete={false} />
@@ -92,9 +91,6 @@ class Lobby extends React.Component {
                     {this.state.lobbyList.map(room => <DisplayRoom data={room} ws={this.ws} emitter={this.props.emitter} setPopupUntracked={this.props.setPopupUntracked} />)}
                 </div>
             </div>
-            {this.state.roomId!==undefined&&this.state.roomId!==false?<Redirect to={`/g/${this.props.match.params.gameId}/${this.state.roomId}`}></Redirect>:null}
-        
-        </>
         )
     }
 }
@@ -103,7 +99,7 @@ class DisplayRoom extends React.Component {
     constructor(props) {
         super(props) 
         this.state={
-            connected: props.data.users.some(user => user.userId=== +localStorage.userId&&user.leave===false?true:false),
+            connected: props.data.users.some(user => user.userId=== +localStorage.getItem("userId")&&user.leave===false?true:false),
         }
     }
     players = () => this.props.data.users.map((user) => <span><span>{user.userId}#</span><span>{user.userName}</span></span>)
@@ -136,7 +132,7 @@ class DisplayRoom extends React.Component {
                 <div className={styles.connected}>
                     <div>Вы уже присоединились к данной комнате!</div>
                     <div onClick={this.reconnect}>
-                        <Link to={`/g/${this.props.data.gameId}/${this.props.data.roomId}`}>Вернуться</Link>
+                        <Link to={`/game/${this.props.data.gameId}/${this.props.data.roomId}`}>Вернуться</Link>
                     </div>
                     <div onClick={this.leave}>Покинуть</div>
                 </div>:null}

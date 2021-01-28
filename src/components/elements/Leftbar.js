@@ -15,7 +15,7 @@ class Left extends React.Component {
     getItems() { 
         return Object.entries(allGames()).map(game => 
             <div className={this.props.match.params.gameId===game[0]?styles.select:''}>
-                <Link to={`/g/${game[0]}`}>
+                <Link to={`/game/${game[0]}`}>
                     <div>{game[1]}</div>
                 </Link>
             </div>

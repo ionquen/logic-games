@@ -102,11 +102,11 @@ class Room extends React.Component {
       default: break
     }
   }
+  redirectToLobby = () => this.props.history.push(`/game/${this.props.match.params.gameId}`)
   render() {
       return (
-          <>
             <div className={styles.room}>
-              {this.state.roomInfo===undefined?<Button onClick={()=>this.setState({redirectToLobby:true})}>В лобби</Button>
+              {this.state.roomInfo===undefined?<Button onClick={this.redirectToLobby}>В лобби</Button>
               :
                 <>
                   <div className={styles.match}>
@@ -115,22 +115,20 @@ class Room extends React.Component {
                     </Suspense>
                   </div>
                   {this.state.roomInfo.started?
-                    <Link to={`/g/${this.props.match.params.gameId}`} className={styles.btnToLobby}>
+                    <Button onClick={this.redirectToLobby} className={styles.btnToLobby}>
                       <IconList />
                       <span>В лобби</span>
-                    </Link>:
+                    </Button>:
                     <RoomInfo {...this.state.roomInfo} disabled={true} >
                       {this.state.roomInfo.creator!== +localStorage.userId?null:
                       <Button onClick={this.startTheGame}>Начать игру</Button>
                       }
-                      <Button onClick={()=>this.setState({redirectToLobby:true})}>В лобби</Button>
+                      <Button onClick={this.redirectToLobby}>В лобби</Button>
                     </RoomInfo>
                   }
                 </>
                 }
             </div>
-            {this.state.redirectToLobby?<Redirect to={`/g/${this.props.match.params.gameId}`}></Redirect>:null}
-          </>
       )
   }
 }

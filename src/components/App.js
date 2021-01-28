@@ -48,14 +48,14 @@ class App extends React.Component {
     render() {
         return (
             <div className={styles.fullpage}>  
-                <Route path="/g/:gameId" component={props=><Topbar {...props} setPopupUntracked={this.setPopupUntracked}/>} />
+                <Route path="/game/:gameId" component={props=><Topbar {...props} setPopupUntracked={this.setPopupUntracked}/>} />
                 <div className={styles.page}>
                     <Switch>
-                        <Route path="/g/:gameId/:roomId" render={props=>
+                        <Route path="/game/:gameId/:roomId" render={props=>
                             <Room {...props} emitter={this.emitter} >
                             </Room>
                             } />
-                        <Route path="/g/:gameId" render={props => 
+                        <Route path="/game/:gameId" render={props => 
                             <>
                                 <Leftbar {...props} />
                                 <Lobby {...props} emitter={this.emitter} setPopupUntracked={this.setPopupUntracked} >
