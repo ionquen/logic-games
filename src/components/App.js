@@ -67,9 +67,7 @@ class App extends React.Component {
                     
                 </div>
                 <canvas id="grad-backg"/>
-                <Suspense>
                 {this.state.popupElement}
-                </Suspense>
             </div>
         )
     }
