@@ -45,5 +45,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@lingui/cli": "^3.4.0",
+    "@lingui/macro": "^3.4.0",
+    "babel-plugin-macros": "^3.0.1"
   }
 }

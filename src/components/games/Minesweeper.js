@@ -46,7 +46,7 @@ export default class Tictactoe extends React.Component {
           break
         case 'roundFinished': {
             this.paused = true
-            const updateScore = this.state.score[data.currentPlayer][0]++
+            const updateScore = this.state.score[data.currentPlayer][0]+1
             this.setState(prevState => ({
                 score: {...prevState.score, ...updateScore},
                 alertValue: `Раунд завершён! Победил ${this.props.players[data.currentPlayer].userName}`
@@ -90,7 +90,7 @@ export default class Tictactoe extends React.Component {
     this.clear()
     const savedData = localStorage.getItem('sapperData')
     //Получение сохранённого состояния поля
-    if (!savedData=="") {
+    if (!savedData==="") {
       const parsedSavedData = JSON.parse(savedData)
       let scoreSum = 0
       for (let item in this.state.score) {
@@ -120,7 +120,7 @@ export default class Tictactoe extends React.Component {
     ctx.font = "800 24px inter"
     if (value!==undefined) this.board[this.props.gameInfo.boardSizeX*y + x] = value
     switch (value) {
-      case -1: { //highlight a bomb
+      case -1: { //highlight the bomb
         const cellFlagIcon = new Image()
         cellFlagIcon.src = IconFlag
         cellFlagIcon.onload = () => {

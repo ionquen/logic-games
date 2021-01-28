@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import {Switch, Route} from "react-router-dom";
 
 import Lobby from './elements/Lobby';
@@ -7,7 +7,7 @@ import Leftbar from './elements/Leftbar';
 
 import Chat from './elements/Chat';
 import Topbar from './elements/Topbar';
-//import Alert from './elements/Alert'
+//import Alert from './elements/Alert' 
 import styles from '../static/css/app.module.css'
 import Granim from 'granim'
 
@@ -20,6 +20,7 @@ class App extends React.Component {
         }
     }
     componentWillMount() {
+        //Для взаимодействия с чатом на глобальном уровне
         if (this.emitter===undefined) this.emitter = new Emitter()
     }
     componentDidMount() {

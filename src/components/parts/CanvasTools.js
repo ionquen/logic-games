@@ -1,3 +1,4 @@
+//animRenderF принимает значение времени с начала анимации
 function animate(animRenderF, time) {
   let animStart = null
   const animStep = timestamp => {

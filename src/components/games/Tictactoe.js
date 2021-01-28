@@ -42,7 +42,7 @@ export default class Tictactoe extends React.Component {
         case 'roundFinished': 
           this.paused = true
           this.displayPoint(data.cell, data.x, data.y, true)
-          const newScore = this.state.score[data.cell][0]++
+          const newScore = this.state.score[data.cell][0]+1
           this.setState((prevState) => ({
             currentPlayerTurn: data.nextPlayer, 
             score: {...prevState.score, ...newScore}, 

@@ -15,8 +15,8 @@ class Chat extends React.Component {
       msgsG: [],
       msgsP: [],
       globalChat: true,
-      hidden: true,
-      prints: '',
+      visible: false,
+      inputMsgValue: '',
     }
   }
   componentWillMount() {
@@ -28,17 +28,17 @@ class Chat extends React.Component {
         const messageParsed = JSON.parse(e.data)
         const data = messageParsed.data
         switch (messageParsed.type) {
-          case 'chat': this.globalMessage(data)
+          case 'chat': this.globalMessageDisplay(data)
             break
           case 'history': 
             this.setState((state) => ({msgsG: state.msgsG.concat(data)}))
-            this.globalMessage('Добро пожаловать в чат!')
+            this.globalMessageDisplay('Добро пожаловать в чат!')
             break
           default: return
         }
     }
     ws.onerror = (e) => {
-        this.globalMessage('Ошибка. Подключение потеряно')
+        this.globalMessageDisplay('Ошибка. Подключение потеряно')
     }
     this.ws=ws
   }
@@ -50,19 +50,19 @@ class Chat extends React.Component {
     this.ws.close()
   }
   componentDidMount() {
-    this.emitterUnsubGlobal = this.props.emitter.sub('global', (msgData) => this.globalMessage(msgData))
-    this.emitterUnsubPrivate = this.props.emitter.sub('private', (msgData) => this.privateMessage(msgData))
+    this.emitterUnsubGlobal = this.props.emitter.sub('global', (msgData) => this.globalMessageDisplay(msgData))
+    this.emitterUnsubPrivate = this.props.emitter.sub('private', (msgData) => this.globalMessageDisplay(msgData))
     this.emitterUnsubDisplayGlobalChat = this.props.emitter.sub('displayGlobalChat', boolen => this.setState({globalChat: boolen}))
     this.emitterUnsubPrivateChatHistory = this.props.emitter.sub('privateChatHistory', (data) => {
-      let msgsNewRoomArray = []
-      for (let msg of data) {
-        if(this.state.msgsP.some(elementOfMsgsP => elementOfMsgsP.date===msg.date?true:false)) {
-          break;
-        } else msgsNewRoomArray.push(msg)
-      }
-      this.setState((state) => ({msgsP: state.msgsP.concat(msgsNewRoomArray)}))
-      this.privateMessage('Добро пожаловать в чат!')
-    })
+    let msgsNewRoomArray = []
+    for (let msg of data) {
+      if(this.state.msgsP.some(elementOfMsgsP => elementOfMsgsP.date===msg.date?true:false)) {
+        break;
+      } else msgsNewRoomArray.push(msg)
+    }
+    this.setState((state) => ({msgsP: state.msgsP.concat(msgsNewRoomArray)}))
+    this.privateMessageDisplay('Добро пожаловать в чат!')
+  })
   }
 
   send = (e) => {
@@ -82,26 +82,26 @@ class Chat extends React.Component {
     }
     if (this.state.globalChat) {
       this.ws.send(JSON.stringify({type: 'chat', data: messageSendObject}))
-      this.globalMessage(messageDisplayObject)
+      this.globalMessageDisplay(messageDisplayObject)
     } else {
       try {
         this.props.emitter.emit('privateChatSend', messageSendObject)
-        this.privateMessage(messageDisplayObject)
+        this.privateMessageDisplay(messageDisplayObject)
       } catch {return console.log('Отсутствует подключение к комнате')}
     }
-    this.setState({prints: ''})
+    this.setState({inputMsgValue: ''})
   }
 
   //display message in chat
-  globalMessage = msg => this.setState(prevState => ({msgsG: [...prevState.msgsG,msg]}))
-  privateMessage = msg => this.setState(prevState => ({msgsP: [...prevState.msgsP,msg]}))
+  globalMessageDisplay = msg => this.setState(prevState => ({msgsG: [...prevState.msgsG,msg]}))
+  privateMessageDisplay = msg => this.setState(prevState => ({msgsP: [...prevState.msgsP,msg]}))
   
-  displayChat = () => this.setState({hidden: this.state.hidden?false:true})
+  chatVisibleStateChange = () => this.setState({visible: this.state.visible?false:true})
 
   render() {
     return (
       <>
-        <aside className={`${styles.chat} ${!this.state.hidden?styles.chatDisplay:''}`}>
+        <aside className={`${styles.chat} ${!this.state.visible?styles.chatDisplay:''}`}>
           <div>
             <div>
               <div>
@@ -114,7 +114,7 @@ class Chat extends React.Component {
                 <div className={!this.state.globalChat?styles.selected:null}>Приватный чат</div>
               </div>
               <div>
-                <div onClick={this.displayChat}>
+                <div onClick={this.chatVisibleStateChange}>
                   <IconCross />
                 </div>
               </div>
@@ -125,8 +125,8 @@ class Chat extends React.Component {
           </div>
           <div>
             <InputTextSubmit name="inputMessage" 
-              value={this.state.prints} 
-              onChange={(e) => this.setState({prints: e.value})} 
+              value={this.state.inputMsgValue} 
+              onChange={(e) => this.setState({inputMsgValue: e.value})} 
               autoComplete={false}
               placeholder="Напишите сообщение..." 
               onSubmit={this.send} >
@@ -134,7 +134,7 @@ class Chat extends React.Component {
             </InputTextSubmit>
           </div>
         </aside>
-        <div className={styles.chatStateBtn} onClick={this.displayChat} >
+        <div className={styles.chatStateBtn} onClick={this.chatVisibleStateChange} >
           <IconChatDisplay />
         </div>
       </>

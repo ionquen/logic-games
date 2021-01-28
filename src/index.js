@@ -31,11 +31,13 @@ function popupRouter(props) {
 ReactDOM.render(
   <React.StrictMode>
     <Router basename="/">
-      <Suspense fallback="">
+      <Suspense fallback>
         <Switch>
           <Route exact path="/" component={Main } />
           <Route path={/^\/.+/} component={App } />
         </Switch>
+      </Suspense>
+      <Suspense fallback>
         <Route path="/" component={popupRouter} />
       </Suspense>
     </Router>
