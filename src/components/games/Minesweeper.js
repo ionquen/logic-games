@@ -208,7 +208,15 @@ export default class Tictactoe extends React.Component {
                 scoreItemNames={['Счёт', 'Прогресс']}
               />
               
-              <InfoBlock className={styles.info} {...this.state.roomInfo} />
+              <InfoBlock className={styles.info} 
+                data={[
+                  ['Раундов', this.props.gameInfo.roundsForWin], 
+                  ['Высота поля', this.props.gameInfo.boardSizeX], 
+                  ['Ширина поля', this.props.gameInfo.boardSizeX], 
+                  ['Количество мин', this.props.gameInfo.minesCount], 
+                  ['Ячеек для победы', this.props.gameInfo.cellsForWin], 
+                ]}
+              />
               <Alert value={this.state.alertValue} />
               <div className={`${sapperStyle.button} ${this.state.actionTypeDefuse?"":sapperStyle.highlite}`} 
                 onClick={() => this.setState({actionTypeDefuse: this.state.actionTypeDefuse?false:true})} >
