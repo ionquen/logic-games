@@ -1,7 +1,4 @@
 import React from 'react'
-/*
-  displayCurrentPlayer - Выделить текущего игрока
-*/
 export default function Ruler(props) {
   function getListByLength(length) {
     let section = []

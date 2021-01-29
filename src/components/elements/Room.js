@@ -117,7 +117,7 @@ class Room extends React.Component {
   render() {
       return (
             <div className={styles.room}>
-              {this.state.roomInfo===undefined?<Button onClick={this.redirectToLobby}>В лобби</Button>
+              {this.state.roomInfo===undefined?<Button onClick={this.redirectToLobby}>Вернуться в лобби</Button>
               :
                 <>
                   <div className={styles.match}>
@@ -126,12 +126,14 @@ class Room extends React.Component {
                     </Suspense>
                   </div>
                   {this.state.roomInfo.started?
+                  <>
                     <Button onClick={this.redirectToLobby} className={styles.btnToLobby}>
                       <IconList />
                       <span>В лобби</span>
-                    </Button>:
+                    </Button>
+                  </>:
                     <RoomInfo {...this.state.roomInfo} disabled={true} >
-                      {this.state.roomInfo.creator!== +localStorage.userId?null:
+                      {this.state.roomInfo.creator!== localStorage.userId?null:
                       <Button onClick={this.startTheGame}>Начать игру</Button>
                       }
                       <Button onClick={this.redirectToLobby}>В лобби</Button>

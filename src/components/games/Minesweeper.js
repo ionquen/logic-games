@@ -2,6 +2,7 @@ import React from 'react'
 import Scoreboard from '../parts/Scoreboard'
 import Alert from '../parts/Alert'
 import Ruler from '../parts/Ruler'
+import InfoBlock from '../parts/InfoBlock'
 
 import styles from '../../static/css/canvas.module.css'
 import sapperStyle from '../../static/css/minesweeper.module.css'
@@ -24,7 +25,7 @@ export default class Tictactoe extends React.Component {
   componentWillMount() {
     this.paused = this.props.gameInfo.paused
     this.board = {}
-    this.props.players.forEach((player, index) => player.userId=== +localStorage.getItem('userId')?this.playerNumber = index:null)
+    this.props.players.forEach((player, index) => player.userId===localStorage.getItem('userId')?this.playerNumber = index:null)
     
     this.emitterUnsubGame = this.props.emitter.sub('game', data => {
       switch(data.type) {
@@ -206,7 +207,8 @@ export default class Tictactoe extends React.Component {
                 score={this.state.score}
                 scoreItemNames={['Счёт', 'Прогресс']}
               />
-
+              
+              <InfoBlock className={styles.info} {...this.state.roomInfo} />
               <Alert value={this.state.alertValue} />
               <div className={`${sapperStyle.button} ${this.state.actionTypeDefuse?"":sapperStyle.highlite}`} 
                 onClick={() => this.setState({actionTypeDefuse: this.state.actionTypeDefuse?false:true})} >

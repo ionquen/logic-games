@@ -107,9 +107,6 @@ class Chat extends React.Component {
     this.setState({inputMsgValue: ''})
   }
 
-/**
- * Отобразить сообщение
- */
   globalMessageDisplay = msg => this.setState(prevState => ({msgsG: [...prevState.msgsG,msg]}))
   privateMessageDisplay = msg => this.setState(prevState => ({msgsP: [...prevState.msgsP,msg]}))
   

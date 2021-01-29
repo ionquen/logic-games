@@ -37,7 +37,7 @@ export default class RoomInfo extends React.Component {
           <InputNumber label="Размер поля" 
             disabled={this.props.disabled} 
             name="boardSize"
-            value={this.props.gameProps?this.props.gameProps.boardSize:30}
+            value={this.props.gameProps?this.props.gameProps.boardSize:20}
             min={3} max={30}
             />
           <InputNumber label="Длина ряда для победы" 
@@ -66,19 +66,19 @@ export default class RoomInfo extends React.Component {
           <InputNumber label="Ширина поля" 
             disabled={this.props.disabled} 
             name="boardSizeX"
-            value={this.props.gameProps?this.props.gameProps.boardSizeX:10}
+            value={this.props.gameProps?this.props.gameProps.boardSizeX:20}
             min={10} max={40}
             />
           <InputNumber label="Высота поля" 
             disabled={this.props.disabled} 
             name="boardSizeY"
-            value={this.props.gameProps?this.props.gameProps.boardSizeY:20}
+            value={this.props.gameProps?this.props.gameProps.boardSizeY:25}
             min={10} max={60}
             />
           <InputNumber label="Количество мин (сложность)" 
             disabled={this.props.disabled} 
             name="minesCount"
-            value={this.props.gameProps?this.props.gameProps.minesCount:30}
+            value={this.props.gameProps?this.props.gameProps.minesCount:50}
             min={5} max={200}
           />  
         </>)

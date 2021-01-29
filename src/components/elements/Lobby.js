@@ -126,6 +126,7 @@ class DisplayRoom extends React.Component {
         if (this.props.data.usePw) result.push('password')
         result.push('public')
         if (this.props.data.autostart) result.push('autostart')
+        if (this.props.data.started) result.push('started')
         return result.map((tag) => <div>{tag}</div>)
     }
 

@@ -4,8 +4,7 @@ function Select(props) {
     const {data, ...other} = props
     return(
       <select {...other} required
-      className={styles.select}
-      >
+      className={styles.select}>
         { data.map(option => {
             const {text, ...other} = option
             if (option.value===props.selected) {
@@ -27,11 +26,14 @@ class InputNumber extends React.Component {
     }
   }
   render() {
-    const {label, min, max, ...other} = this.props
+    const {label, value, min, max, ...other} = this.props
     return(
     <div className={styles.number}>
       <label>
-        <input {...other}  value={this.state.value}type="number" onChange={e => this.setState({value: e.target.value<=max?e.target.value:min})} />
+        <input {...other}  
+          value={this.state.value} 
+          type="number" 
+          onChange={e => this.setState({value: e.target.value>max||e.target.value<(min>0?0:min)?min:e.target.value})} />
         <div>{label}</div>
       </label>
     </div>

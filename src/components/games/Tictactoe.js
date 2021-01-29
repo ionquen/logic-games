@@ -2,6 +2,7 @@ import React from 'react'
 import Scoreboard from '../parts/Scoreboard'
 import Alert from '../parts/Alert'
 import Ruler from '../parts/Ruler'
+import InfoBlock from '../parts/InfoBlock'
 import {animate} from '../parts/CanvasTools'
 import soundPencil from '../../static/sound/pencil.mp3'
 
@@ -18,7 +19,7 @@ export default class Tictactoe extends React.Component {
     }
     this.currentBoard = props.gameInfo.currentBoard
     this.paused = props.gameInfo.paused
-    props.players.every((player, index) => player.userId!== +localStorage.getItem('userId')?true:props.gameInfo.queue.every((queuePlayer, queueIndex) => {
+    props.players.every((player, index) => player.userId!== localStorage.getItem('userId')?true:props.gameInfo.queue.every((queuePlayer, queueIndex) => {
         if (queuePlayer===index) {
         this.playerNumber = queueIndex
         return false
@@ -199,6 +200,14 @@ export default class Tictactoe extends React.Component {
                 score={this.state.score}
                 scoreItemNames={['Счёт']} />
 
+              <InfoBlock className={styles.info} 
+                data={[
+                  ['Раундов', this.props.gameInfo.roundsForWin], 
+                  ['Размер доски', this.props.gameInfo.boardSize], 
+                  ['Время на ход', this.props.gameInfo.timeTurn/1000], 
+                  ['Ячеек для победы', this.props.gameInfo.cellsForWin], 
+                ]}
+              />
               <Alert value={this.state.alertValue} />
               
               <div className={styles.canvas}>
