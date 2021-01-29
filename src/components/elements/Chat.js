@@ -8,23 +8,34 @@ import {InputTextSubmit} from './FormElements'
 
 import styles from '../../static/css/chat.module.css'
 
+/*
+  Принимаемые события
+   chat: новое сообщение в глобальном чате
+   history: массив, содержащий последние сообщения глобального чата 
+  Отправляемые события
+   chat: отправить новое сообщение в глобальный чат
+ */
 class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       msgsG: [],
       msgsP: [],
-      globalChat: true,
+      isGlobalChat: true,
       visible: false,
       inputMsgValue: '',
     }
   }
   componentWillMount() {
-    const ws = new WebSocket("wss://games-ws.ionquen.ru:8081")
+    this.wsReconnect()
+  }
 
+  wsReconnect = () => {
+    //WS only global chat
+    const ws = new WebSocket("wss://games-ws.ionquen.ru:8081")
+    console.log('Попытка подключения к серверу')
     ws.onopen = () => {
-    }
-    ws.onmessage = (e) => {
+      ws.onmessage = (e) => {
         const messageParsed = JSON.parse(e.data)
         const data = messageParsed.data
         switch (messageParsed.type) {
@@ -36,23 +47,27 @@ class Chat extends React.Component {
             break
           default: return
         }
+      }
+      this.ws=ws
     }
-    ws.onerror = (e) => {
-        this.globalMessageDisplay('Ошибка. Подключение потеряно')
-    }
-    this.ws=ws
+    ws.onerror = e => ws.close()
+    ws.onclose = e => this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)
+    
   }
   componentWillUnmount = () => {
     this.emitterUnsubGlobal()
-    this.emitterUnsubDisplayGlobalChat()
+    this.emitterUnsubChatStateChange()
     this.emitterUnsubPrivate()
     this.emitterUnsubPrivateChatHistory()
-    this.ws.close()
+    if(this.ws.readyState===WebSocket.OPEN) this.ws.close()
+  }
+  componentDidUnmount() {
+      clearTimeout(this.reconnectTimeout)
   }
   componentDidMount() {
     this.emitterUnsubGlobal = this.props.emitter.sub('global', (msgData) => this.globalMessageDisplay(msgData))
     this.emitterUnsubPrivate = this.props.emitter.sub('private', (msgData) => this.globalMessageDisplay(msgData))
-    this.emitterUnsubDisplayGlobalChat = this.props.emitter.sub('displayGlobalChat', boolen => this.setState({globalChat: boolen}))
+    this.emitterUnsubChatStateChange = this.props.emitter.sub('chatStateChange', boolen => this.setState({isGlobalChat: boolen}))
     this.emitterUnsubPrivateChatHistory = this.props.emitter.sub('privateChatHistory', (data) => {
     let msgsNewRoomArray = []
     for (let msg of data) {
@@ -65,34 +80,38 @@ class Chat extends React.Component {
   })
   }
 
+/**
+ * Отправить сообщение
+ * @param {event} e 
+ */
   send = (e) => {
     e.preventDefault();
-    const messageValue = e.target.inputMessage.value
-    if(messageValue==='') return
-    const messageSendObject = {
+    const msgValue = e.target.inputMessage.value
+    if(msgValue==='') return
+    const msgObject = {
       token: localStorage.getItem('token'),
-      text: messageValue,
+      text: msgValue,
       userName: localStorage.getItem('userName'),
     }
-    const messageDisplayObject = {
-      text: messageSendObject.text,
-      userName: messageSendObject.userName,
-      date: Date.now(),
-      userId: localStorage.getItem('userId'),
-    }
-    if (this.state.globalChat) {
-      this.ws.send(JSON.stringify({type: 'chat', data: messageSendObject}))
-      this.globalMessageDisplay(messageDisplayObject)
+    if (this.state.isGlobalChat) {
+      try{
+      this.ws.send(JSON.stringify({type: 'chat', data: msgObject}))
+      } catch {
+        this.globalMessageDisplay("Не получается отправить сообщение. Пожалуйста, обновите страницу")
+      }
     } else {
       try {
-        this.props.emitter.emit('privateChatSend', messageSendObject)
-        this.privateMessageDisplay(messageDisplayObject)
-      } catch {return console.log('Отсутствует подключение к комнате')}
+        this.props.emitter.emit('privateChatSend', msgObject)
+      } catch {
+        this.privateMessageDisplay('Отсутствует подключение к комнате')
+      }
     }
     this.setState({inputMsgValue: ''})
   }
 
-  //display message in chat
+/**
+ * Отобразить сообщение
+ */
   globalMessageDisplay = msg => this.setState(prevState => ({msgsG: [...prevState.msgsG,msg]}))
   privateMessageDisplay = msg => this.setState(prevState => ({msgsP: [...prevState.msgsP,msg]}))
   
@@ -105,13 +124,13 @@ class Chat extends React.Component {
           <div>
             <div>
               <div>
-                <div onClick={() => this.setState({globalChat: this.state.globalChat?false:true})}>
-                  <IconChatChange className={!this.state.globalChat?styles.global:null}/>
+                <div onClick={() => this.setState({isGlobalChat: this.state.isGlobalChat?false:true})}>
+                  <IconChatChange className={!this.state.isGlobalChat?styles.global:null}/>
                 </div>
               </div>
               <div>
-                <div className={this.state.globalChat?styles.selected:null}>Глобальный чат</div>
-                <div className={!this.state.globalChat?styles.selected:null}>Приватный чат</div>
+                <div className={this.state.isGlobalChat?styles.selected:null}>Глобальный чат</div>
+                <div className={!this.state.isGlobalChat?styles.selected:null}>Приватный чат</div>
               </div>
               <div>
                 <div onClick={this.chatVisibleStateChange}>
@@ -120,7 +139,7 @@ class Chat extends React.Component {
               </div>
             </div>
             <div>
-              <Messages msgs={this.state.globalChat?this.state.msgsG:this.state.msgsP} />
+              <Messages msgs={this.state.isGlobalChat?this.state.msgsG:this.state.msgsP} />
             </div>
           </div>
           <div>
@@ -143,6 +162,9 @@ class Chat extends React.Component {
 
 }
 
+/**
+ * Массив сообщений, отображаемый в компоненте Chat
+ */
 class Messages extends React.Component {
   render() {
     return(

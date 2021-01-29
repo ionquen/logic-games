@@ -1,10 +1,25 @@
 import React, { Suspense, lazy } from 'react'
-import {Link, Redirect} from "react-router-dom"
 import RoomInfo from './RoomInfo'
 import {Button} from './FormElements'
 import styles from '../../static/css/room.module.css'
 import {ReactComponent as IconList} from '../../static/img/icons/list-check.svg'
-
+/*
+Принимаемые события
+  connect: подключение к комнате
+  chat: пришло сообщение в приватный чат текущей комнаты
+  userJoin: присоединился новый игрок
+  userLeave: игрок вышел из комнаты
+  userConnected: игрок вернулся
+  userDisconnected: игрок отключился
+  start: игра была начата
+  finished: Игра была завершена
+  game: передать внутриигровую информацию в компонент игры
+Отправляемые события
+  chat: отправить сообщение в чат
+  connect: присоединиться к комнате
+  game: отправить внутриигровую информацию
+  start: начать игру
+*/
 const Tictactoe = lazy(() => import('../games/Tictactoe'))
 const Minesweeper = lazy(() => import('../games/Minesweeper'))
 
@@ -16,78 +31,80 @@ class Room extends React.Component {
     }
   }
 
-  componentWillMount = () => {
+  componentWillMount() {
+    this.wsReconnect()
+    this.emitterUnsubPrivateChat = this.props.emitter.sub('privateChatSend', data => this.ws.send(JSON.stringify({type: 'chat', data: data})))
+    this.emitterUnsubAction = this.props.emitter.sub('action', data => this.ws.send(JSON.stringify({type: 'game', data: data})))
+  }
+  wsReconnect = () => { 
     const ws = new WebSocket("wss://games-ws.ionquen.ru:8083")
+    console.log('Попытка подключения к серверу')
     ws.onopen = () => {
-      this.emitterUnsubPrivateChat = this.props.emitter.sub('privateChatSend', data => ws.send(JSON.stringify({type: 'chat', data: data})))
       ws.send(JSON.stringify({type: 'connect', data: {roomId: this.props.match.params.roomId, token: localStorage.getItem('token')}}))
-      this.props.emitter.emit('displayGlobalChat', false)
-      this.emitterUnsubAction = this.props.emitter.sub('action', data => ws.send(JSON.stringify({type: 'game', data: data})))   
-    }
-    ws.onmessage = (e) => {
+      this.props.emitter.emit('chatStateChange', false)
+      
+      ws.onmessage = (e) => {
         const messageParsed = JSON.parse(e.data)
         const data = messageParsed.data
         switch (messageParsed.type) {
-            case 'connect': 
-              this.setState({roomInfo: data.roomInfo})
-              if(data.gameInfo!==undefined) this.setState({gameInfo: data.gameInfo})
-              this.props.emitter.emit('private', 'Подключение к комнате #'+this.state.roomInfo.roomId)
-              this.props.emitter.emit('privateChatHistory', data.chat)
-              break
-            case 'chat': this.props.emitter.emit('private', data)
-              break
-            case 'userJoin': this.setState((prevState) =>({roomInfo: {...prevState.roomInfo, users: [...prevState.roomInfo.users, data]}}))
-              break
-            case 'userLeave': {
-              let newArrayUsers = []
-              if(this.state.roomInfo.started) {
-                this.state.roomInfo.users.forEach(user => user.userId!==data?newArrayUsers.push(user):newArrayUsers.push({...user, leave: true}))
-              } else this.state.roomInfo.users.forEach(user => user.userId!==data?newArrayUsers.push(user):null)
-              this.setState((prevState) =>({roomInfo: {...prevState.roomInfo, users: newArrayUsers}}))
-              break
-            }
-            case 'userDisconnected':{
-              let newArrayUsers = []
-              this.state.roomInfo.users.forEach(user => user.userId!==data?newArrayUsers.push(user):newArrayUsers.push({...user, connected: false}))
-              this.setState((prevState) =>({roomInfo: {...prevState.roomInfo, users: newArrayUsers}}))
-              break
-            }
-            case 'userConnected':{
-              let newArrayUsers = []
-              this.state.roomInfo.users.forEach(user => user.userId!==data?newArrayUsers.push(user):newArrayUsers.push({...user, connected: true}))
-              this.setState((prevState) =>({roomInfo: {...prevState.roomInfo, users: newArrayUsers}}))
-              break
-            }
-            case 'start': this.setState((prevState) => ({roomInfo: {...prevState.roomInfo, started: true}, gameInfo: data}))
-              break
-            case 'finished': 
-              this.props.emitter.emit('private', 'Матч завершён')
-              this.setState((prevState) => ({roomInfo: {...prevState.roomInfo, started: false}}))
-              break
-            case 'game': this.props.emitter.emit('game', data)
-              break
-            default:break
+          case 'connect': 
+            this.setState({roomInfo: data.roomInfo})
+            if(data.gameInfo!==undefined) this.setState({gameInfo: data.gameInfo})
+            this.props.emitter.emit('private', 'Подключение к комнате #'+this.state.roomInfo.roomId)
+            this.props.emitter.emit('privateChatHistory', data.chat)
+            break
+          case 'chat': this.props.emitter.emit('private', data)
+            break
+          case 'userJoin': this.setState((prevState) =>({roomInfo: {...prevState.roomInfo, users: [...prevState.roomInfo.users, data]}}))
+            break
+          case 'userLeave': {
+            let newArrayUsers = []
+            if(this.state.roomInfo.started) {
+              this.state.roomInfo.users.forEach(user => user.userId!==data?newArrayUsers.push(user):newArrayUsers.push({...user, leave: true}))
+            } else this.state.roomInfo.users.forEach(user => user.userId!==data?newArrayUsers.push(user):null)
+            this.setState((prevState) =>({roomInfo: {...prevState.roomInfo, users: newArrayUsers}}))
+            break
+          }
+          case 'userDisconnected':{
+            let newArrayUsers = []
+            this.state.roomInfo.users.forEach(user => user.userId!==data?newArrayUsers.push(user):newArrayUsers.push({...user, connected: false}))
+            this.setState((prevState) =>({roomInfo: {...prevState.roomInfo, users: newArrayUsers}}))
+            break
+          }
+          case 'userConnected':{
+            let newArrayUsers = []
+            this.state.roomInfo.users.forEach(user => user.userId!==data?newArrayUsers.push(user):newArrayUsers.push({...user, connected: true}))
+            this.setState((prevState) =>({roomInfo: {...prevState.roomInfo, users: newArrayUsers}}))
+            break
+          }
+          case 'start': this.setState((prevState) => ({roomInfo: {...prevState.roomInfo, started: true}, gameInfo: data}))
+            break
+          case 'finished': 
+            this.props.emitter.emit('private', 'Матч завершён')
+            this.setState((prevState) => ({roomInfo: {...prevState.roomInfo, started: false}}))
+            break
+          case 'game': this.props.emitter.emit('game', data)
+            break
+          default:break
         }
+      }   
+      this.ws=ws
     }
     ws.onerror = (e) => {
-        this.props.emitter.emit('global', 'Соединение с комнатой потеряно')
+        ws.close()
     }
     ws.onclose = (e) => {
-      this.emitterUnsubAction()
+      this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)
     }
-    this.ws=ws
   }
   componentWillUnmount() {
-    try {
-      this.emitterUnsubPrivateChat()
-      this.emitterUnsubAction()
-      this.ws.close()
-    } catch {}
-    this.props.emitter.emit('private', 'Выполнено отключение от комнаты')
+    if(this.ws.readyState===WebSocket.OPEN) this.ws.close()
+    this.emitterUnsubAction()
+    this.emitterUnsubPrivateChat()
   }
-  componentWillReceiveProps(nextProps) {
-      //Переподключаемся к другой комнате (невозможно кста)
-      if(this.props.match.params.roomId!==nextProps.match.params.roomId) this.ws.send(JSON.stringify({type: 'connect', data: {roomId: nextProps.match.params.roomId, token: localStorage.getItem('token')}}))
+  componentDidUnmount() {
+      this.props.emitter.emit('private', 'Выполнено отключение от комнаты')
+      clearTimeout(this.reconnectTimeout)
   }
 
   startTheGame = (e) => {

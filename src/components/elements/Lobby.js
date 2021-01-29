@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link, Redirect} from "react-router-dom"
+import {Link} from "react-router-dom"
 import Popup from './Popup'
 import RoomCreate from './RoomCreate'
 import RoomDetails from './RoomDetails'
@@ -8,6 +8,18 @@ import {InputTextSubmit, Button} from './FormElements'
 import {gameById} from '../../lang/Lang.js'
 import {ReactComponent as IconInfo} from '../../static/img/icons/information-fill.svg'
 
+/*
+    Принимаемые события
+     token: установить новый token, userId
+     list: список комнат
+     connectbyroomid: информация о комнате с заданным roomId
+     join: пользователь подключен к комнате
+    Отправляемые события
+     list: получить список комнат (+отправить token)
+     connectbyroomid: получить информацию о комнате по roomId
+     join: подключиться к комнате
+     leave: покинуть комнату
+ */
 
 class Lobby extends React.Component {
     constructor(props) {
@@ -20,50 +32,59 @@ class Lobby extends React.Component {
     }
 
     componentWillMount() {
+        this.wsReconnect()
+    }
+    wsReconnect = () => { 
         const ws = new WebSocket("wss://games-ws.ionquen.ru:8082")
+        console.log('Попытка подключения к серверу')
         ws.onopen = () => {
             ws.send(JSON.stringify({type: 'list', data: {gameId: this.props.match.params.gameId, token: localStorage.getItem('token')}}))
-            this.props.emitter.emit('displayGlobalChat', true)
-        }
-        ws.onmessage = (e) => {
-            const messageParsed = JSON.parse(e.data)
-            const data = messageParsed.data
-            switch (messageParsed.type) {
-                case 'token': 
-                  localStorage.setItem('token', data.token)
-                  localStorage.setItem('userId', data.userId)
-                  localStorage.setItem('userName', `Гость${data.userId}`)
-                  break
-                case 'list': 
-                    this.setState({lobbyList: data})
+            this.props.emitter.emit('chatStateChange', true)
+            ws.onmessage = (e) => {
+                const messageParsed = JSON.parse(e.data)
+                const data = messageParsed.data
+                switch (messageParsed.type) {
+                    case 'token': 
+                    localStorage.setItem('token', data.token)
+                    localStorage.setItem('userId', data.userId)
+                    localStorage.setItem('userName', `Гость${data.userId}`)
                     break
-                case 'connectbyroomid': 
-                    if (data===false) {
-                        alert('Комната не найдена')
-                        return
-                    }
-                    this.props.setPopupUntracked(
-                        <Popup setPopupUntracked={this.props.setPopupUntracked}>
-                            <RoomDetails ws={this.ws} data={data.roomInfo} disabled={true} /> 
-                        </Popup>
-                    )
-                    break
-                case 'join': 
-                    this.props.setPopupUntracked(null)
-                    this.props.history.push(`/game/${this.props.match.params.gameId}/${data.gameId}`)
-                    break
-                default: break
+                    case 'list': 
+                        this.setState({lobbyList: data})
+                        console.log(data)
+                        break
+                    case 'connectbyroomid': 
+                        if (data===false) {
+                            alert('Комната не найдена')
+                            return
+                        }
+                        this.props.setPopupUntracked(
+                            <Popup setPopupUntracked={this.props.setPopupUntracked}>
+                                <RoomDetails ws={this.ws} data={data.roomInfo} disabled={true} /> 
+                            </Popup>
+                        )
+                        break
+                    case 'join': 
+                        this.props.setPopupUntracked(null)
+                        this.props.history.push(`/game/${this.props.match.params.gameId}/${data}`)
+                        break
+                    default: break
+                }
             }
+            this.ws=ws
         }
-        ws.onerror = (e) => {
-            this.props.emitter.emit('global', 'Ошибка подключения к лобби')
+        ws.onerror = e => {
+            ws.close()
         }
-        this.ws=ws
+        ws.onclose = e => this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)
+        
     }
     componentWillUnmount() {
-        this.ws.close()
+        if(this.ws.readyState===WebSocket.OPEN) this.ws.close()
     }
-    
+    componentDidUnmount() {
+        clearTimeout(this.reconnectTimeout)
+    }
     componentWillReceiveProps(nextProps) {
         //Меняем содержимое лобби при смене лобби игры
         if(this.props.match.params.gameId!==nextProps.match.params.gameId) this.ws.send(JSON.stringify({type: 'list', data: {gameId: ""+nextProps.match.params.gameId}}))
@@ -99,12 +120,12 @@ class DisplayRoom extends React.Component {
     constructor(props) {
         super(props) 
         this.state={
-            connected: props.data.users.some(user => user.userId=== +localStorage.getItem("userId")&&user.leave===false?true:false),
+            connected: props.data.users.some(user => user.userId===localStorage.getItem("userId")&&user.leave===false?true:false),
         }
     }
-    players = () => this.props.data.users.map((user) => <span><span>{user.userId}#</span><span>{user.userName}</span></span>)
+    getPlayers = () => this.props.data.users.map((user) => <span><span>{user.userId}#</span><span>{user.userName}</span></span>)
     
-    tags = () => {
+    getTags = () => {
         let result = []
         result.push(gameById(this.props.data.gameId))
         if (this.props.data.usePw) result.push('password')
@@ -113,7 +134,7 @@ class DisplayRoom extends React.Component {
         return result.map((tag) => <div>{tag}</div>)
     }
 
-    moreDetails = () => this.props.setPopupUntracked(
+    popupDetails = () => this.props.setPopupUntracked(
         <Popup setPopupUntracked={this.props.setPopupUntracked}>
             <RoomDetails ws={this.props.ws} data={this.props.data} disabled={true}  /> 
         </Popup>
@@ -122,7 +143,7 @@ class DisplayRoom extends React.Component {
     leave = () => {
         this.props.ws.send(JSON.stringify({type: 'leave', data: this.props.data.roomId}))
         this.setState({connected: false})
-        this.props.emitter.emit('private', 'Вы вышли из комнаты #'+this.props.data.roomId)
+        this.props.emitter.emit('private', 'Вы покинули комнату #'+this.props.data.roomId)
     }
 
     render() {
@@ -144,13 +165,13 @@ class DisplayRoom extends React.Component {
                         </div>
                         <div>
                             <span>{this.props.data.users.length||0} / {this.props.data.max} : </span>
-                            <span>{this.players()}</span>
+                            <span>{this.getPlayers()}</span>
                         </div>
-                        <div>{this.tags()}</div>
+                        <div>{this.getTags()}</div>
                     </div>
                     {this.state.connected?null:
                     <div>
-                        <Button onClick={this.moreDetails}>
+                        <Button onClick={this.popupDetails}>
                             <span>Подробнее</span>
                             <IconInfo />
                         </Button>
