@@ -90,21 +90,15 @@ class Room extends React.Component {
       }   
       this.ws=ws
     }
-    ws.onerror = (e) => {
-        ws.close()
-    }
-    ws.onclose = (e) => {
-      this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)
-    }
+    ws.onerror = (e) => ws.close()
+    ws.onclose = (e) => e===1000?null:() => {this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)}
   }
   componentWillUnmount() {
-    if(this.ws.readyState===WebSocket.OPEN) this.ws.close()
+    clearTimeout(this.reconnectTimeout)
+    if(this.ws.readyState===WebSocket.OPEN) this.ws.close(1000)
     this.emitterUnsubAction()
     this.emitterUnsubPrivateChat()
-  }
-  componentDidUnmount() {
-      this.props.emitter.emit('private', 'Выполнено отключение от комнаты')
-      clearTimeout(this.reconnectTimeout)
+    this.props.emitter.emit('private', 'Выполнено отключение от комнаты')
   }
 
   startTheGame = (e) => {

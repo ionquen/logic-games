@@ -51,7 +51,6 @@ class Lobby extends React.Component {
                     break
                     case 'list': 
                         this.setState({lobbyList: data})
-                        console.log(data)
                         break
                     case 'connectbyroomid': 
                         if (data===false) {
@@ -73,17 +72,13 @@ class Lobby extends React.Component {
             }
             this.ws=ws
         }
-        ws.onerror = e => {
-            ws.close()
-        }
-        ws.onclose = e => this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)
+        ws.onerror = e => ws.close()
+        ws.onclose = e => e===1000?null:() => {this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)}
         
     }
     componentWillUnmount() {
-        if(this.ws.readyState===WebSocket.OPEN) this.ws.close()
-    }
-    componentDidUnmount() {
         clearTimeout(this.reconnectTimeout)
+        if(this.ws.readyState===WebSocket.OPEN) this.ws.close(1000)
     }
     componentWillReceiveProps(nextProps) {
         //Меняем содержимое лобби при смене лобби игры

@@ -17,7 +17,11 @@ export default class CreateNewRoom extends React.Component {
       gameProps: this.getPropsByGameId(e.target.gameId.value, e)
     }
     if (settings.name.length<3||settings.name.length>20) return 
-    this.props.ws.send(JSON.stringify({type: 'create', data: settings}))
+    try {
+      this.props.ws.send(JSON.stringify({type: 'create', data: settings}))
+    } catch {
+      console.log("Отсутствует подключение к серверу")
+    }
   }
   getPropsByGameId(gameId, e) {
     switch (gameId) {

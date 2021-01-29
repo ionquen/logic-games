@@ -51,7 +51,7 @@ class Chat extends React.Component {
       this.ws=ws
     }
     ws.onerror = e => ws.close()
-    ws.onclose = e => this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)
+    ws.onclose = e => e===1000?null:() => {this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)}
     
   }
   componentWillUnmount = () => {
@@ -59,23 +59,21 @@ class Chat extends React.Component {
     this.emitterUnsubChatStateChange()
     this.emitterUnsubPrivate()
     this.emitterUnsubPrivateChatHistory()
-    if(this.ws.readyState===WebSocket.OPEN) this.ws.close()
-  }
-  componentDidUnmount() {
-      clearTimeout(this.reconnectTimeout)
+    clearTimeout(this.reconnectTimeout)
+    if(this.ws.readyState===WebSocket.OPEN) this.ws.close(1000)
   }
   componentDidMount() {
     this.emitterUnsubGlobal = this.props.emitter.sub('global', (msgData) => this.globalMessageDisplay(msgData))
-    this.emitterUnsubPrivate = this.props.emitter.sub('private', (msgData) => this.globalMessageDisplay(msgData))
+    this.emitterUnsubPrivate = this.props.emitter.sub('private', (msgData) => this.privateMessageDisplay(msgData))
     this.emitterUnsubChatStateChange = this.props.emitter.sub('chatStateChange', boolen => this.setState({isGlobalChat: boolen}))
     this.emitterUnsubPrivateChatHistory = this.props.emitter.sub('privateChatHistory', (data) => {
-    let msgsNewRoomArray = []
+    let newPrivateHistory = []
     for (let msg of data) {
       if(this.state.msgsP.some(elementOfMsgsP => elementOfMsgsP.date===msg.date?true:false)) {
         break;
-      } else msgsNewRoomArray.push(msg)
+      } else newPrivateHistory.push(msg)
     }
-    this.setState((state) => ({msgsP: state.msgsP.concat(msgsNewRoomArray)}))
+    this.setState((state) => ({msgsP: state.msgsP.concat(newPrivateHistory)}))
     this.privateMessageDisplay('Добро пожаловать в чат!')
   })
   }
