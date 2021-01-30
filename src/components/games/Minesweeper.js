@@ -7,10 +7,10 @@ import InfoBlock from '../parts/InfoBlock'
 import styles from '../../static/css/canvas.module.css'
 import sapperStyle from '../../static/css/minesweeper.module.css'
 
-import IconClosed from '../../static/img/minesweeper/games_sapper-cell.svg'
-import IconOpened from '../../static/img/minesweeper/games_sapper-clear.svg'
-import IconFlag from '../../static/img/minesweeper/games_sapper-flag.svg'
-import IconBomb from '../../static/img/minesweeper/games_sapper-bomb.svg'
+import IconClosed from '../../static/img/minesweeper/games_sapper-cell.png'
+import IconOpened from '../../static/img/minesweeper/games_sapper-clear.png'
+import IconFlag from '../../static/img/minesweeper/games_sapper-flag.png'
+import IconBomb from '../../static/img/minesweeper/games_sapper-bomb.png'
 
 export default class Tictactoe extends React.Component {
   constructor(props) {
@@ -125,14 +125,14 @@ export default class Tictactoe extends React.Component {
         const cellFlagIcon = new Image()
         cellFlagIcon.src = IconFlag
         cellFlagIcon.onload = () => {
-          ctx.drawImage(cellFlagIcon, x*25, y*25, 25, 25)
+          ctx.drawImage(cellFlagIcon, 1, 1, 30, 30,  x*25, y*25, 25, 25)
         }
         break}
       case undefined: { //clear a cell
         const cellClosedIcon = new Image()
         cellClosedIcon.src = IconClosed
         cellClosedIcon.onload = () => {
-          ctx.drawImage(cellClosedIcon, x*25, y*25, 25, 25)
+          ctx.drawImage(cellClosedIcon, 1, 1, 30, 30,  x*25, y*25, 25, 25)
           delete this.board[this.props.gameInfo.boardSizeX*y + x]
         }
         break}
@@ -140,7 +140,7 @@ export default class Tictactoe extends React.Component {
         const cellBombIcon = new Image()
         cellBombIcon.src = IconBomb
         cellBombIcon.onload = () => {
-          ctx.drawImage(cellBombIcon, x*25, y*25, 25, 25)
+          ctx.drawImage(cellBombIcon, 1, 1, 30, 30,  x*25, y*25, 25, 25)
         }
         break}
       default: break
@@ -160,7 +160,7 @@ export default class Tictactoe extends React.Component {
           case 8: ctx.fillStyle="brown"; break
           default: break
         }
-        ctx.drawImage(cellOpenedIcon, x*25, y*25, 25, 25)
+        ctx.drawImage(cellOpenedIcon, 1, 1, 30, 30, x*25, y*25, 25, 25)
         if (value>0) ctx.fillText(value, x*25+5, y*25+22)
       }
     }
@@ -176,7 +176,7 @@ export default class Tictactoe extends React.Component {
       ctx.beginPath();
       for(let i = 0; i < this.props.gameInfo.boardSizeX; i++) {
         for (let j = 0; j <this.props.gameInfo.boardSizeY; j++) {
-          ctx.drawImage(cellClosedIcon, i*25, j*25, 25, 25)
+          ctx.drawImage(cellClosedIcon, 1, 1, 30,30, i*25, j*25, 25, 25)
         }
       }
     }
@@ -214,7 +214,6 @@ export default class Tictactoe extends React.Component {
                   ['Высота поля', this.props.gameInfo.boardSizeX], 
                   ['Ширина поля', this.props.gameInfo.boardSizeX], 
                   ['Количество мин', this.props.gameInfo.minesCount], 
-                  ['Ячеек для победы', this.props.gameInfo.cellsForWin], 
                 ]}
               />
               <Alert value={this.state.alertValue} />
