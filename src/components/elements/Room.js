@@ -40,6 +40,7 @@ class Room extends React.Component {
     const ws = new WebSocket("wss://games-ws.ionquen.ru:8083")
     console.log('Попытка подключения к серверу')
     ws.onopen = () => {
+      console.log('Подключение установлено')
       ws.send(JSON.stringify({type: 'connect', data: {roomId: this.props.match.params.roomId, token: localStorage.getItem('token')}}))
       this.props.emitter.emit('chatStateChange', false)
       
@@ -91,7 +92,7 @@ class Room extends React.Component {
       this.ws=ws
     }
     ws.onerror = (e) => ws.close()
-    ws.onclose = (e) => {if(e!==1000) this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)}
+    ws.onclose = (e) => {if(e.code!==1000) this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)}
   }
   componentWillUnmount() {
     clearTimeout(this.reconnectTimeout)

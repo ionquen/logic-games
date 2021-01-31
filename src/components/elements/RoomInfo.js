@@ -15,13 +15,19 @@ export default class RoomInfo extends React.Component {
 
   componentDidMount() {this.setGameId(this.props.gameId)}
   //Установить поле Settings для конкретной игры
-  setGameId = gameId => this.setState({gameSettingsField: this.getSettingsByGameId(gameId)})
+  setGameId = gameId => this.setState({gameSettingsField: 
+    <div key={gameId}>
+      <div>Настройки игры</div>
+      
+      {this.getSettingsByGameId(gameId)}
+    </div>
+  })
   //Получить список настроек для конкретной игры
   getSettingsByGameId(gameId) {
     switch (gameId) {
       case "tictactoe":
         return(
-        <div>
+        <>
           <InputNumber label="Количество игроков" 
             name="players"
             disabled={this.props.disabled} 
@@ -53,10 +59,10 @@ export default class RoomInfo extends React.Component {
             min={3} 
             max={30}
           />  
-        </div>)
+        </>)
       case "minesweeper":  
         return(
-        <div>
+        <>
           <InputNumber label="Количество игроков" 
             disabled={this.props.disabled} 
             name="players"
@@ -87,7 +93,7 @@ export default class RoomInfo extends React.Component {
             value={this.props.gameProps?.minesCount??50}
             min={5} max={200}
           />  
-        </div>)
+        </>)
       default: return <div></div>
     }
   }
@@ -102,7 +108,7 @@ export default class RoomInfo extends React.Component {
             <div>
               <div>Общие настройки</div>
               <Input placeholder="Введите название комнаты" name="name"
-                value={this.props.name}
+                value={this.props.name??'Новая комната'}
                 disabled={this.props.name===undefined?false:true} /> 
               <Select disabled={this.props.disabled} name="gameId" data={(() => 
                 {

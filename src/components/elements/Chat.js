@@ -35,6 +35,7 @@ class Chat extends React.Component {
     const ws = new WebSocket("wss://games-ws.ionquen.ru:8081")
     console.log('Попытка подключения к серверу')
     ws.onopen = () => {
+      console.log('Подключение установлено')
       ws.onmessage = (e) => {
         const messageParsed = JSON.parse(e.data)
         const data = messageParsed.data
@@ -52,7 +53,7 @@ class Chat extends React.Component {
     }
     ws.onerror = e => ws.close()
     ws.onclose = e => {
-      if (e!==1000) this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)
+      if (e.code!==1000) this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)
     }
     
   }

@@ -5,7 +5,7 @@ import {ReactComponent as IconList} from '../../static/img/icons/list-check.svg'
 import {allGames} from '../../lang/Lang.js'
 
 
-class Left extends React.Component {
+export default class Leftbar extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -21,21 +21,20 @@ class Left extends React.Component {
             </div>
         )
     }
+    changeState = () => this.setState(prevState => ({leftbarDisplay: prevState.leftbarDisplay?false:true}))
     render() {
         return (
             <>
                 <aside className={`${styles.leftbar}  ${this.state.leftbarDisplay?styles.leftbarDisplay:''}`}>
 
-                    <div onClick={() => this.setState(prevState => ({leftbarDisplay: prevState.leftbarDisplay?false:true}))}>
+                    <div onClick={this.changeState}>
                         {this.getItems()}
                     </div>
                 </aside>
-                <div className={styles.leftbarStateBtn} onClick={() => this.setState(prevState => ({leftbarDisplay: prevState.leftbarDisplay?false:true}))}>
+                <div className={styles.leftbarStateBtn} onClick={this.changeState}>
                     <IconList />
                 </div>
             </>
         )
     }
 }
-
-export default Left;

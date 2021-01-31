@@ -38,6 +38,7 @@ class Lobby extends React.Component {
         const ws = new WebSocket("wss://games-ws.ionquen.ru:8082")
         console.log('Попытка подключения к серверу')
         ws.onopen = () => {
+            console.log('Подключение установлено')
             ws.send(JSON.stringify({type: 'list', data: {gameId: this.props.match.params.gameId, token: localStorage.getItem('token')}}))
             this.props.emitter.emit('chatStateChange', true)
             ws.onmessage = (e) => {
@@ -73,7 +74,7 @@ class Lobby extends React.Component {
             this.ws=ws
         }
         ws.onerror = e => ws.close()
-        ws.onclose = e => {if(e!==1000) this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)}
+        ws.onclose = e => {if(e.code!==1000) this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)}
         
     }
     componentWillUnmount() {
@@ -104,13 +105,22 @@ class Lobby extends React.Component {
                     <Button onClick={this.createNewRoom}>Создать комнату</Button>
                 </div>
                 <div>
-                    {this.state.lobbyList.map(room => <DisplayRoom data={room} ws={this.ws} emitter={this.props.emitter} setPopupUntracked={this.props.setPopupUntracked} />)}
+                    {this.state.lobbyList.map(room => 
+                    <DisplayRoom data={room} 
+                        key={room.roomId}
+                        ws={this.ws} 
+                        emitter={this.props.emitter} 
+                        setPopupUntracked={this.props.setPopupUntracked} 
+                    />)}
                 </div>
             </div>
         )
     }
 }
 
+/**
+ * Список всех комнат
+ */
 class DisplayRoom extends React.Component {
     constructor(props) {
         super(props) 
