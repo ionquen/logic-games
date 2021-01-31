@@ -1,8 +1,8 @@
 @require 'common.styl'
 .roomInfo
     display block
-    position fixed
-    top calc(50% - 250px) 
+    position absolute
+    bottom calc(50% - 250px) 
     left calc(50% - 400px)
     width 800px
     height 500px
@@ -11,9 +11,10 @@
     box-shadow shadow2
     z-index 501
     @media all and (max-width 810px)
-        width calc(100vw - 10px)
+        position fixed
         left 5px
         bottom 5px
+        width calc(100vw - 10px)
         height calc(100% - 10px)
     & > :nth-child(1) //header
         position relative
