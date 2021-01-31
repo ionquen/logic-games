@@ -159,7 +159,6 @@ export default class Tictactoe extends React.Component {
         }
       }
     }
-
   }
   action = (e, typeClick) => {
     e.preventDefault()
@@ -177,41 +176,41 @@ export default class Tictactoe extends React.Component {
     }
   }
   render() {
-      return (
-            <>
-              <Scoreboard displayCurrentPlayer={false}
-                paused={this.paused}
-                players={this.props.players} 
-                playerNumber={this.playerNumber} 
-                score={this.state.score}
-                scoreItemNames={['Счёт', 'Прогресс']}
-              />
-              
-              <InfoBlock className={styles.info} 
-                data={[
-                  ['Раундов', this.props.gameInfo.roundsForWin], 
-                  ['Высота поля', this.props.gameInfo.boardSizeX], 
-                  ['Ширина поля', this.props.gameInfo.boardSizeX], 
-                  ['Количество мин', this.props.gameInfo.minesCount], 
-                ]}
-              />
-              <Alert value={this.state.alertValue} />
-              <div className={`${sapperStyle.button} ${this.state.actionTypeDefuse?"":sapperStyle.highlite}`} 
-                onClick={() => this.setState({actionTypeDefuse: this.state.actionTypeDefuse?false:true})} >
-              </div>
-              <div className={styles.canvas}>
-                <canvas ref={this.canvas} 
-                  onClick={(e) => this.action(e, "left")} 
-                  onContextMenu={(e) => this.action(e, "right")} 
-                  width={(+this.props.gameInfo.boardSizeX)*25+1} 
-                  height={(+this.props.gameInfo.boardSizeY)*25+1}>
-                </canvas> 
-                <Ruler className={`${styles.ruler} ${styles.ruler24}`}  
-                  countX={this.props.gameInfo.boardSizeX} 
-                  countY={this.props.gameInfo.boardSizeY}
-                  />
-              </div>
-            </>
-      )
+    return (
+      <>
+        <Scoreboard displayCurrentPlayer={false}
+          paused={this.paused}
+          players={this.props.players} 
+          playerNumber={this.playerNumber} 
+          score={this.state.score}
+          scoreItemNames={['Счёт', 'Прогресс']}
+        />
+        
+        <InfoBlock className={styles.info} 
+          data={[
+            ['Раундов', this.props.gameInfo.roundsForWin], 
+            ['Высота поля', this.props.gameInfo.boardSizeX], 
+            ['Ширина поля', this.props.gameInfo.boardSizeX], 
+            ['Количество мин', this.props.gameInfo.minesCount], 
+          ]}
+        />
+        <Alert value={this.state.alertValue} />
+        <div className={`${sapperStyle.button} ${this.state.actionTypeDefuse?"":sapperStyle.highlite}`} 
+          onClick={() => this.setState({actionTypeDefuse: this.state.actionTypeDefuse?false:true})} >
+        </div>
+        <div className={styles.canvas}>
+          <canvas ref={this.canvas} 
+            onClick={(e) => this.action(e, "left")} 
+            onContextMenu={(e) => this.action(e, "right")} 
+            width={(+this.props.gameInfo.boardSizeX)*25+1} 
+            height={(+this.props.gameInfo.boardSizeY)*25+1}>
+          </canvas> 
+          <Ruler className={`${styles.ruler} ${styles.ruler24}`}  
+            countX={this.props.gameInfo.boardSizeX} 
+            countY={this.props.gameInfo.boardSizeY}
+            />
+        </div>
+      </>
+    )
   }
 }

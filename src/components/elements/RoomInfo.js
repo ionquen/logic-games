@@ -9,11 +9,13 @@ export default class RoomInfo extends React.Component {
     super(props)
     this.state = {
       usePw: props.usePw??false,
-      gameSettingsField: <div />,
+      gameSettingsField: undefined,
     }
   }
 
-  componentDidMount() {this.setGameId(this.props.gameId)}
+  componentDidMount() {
+    this.setGameId(this.props.gameId)
+  }
   //Установить поле Settings для конкретной игры
   setGameId = gameId => this.setState({gameSettingsField: 
     <div key={gameId}>
@@ -94,7 +96,7 @@ export default class RoomInfo extends React.Component {
             min={5} max={200}
           />  
         </>)
-      default: return <div></div>
+      default: return null
     }
   }
   render() {
@@ -143,7 +145,12 @@ export default class RoomInfo extends React.Component {
               {this.props.roomId===undefined?<>Вы станите первым участником этой комнаты!</>:
                 <>
                   Игроки в текущей комнате
-                  {this.props.users.map(user => <div className={user.connected?null:styles.disconnected}><div>{user.userId}</div><div> {user.userName}</div></div>)}
+                  {this.props.users.map(user => 
+                    <div className={user.connected?null:styles.disconnected}>
+                        <div>{user.userId}</div>
+                        <div>{user.userName}</div>
+                    </div>
+                  )}
                 </>
               }
             </div>

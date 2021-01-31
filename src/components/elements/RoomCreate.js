@@ -2,9 +2,8 @@ import React from "react"
 import RoomInfo from './RoomInfo'
 import {InputButtonSubmit} from './FormElements'
 
-export default class CreateNewRoom extends React.Component {
-
-  createRoom = (e) => {
+export default function CreateNewRoom(props) {
+  function createRoom(e) {
     e.preventDefault()
     const settings = {
       name: e.target.name.value,
@@ -14,16 +13,16 @@ export default class CreateNewRoom extends React.Component {
       autostart: e.target.autostart.checked,
       pw: e.target.usePw.value?e.target.pw.value||'':undefined,
       userName: localStorage.getItem("userName"),
-      gameProps: this.getPropsByGameId(e.target.gameId.value, e)
+      gameProps: getPropsByGameId(e.target.gameId.value, e)
     }
     if (settings.name.length<3||settings.name.length>20) return 
     try {
-      this.props.ws.send(JSON.stringify({type: 'create', data: settings}))
+      props.ws.send(JSON.stringify({type: 'create', data: settings}))
     } catch {
       console.log("Отсутствует подключение к серверу")
     }
   }
-  getPropsByGameId(gameId, e) {
+  function getPropsByGameId(gameId, e) {
     switch (gameId) {
       case "tictactoe": return {
         max: e.target.players.value,
@@ -42,11 +41,9 @@ export default class CreateNewRoom extends React.Component {
       default: return {}
     }
   }
-  render() {
-    return(
-        <RoomInfo gameId={this.props.gameId} onSubmit={this.createRoom}>
-          <InputButtonSubmit>Создать комнату</InputButtonSubmit>
-        </RoomInfo>
-    )
-  }
+  return(
+      <RoomInfo gameId={props.gameId} onSubmit={createRoom}>
+        <InputButtonSubmit>Создать комнату</InputButtonSubmit>
+      </RoomInfo>
+  )
 }
