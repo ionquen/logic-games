@@ -78,7 +78,7 @@ class Lobby extends React.Component {
     }
     componentWillUnmount() {
         clearTimeout(this.reconnectTimeout)
-        if(this.ws.readyState===WebSocket.OPEN) this.ws.close(1000)
+        if(this.ws!==undefined&&this.ws.readyState===WebSocket.OPEN) this.ws.close(1000)
     }
     componentWillReceiveProps(nextProps) {
         //Меняем содержимое лобби при смене лобби игры

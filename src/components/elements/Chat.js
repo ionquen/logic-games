@@ -60,7 +60,7 @@ class Chat extends React.Component {
     this.emitterUnsubPrivate()
     this.emitterUnsubPrivateChatHistory()
     clearTimeout(this.reconnectTimeout)
-    if(this.ws.readyState===WebSocket.OPEN) this.ws.close(1000)
+    if(this.ws!==undefined&&this.ws.readyState===WebSocket.OPEN) this.ws.close(1000)
   }
   componentDidMount() {
     this.emitterUnsubGlobal = this.props.emitter.sub('global', (msgData) => this.globalMessageDisplay(msgData))

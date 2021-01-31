@@ -95,7 +95,7 @@ class Room extends React.Component {
   }
   componentWillUnmount() {
     clearTimeout(this.reconnectTimeout)
-    if(this.ws.readyState===WebSocket.OPEN) this.ws.close(1000)
+    if(this.ws!==undefined&&this.ws.readyState===WebSocket.OPEN) this.ws.close(1000)
     this.emitterUnsubAction()
     this.emitterUnsubPrivateChat()
     this.props.emitter.emit('private', 'Выполнено отключение от комнаты')

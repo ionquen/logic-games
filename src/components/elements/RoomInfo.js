@@ -8,81 +8,87 @@ export default class RoomInfo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      gameId: props.gameId,
+      usePw: props.usePw??false,
+      gameSettingsField: <div />,
     }
   }
-  renderSettings = () => {
-    switch (this.state.gameId) {
-      case "tictactoe":  
+
+  componentDidMount() {this.setGameId(this.props.gameId)}
+  //Установить поле Settings для конкретной игры
+  setGameId = gameId => this.setState({gameSettingsField: this.getSettingsByGameId(gameId)})
+  //Получить список настроек для конкретной игры
+  getSettingsByGameId(gameId) {
+    switch (gameId) {
+      case "tictactoe":
         return(
-        <>
+        <div>
           <InputNumber label="Количество игроков" 
             name="players"
             disabled={this.props.disabled} 
-            value={this.props.max||2} 
+            value={this.props.max??2} 
             min={2} max={3}
           />
           <InputNumber label="Количество раундов для победы" 
             disabled={this.props.disabled} 
             name="roundsForWin"
-            value={this.props.gameProps?this.props.gameProps.roundsForWin:10}
+            value={this.props.gameProps?.roundsForWin??10}
             min={5} max={30}
             />
           <InputNumber label="Время на ход" 
             disabled={this.props.disabled} 
             name="timeTurn"
-            value={this.props.gameProps?this.props.gameProps.timeTurn:20}
+            value={this.props.gameProps?.timeTurn??20}
             min={3} max={60}
             />
           <InputNumber label="Размер поля" 
             disabled={this.props.disabled} 
             name="boardSize"
-            value={this.props.gameProps?this.props.gameProps.boardSize:20}
+            value={this.props.gameProps?.boardSize??20}
             min={3} max={30}
             />
           <InputNumber label="Длина ряда для победы" 
             disabled={this.props.disabled} 
             name="cellsForWin"
-            value={this.props.gameProps?this.props.gameProps.cellsForWin:5}
+            value={this.props.gameProps?.cellsForWin??5}
             min={3} 
             max={30}
           />  
-        </>)
+        </div>)
       case "minesweeper":  
         return(
-        <>
+        <div>
           <InputNumber label="Количество игроков" 
             disabled={this.props.disabled} 
             name="players"
-            value={this.props.max||2} 
+            value={this.props.max??2} 
             min={2} max={5}
           />
           <InputNumber label="Количество раундов для победы" 
             disabled={this.props.disabled} 
             name="roundsForWin"
-            value={this.props.gameProps?this.props.gameProps.roundsForWin:10}
+            value={this.props.gameProps?.roundsForWin??10}
             min={5} max={30}
             />
           <InputNumber label="Ширина поля" 
             disabled={this.props.disabled} 
             name="boardSizeX"
-            value={this.props.gameProps?this.props.gameProps.boardSizeX:20}
+            value={this.props.gameProps?.boardSizeX??20}
             min={10} max={40}
             />
           <InputNumber label="Высота поля" 
             disabled={this.props.disabled} 
             name="boardSizeY"
-            value={this.props.gameProps?this.props.gameProps.boardSizeY:25}
+            value={this.props.gameProps?.boardSizeY??25}
             min={10} max={60}
             />
           <InputNumber label="Количество мин (сложность)" 
             disabled={this.props.disabled} 
             name="minesCount"
-            value={this.props.gameProps?this.props.gameProps.minesCount:50}
+            value={this.props.gameProps?.minesCount??50}
             min={5} max={200}
           />  
-        </>)
-      default: return
+        </div>)
+      default: return <div></div>
     }
   }
   render() {
@@ -107,29 +113,26 @@ export default class RoomInfo extends React.Component {
                   }
                   return namesArray
                 })()}
-                selected={this.state.gameId}
-                onClick ={(e) => this.setState({gameId: e.target.value})}
+                selected={this.props.gameId}
+                onClick ={(e) => this.setGameId(e.target.value)}
               />
               <Checkbox label="Использовать пароль?" name="usePw"
                 disabled={this.props.disabled} 
-                value={this.props.usePw||false} 
+                value={this.state.usePw} 
                 onClick={e => this.setState({usePw: e.target.checked})}
               />
               <Input placeholder="Введите пароль" name="pw"
-                disabled={this.state.usePw||this.props.usePw===true?false:true} />
+                disabled={this.state.usePw} />
               <Checkbox label="Сделать приватной?" name="private"
                 disabled={this.props.disabled} 
-                value={this.props.private||false}
+                value={this.props.private??false}
               />
               <Checkbox label="Автостарт" name="autostart"
                 disabled={this.props.disabled}
-                value={this.props.autostart||true} 
+                value={this.props.autostart??true} 
               />
             </div>
-            <div>
-              <div>Настройки игры</div>
-              {this.state.gameId===undefined?null:this.renderSettings()}
-            </div>
+            {this.state.gameSettingsField}
             <div>
               {this.props.roomId===undefined?<>Вы станите первым участником этой комнаты!</>:
                 <>
