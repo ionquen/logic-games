@@ -91,7 +91,7 @@ class Room extends React.Component {
       this.ws=ws
     }
     ws.onerror = (e) => ws.close()
-    ws.onclose = (e) => e===1000?null:() => {this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)}
+    ws.onclose = (e) => {if(e!==1000) this.reconnectTimeout = setTimeout(this.wsReconnect, 3000)}
   }
   componentWillUnmount() {
     clearTimeout(this.reconnectTimeout)
