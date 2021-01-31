@@ -24,7 +24,7 @@ export default class Tictactoe extends React.Component {
   }
   componentWillMount() {
     this.paused = this.props.gameInfo.paused
-    this.board = {}
+    this.board = this.props.gameInfo.currentBoardPlayer??{}
     this.props.players.forEach((player, index) => player.userId===localStorage.getItem('userId')?this.playerNumber = index:null)
     
     this.emitterUnsubGame = this.props.emitter.sub('game', data => {
@@ -78,8 +78,6 @@ export default class Tictactoe extends React.Component {
           return {score: newScore}})
           break 
         }
-        case 'error': 
-          break
         case 'matchFinished': 
           this.setState({alertValue: `Матч завершён. Победил ${this.props.players[Number(data.currentPlayer)].userName}`})
           break
@@ -89,30 +87,11 @@ export default class Tictactoe extends React.Component {
   }
   componentDidMount() {
     this.clear()
-    const savedData = localStorage.getItem('sapperData')
-    //Получение сохранённого состояния поля
-    if (!savedData==="") {
-      const parsedSavedData = JSON.parse(savedData)
-      let scoreSum = 0
-      for (let item in this.state.score) {
-        scoreSum+=this.state.score[item][0]
-      }
-      if (parsedSavedData.scoreSum===scoreSum) {
-        for (let cell in parsedSavedData.board) {
-          this.displayPoint(cell%this.props.gameInfo.boardSizeX, ~~(cell/this.props.gameInfo.boardSizeX), parsedSavedData.board[cell])
-          
-        }
-      } else {}
+    for (let cell in this.board) {
+      this.displayPoint(cell%this.props.gameInfo.boardSizeX, ~~(cell/this.props.gameInfo.boardSizeX), this.board[cell])
     }
   }
   componentWillUnmount() {
-    //Сохранение текущего состояния поля на случай вылета
-    let scoreSum = 0 
-    for (let item in this.state.score) {
-      scoreSum+=this.state.score[item][0]
-    }
-    const savedData = {scoreSum, board: this.board}
-    localStorage.setItem('sapperData', JSON.stringify(savedData))
     this.emitterUnsubGame()
   }
 

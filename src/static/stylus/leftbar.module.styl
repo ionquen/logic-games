@@ -14,9 +14,10 @@
     z-index 200
     transition 0.2s
     @media all and (max-width 760px)
-        position absolute
+        position fixed
         left -220px
-        top 0px
+        bottom 0px
+        height calc(100% - 48px)
         opacity 0
         visibility hidden
         background-color oshadow
@@ -52,6 +53,7 @@
 
 .leftbarStateBtn
     display none
+    position fixed
     left 20px
     bottom 80px
     z-index 201

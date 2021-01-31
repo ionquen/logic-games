@@ -102,24 +102,25 @@
         box-sizing border-box
 
     @media all and (max-width 1280px)
-        opacity 0
         visibility hidden
-        position absolute
-        height 100%
-        top 0px
+        position fixed
+        bottom 0
         right -340px
+        height calc(100% - 48px)
+        opacity 0
         background-color oshadow
     @media all and (max-width 500px)
         width 100%
     &.chatDisplay
         @media all and (max-width 1280px)
             display flex
+            right 0px
             opacity 1
             visibility visible
-            right 0px
             
 .chatStateBtn
     display none
+    position fixed
     bottom 80px
     right 20px
     z-index 200

@@ -47,7 +47,7 @@ class App extends React.Component {
     }
     render() {
         return (
-            <div className={styles.fullpage}>  
+            <>  
                 <Route path="/game/:gameId" component={props=><Topbar {...props} setPopupUntracked={this.setPopupUntracked}/>} />
                 <div className={styles.page}>
                     <Switch>
@@ -69,7 +69,7 @@ class App extends React.Component {
                 </div>
                 <canvas id="grad-backg"/>
                 {this.state.popupElement}
-            </div>
+            </>
         )
     }
 }
