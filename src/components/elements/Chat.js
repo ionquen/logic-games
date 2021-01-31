@@ -81,10 +81,6 @@ class Chat extends React.Component {
   })
   }
 
-/**
- * Отправить сообщение
- * @param {event} e 
- */
   send = (e) => {
     e.preventDefault();
     const msgValue = e.target.inputMessage.value
