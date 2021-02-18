@@ -130,7 +130,7 @@ export default class RoomInfo extends React.Component {
                 onClick={e => this.setState({usePw: e.target.checked})}
               />
               <Input placeholder="Введите пароль" name="pw"
-                disabled={this.state.usePw} />
+                disabled={!this.state.usePw} />
               <Checkbox label="Сделать приватной?" name="private"
                 disabled={this.props.disabled} 
                 value={this.props.private??false}
