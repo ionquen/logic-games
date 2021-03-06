@@ -47,9 +47,10 @@ export default class Tictactoe extends React.Component {
           break
         case 'roundFinished': {
             this.paused = true
-            const updateScore = this.state.score[data.currentPlayer][0]+1
+            const updatedScore = this.state.score
+            updatedScore[data.currentPlayer][0]++
             this.setState(prevState => ({
-                score: {...prevState.score, ...updateScore},
+                score: {...prevState.score, ...updatedScore},
                 alertValue: `Раунд завершён! Победил ${this.props.players[data.currentPlayer].userName}`
             }))
           break
